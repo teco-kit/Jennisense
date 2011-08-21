@@ -1,0 +1,6 @@
+This folder contains the hardware eagle files for the jnusb platform. There are
+two platform, one with a normal usb connector (v10) and one with a pcb usb
+connector (v21).
+
+License is Creative Commons Attribution-Share Alike 3.0
+(http://creativecommons.org/licenses/by-sa/3.0/).

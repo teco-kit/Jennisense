@@ -1,0 +1,26 @@
+Partlist
+
+Exported from jbridge.brd at 22.06.11 12:49
+
+EAGLE Version 5.11.0 Copyright (c) 1988-2010 CadSoft
+
+Part     Value          Package        Library       Position (mil)        Orientation
+
+C1       1u             C0603K         rcl           (1535 355)            MR0
+C2       18p            C0603K         rcl           (849.5 95)            MR90
+C3       18p            C0603K         rcl           (825 575)             MR90
+C6       100n           C0603K         rcl           (552.5 85)            MR0
+C7       4.7u           153CLV-0505    rcl           (1490 185)            MR0
+C8       100n           C0603K         rcl           (1535 415)            MR0
+R1       33             R0603          rcl           (510 473.5)           R0
+R2       33             R0603          rcl           (510.5 390.5)         R0
+R3       10k            R0603          rcl           (1275 102.5)          MR0
+R6       10k            R0603          rcl           (1033 555)            MR90
+R8       10k            R0603          rcl           (1417.5 357.5)        MR90
+SV2                     MA06-1         con-lstb      (690 355)             R270
+U$1      CX5032GB       CX-53F         teco_div      (825 282.5)           MR270
+U$2      MICRO-SWITCHG  KMS2XX         teco_switches (1500 35)             MR0
+U$8      MICRO-SWITCHG  KMS2XX         teco_switches (1520 665)            MR180
+U$9      JN5139-XXX-M01 JN5139-XXX-MO0 jennic        (1650 695)            R270
+U1       TPS733XXDBV    SOT23-5        teco_ics      (537 230)             MR270
+u2       MAX3420ELQFP32 LQFP32         teco_ics      (1075 285)            MR180
