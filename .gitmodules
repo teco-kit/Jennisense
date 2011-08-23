@@ -1,3 +1,6 @@
 [submodule "contiki-jn51xx"]
 	path = contiki-jn51xx
 	url = git://github.com/pscholl/contiki-jn51xx.git
+[submodule "applications/ethbridge"]
+	path = applications/ethbridge
+	url = git://github.com/pscholl/ethbridge.git
