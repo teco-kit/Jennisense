@@ -1,6 +1,8 @@
 This folder contains the hardware eagle files for the jnusb platform. There are
 two platform, one with a normal usb connector (v10) and one with a pcb usb
-connector (v21).
+connector (v21). Version v30 of the board is ripped of the programming
+connector, push-buttons and leds, a minimalistic version of the board.
+Reprogramming has to be through the jennic pads.
 
 License is Creative Commons Attribution-Share Alike 3.0
 (http://creativecommons.org/licenses/by-sa/3.0/).
