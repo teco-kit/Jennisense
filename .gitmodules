@@ -4,3 +4,6 @@
 [submodule "applications/ethbridge"]
 	path = applications/ethbridge
 	url = git://github.com/pscholl/ethbridge.git
+[submodule "applications/jnode-atmega-firmware/lufa"]
+	path = applications/jnode-atmega-firmware/lufa
+	url = git://github.com/abcminiuser/lufa-lib.git
