@@ -56,6 +56,7 @@ PROCESS_THREAD(shell_init_process, ev, data)
   //shell_run_init();
   shell_text_init();
   shell_time_init();
+  shell_powertrace_init();
   //shell_wget_init();
   shell_sense_init();
 

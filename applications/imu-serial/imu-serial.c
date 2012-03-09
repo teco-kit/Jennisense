@@ -88,13 +88,13 @@ PROCESS_THREAD(imu_serial, ev, data)
     }
   }
 
-  //gyr->configure(SENSORS_ACTIVE, 1);
+  gyr->configure(SENSORS_ACTIVE, 1);
   pre->configure(SENSORS_ACTIVE, 1);
   tem->configure(SENSORS_ACTIVE, 1);
   mag->configure(SENSORS_ACTIVE, 1);
   acc->configure(SENSORS_ACTIVE, 1);
   lls->configure(SENSORS_ACTIVE, 1);
-  //pro->configure(SENSORS_ACTIVE, 1);
+  pro->configure(SENSORS_ACTIVE, 1);
 
   printf("# sample_count,accx,accy,accz,gyrx,gyry,gyrz,magx,magy,magz,temp\n");
 
