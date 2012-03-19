@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.0">
+<eagle version="6.1">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -6113,6 +6113,7 @@ Source: www.kingbright.com</description>
 <segment>
 <wire x1="297.18" y1="33.02" x2="332.74" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="DIO4/CTS0"/>
+<label x="299.72" y="33.02" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="STBY" class="0">
@@ -6123,6 +6124,7 @@ Source: www.kingbright.com</description>
 <segment>
 <wire x1="297.18" y1="30.48" x2="332.74" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="DIO5/RTS0"/>
+<label x="299.72" y="30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="PBSTAT" class="0">
