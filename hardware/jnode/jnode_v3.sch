@@ -5254,7 +5254,7 @@ DIN A3, landscape with location and doc. field</description>
 <part name="U$3" library="jnode" deviceset="ATMEGA32U4-AU" device="QFN44">
 <attribute name="DIGIKEY" value="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=ATMEGA32U4-MU-ND"/>
 </part>
-<part name="R18" library="sparkfun" deviceset="RESISTOR" device="0402-RES" value="10k">
+<part name="R18" library="sparkfun" deviceset="RESISTOR" device="0402-RES" value="3.3k">
 <attribute name="DIGIKEY" value="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=541-2.20MLCT-ND"/>
 <attribute name="FARNELL" value="http://de.farnell.com/bourns/cr0603-jw-103elf/widerstand-0603-10k-5-0-1w/dp/2008360"/>
 <attribute name="PLACE" value="no"/>
@@ -5262,7 +5262,7 @@ DIN A3, landscape with location and doc. field</description>
 </part>
 <part name="P+18" library="supply1" deviceset="VCC" device=""/>
 <part name="P+19" library="supply1" deviceset="VCC" device=""/>
-<part name="R19" library="sparkfun" deviceset="RESISTOR" device="0402-RES" value="10k">
+<part name="R19" library="sparkfun" deviceset="RESISTOR" device="0402-RES" value="3.3k">
 <attribute name="DIGIKEY" value="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=541-2.20MLCT-ND"/>
 <attribute name="FARNELL" value="http://de.farnell.com/bourns/cr0603-jw-103elf/widerstand-0603-10k-5-0-1w/dp/2008360"/>
 <attribute name="PLACE" value="no"/>
