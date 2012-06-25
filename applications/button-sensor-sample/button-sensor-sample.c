@@ -21,7 +21,7 @@ PROCESS_THREAD(button_serial, ev, data)
   etimer_set(&et, CLOCK_SECOND/2);
 
   while(1) {
-    PROCESS_YIELD_UNTIL(ev==sensors_event);
+    PROCESS_YIELD_UNTIL(ev==sensors_event && data==btn);
     printf("btn2: %d\n", btn->value(BUTTON_0));
     etimer_reset(&et);
   }
