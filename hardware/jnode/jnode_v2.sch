@@ -5299,6 +5299,12 @@ DIN A3, landscape with location and doc. field</description>
 </part>
 <part name="GND14" library="sparkfun" deviceset="GND" device=""/>
 <part name="GND36" library="supply1" deviceset="GND" device=""/>
+<part name="R14" library="sparkfun" deviceset="RESISTOR" device="0402-RES" value="10k">
+<attribute name="DIGIKEY" value="http://search.digikey.com/scripts/DkSearch/dksus.dll?Detail&amp;name=311-10KJRCT-ND"/>
+<attribute name="FARNELL" value="http://de.farnell.com/bourns/cr0603-jw-103elf/widerstand-0603-10k-5-0-1w/dp/2008360"/>
+<attribute name="TECO" value="yes"/>
+</part>
+<part name="GND37" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5651,6 +5657,12 @@ DIN A3, landscape with location and doc. field</description>
 </instance>
 <instance part="GND14" gate="1" x="330.2" y="165.1"/>
 <instance part="GND36" gate="1" x="114.3" y="172.72"/>
+<instance part="R14" gate="G$1" x="35.56" y="50.8" rot="R180">
+<attribute name="DIGIKEY" x="35.56" y="50.8" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="TECO" x="35.56" y="50.8" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="FARNELL" x="35.56" y="50.8" size="1.778" layer="96" rot="R180" display="off"/>
+</instance>
+<instance part="GND37" gate="1" x="22.86" y="50.8" rot="R270"/>
 </instances>
 <busses>
 <bus name="PWRCTRL:BUCK_ON,STBY,PBSTAT,SUSP">
@@ -5973,6 +5985,11 @@ DIN A3, landscape with location and doc. field</description>
 <pinref part="U$2" gate="G$1" pin="SA0_A"/>
 <wire x1="114.3" y1="195.58" x2="109.22" y2="195.58" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="GND37" gate="1" pin="GND"/>
+<pinref part="R14" gate="G$1" pin="2"/>
+<wire x1="25.4" y1="50.8" x2="30.48" y2="50.8" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$10" class="0">
 <segment>
@@ -6170,9 +6187,11 @@ DIN A3, landscape with location and doc. field</description>
 <junction x="43.18" y="91.44"/>
 </segment>
 <segment>
-<wire x1="256.54" y1="58.42" x2="294.64" y2="58.42" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="DIO5/RTS0"/>
-<label x="281.94" y="58.42" size="1.778" layer="95"/>
+<wire x1="256.54" y1="58.42" x2="279.4" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="279.4" y1="58.42" x2="279.4" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="DIO3/SPISEL4"/>
+<wire x1="279.4" y1="63.5" x2="294.64" y2="63.5" width="0.1524" layer="91"/>
+<label x="281.94" y="63.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="STBY" class="0">
@@ -6184,6 +6203,11 @@ DIN A3, landscape with location and doc. field</description>
 <wire x1="256.54" y1="60.96" x2="294.64" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="DIO4/CTS0"/>
 <label x="281.94" y="60.96" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="R14" gate="G$1" pin="1"/>
+<wire x1="40.64" y1="50.8" x2="43.18" y2="50.8" width="0.1524" layer="91"/>
+<label x="40.64" y="53.34" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="PBSTAT" class="0">
@@ -6398,7 +6422,7 @@ DIN A3, landscape with location and doc. field</description>
 <pinref part="R17" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<wire x1="45.72" y1="99.06" x2="38.1" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="99.06" x2="33.02" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="U$5" gate="G$1" pin="HPWR"/>
 <wire x1="33.02" y1="86.36" x2="33.02" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="91.44" x2="33.02" y2="99.06" width="0.1524" layer="91"/>
@@ -6407,7 +6431,6 @@ DIN A3, landscape with location and doc. field</description>
 <pinref part="R10" gate="G$1" pin="2"/>
 <pinref part="R9" gate="G$1" pin="2"/>
 <wire x1="33.02" y1="99.06" x2="33.02" y2="101.6" width="0.1524" layer="91"/>
-<wire x1="38.1" y1="99.06" x2="33.02" y2="99.06" width="0.1524" layer="91"/>
 <junction x="33.02" y="99.06"/>
 </segment>
 <segment>
