@@ -53,86 +53,61 @@ PROCESS(imu_serial, "imu-serial process");
 PROCESS_THREAD(imu_serial, ev, data)
 {
   static u16_t sample_count=0;
-  static struct sensors_sensor *mag = NULL,
-                               *acc = NULL,
-                               *gyr = NULL,
-                               *tem = NULL,
-                               *pre = NULL,
-                               *lls = NULL,
-                               *pro = NULL;
-
+  static struct sensors_sensor *s;
   PROCESS_BEGIN();
 
   /* make sure that the sensor process is running! */
   process_start(&sensors_process, NULL);
   PROCESS_PAUSE();
 
-  mag = sensors_find(MAG_SENSOR);
-  acc = sensors_find(ACC_SENSOR);
-  gyr = sensors_find(GYRO_SENSOR);
-  tem = sensors_find(TEMPERATURE_SENSOR);
-  pre = sensors_find(PRESSURE_SENSOR);
-  lls = sensors_find(LIGHTLEVEL_SENSOR);
-  pro = sensors_find(PROXIMITY_SENSOR);
-  sample_count = 0;
-
+  /* increase baudrate on serial port */
   uart0_set_br(1000000);
 
-  if (mag==NULL || acc==NULL || gyr==NULL || tem==NULL || pre==NULL ||
-      lls==NULL || pro==NULL)
-  {
-    while(1)
-    {
-      PROCESS_PAUSE();
-      printf("not all sensors are there\n");
-    }
+  /* activate all sensors */
+  for (s=sensors_first(); s; s=sensors_next(s)) {
+    if (s->configure(SENSORS_ACTIVE,1))
+      printf(" activated.\n");
+    else
+      while (1) {
+        PROCESS_YIELD();
+        printf("%s not activated.\n", s->type);
+      }
   }
-
-  gyr->configure(SENSORS_ACTIVE, 1);
-  pre->configure(SENSORS_ACTIVE, 1);
-  tem->configure(SENSORS_ACTIVE, 1);
-  mag->configure(SENSORS_ACTIVE, 1);
-  acc->configure(SENSORS_ACTIVE, 1);
-  lls->configure(SENSORS_ACTIVE, 1);
-  pro->configure(SENSORS_ACTIVE, 1);
-
-  printf("# sample_count,accx,accy,accz,gyrx,gyry,gyrz,magx,magy,magz,temp\n");
 
   /* sample at maximum frequency */
   while (1)
   {
-    static int i=0;
-    static int ax,ay,az,gx,gy,gz,mx,my,mz,tm,tm2,pr,li,px;
+    static int i=0,a,b,c;
 
     PROCESS_YIELD_UNTIL(ev==sensors_event);
 
-    if (data==acc) {
-      ax = acc->value(ACC_VALUE_X);
-      ay = acc->value(ACC_VALUE_Y);
-      az = acc->value(ACC_VALUE_Z);
-      printf("acc:%d %d %d\n",ax,ay,az);
-    } else if (data==mag) {
-      mx = mag->value(MAG_VALUE_X);
-      my = mag->value(MAG_VALUE_Y);
-      mz = mag->value(MAG_VALUE_Z);
-      printf("mag:%d %d %d\n",mx,my,mz);
-    } else if (data==gyr) {
-      gx = gyr->value(GYRO_VALUE_X_DGS);
-      gy = gyr->value(GYRO_VALUE_Y_DGS);
-      gz = gyr->value(GYRO_VALUE_Z_DGS);
-      printf("gyr:%d %d %d\n",gx,gy,gz);
-    } else if (data==tem) {
-      tm = tem->value(TEMPERATURE_VALUE_MILLICELSIUS);
-      printf("tem:%d\n",tm);
-    } else if (data==pre) {
-      pr = pre->value(PRESSURE_VALUE_PASCAL);
-      printf("pre:%d\n",pr);
-    } else if (data==lls) {
-      li = lls->value(LIGHT_VALUE_VISIBLE_CENTILUX);
-      printf("lig:%d\n",li);
-    } else if (data==pro) {
-      px = pro->value(PROXIMITY_VALUE);
-      printf("pro:%d\n",px);
+    if (data==&acc_sensor) {
+      a = ((struct sensors_sensor*)data)->value(ACC_VALUE_X);
+      b = ((struct sensors_sensor*)data)->value(ACC_VALUE_Y);
+      c = ((struct sensors_sensor*)data)->value(ACC_VALUE_Z);
+      printf("acc:%d %d %d\n",a,b,c);
+    } else if (data==&mag_sensor) {
+      a = ((struct sensors_sensor*)data)->value(MAG_VALUE_X);
+      b = ((struct sensors_sensor*)data)->value(MAG_VALUE_Y);
+      c = ((struct sensors_sensor*)data)->value(MAG_VALUE_Z);
+      printf("mag:%d %d %d\n",a,b,c);
+    } else if (data==&l3g4200d_sensor) {
+      a = ((struct sensors_sensor*)data)->value(GYRO_VALUE_X);
+      b = ((struct sensors_sensor*)data)->value(GYRO_VALUE_Y);
+      c = ((struct sensors_sensor*)data)->value(GYRO_VALUE_Z);
+      printf("gyr:%d %d %d\n",a,b,c);
+    } else if (data==&temperature_sensor) {
+      a = ((struct sensors_sensor*)data)->value(TEMPERATURE_VALUE_MILLICELSIUS);
+      printf("tem:%d\n",a);
+    } else if (data==&pressure_sensor) {
+      a = ((struct sensors_sensor*)data)->value(PRESSURE_VALUE_PASCAL);
+      printf("pre:%d\n",a);
+    } else if (data==&lightlevel_sensor) {
+      a = ((struct sensors_sensor*)data)->value(LIGHT_VALUE_VISIBLE_CENTILUX);
+      printf("lig:%d\n",a);
+    } else if (data==&proximity_sensor) {
+      a = ((struct sensors_sensor*)data)->value(PROXIMITY_VALUE);
+      printf("pro:%d\n",a);
     }
   }
 

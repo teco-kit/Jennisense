@@ -5679,7 +5679,7 @@ DIN A3, landscape with location and doc. field</description>
 <wire x1="297.18" y1="139.7" x2="297.18" y2="182.88" width="0.762" layer="92"/>
 </segment>
 </bus>
-<bus name="I2C:SCLK,SDAT,TCAP,INT1">
+<bus name="I2C:SCLK,SDAT,TCAP,INT1,3G_INT2">
 <segment>
 <wire x1="375.92" y1="48.26" x2="375.92" y2="248.92" width="0.762" layer="92"/>
 <wire x1="375.92" y1="248.92" x2="45.72" y2="248.92" width="0.762" layer="92"/>
@@ -6187,11 +6187,11 @@ DIN A3, landscape with location and doc. field</description>
 <junction x="43.18" y="91.44"/>
 </segment>
 <segment>
-<wire x1="256.54" y1="58.42" x2="279.4" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="279.4" y1="58.42" x2="279.4" y2="63.5" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="DIO3/SPISEL4"/>
-<wire x1="279.4" y1="63.5" x2="294.64" y2="63.5" width="0.1524" layer="91"/>
-<label x="281.94" y="63.5" size="1.778" layer="95"/>
+<wire x1="256.54" y1="58.42" x2="259.08" y2="58.42" width="0.1524" layer="91"/>
+<label x="281.94" y="48.26" size="1.778" layer="95"/>
+<wire x1="259.08" y1="58.42" x2="259.08" y2="48.26" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="DIO9TIM0_CAP"/>
+<wire x1="259.08" y1="48.26" x2="294.64" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="STBY" class="0">
@@ -6715,14 +6715,6 @@ DIN A3, landscape with location and doc. field</description>
 <pinref part="R13" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="N$30" class="0">
-<segment>
-<wire x1="279.4" y1="38.1" x2="279.4" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="279.4" y1="48.26" x2="294.64" y2="48.26" width="0.1524" layer="91"/>
-<pinref part="LED5" gate="G$1" pin="C"/>
-<pinref part="U$1" gate="G$1" pin="DIO9TIM0_CAP"/>
-</segment>
-</net>
 <net name="N$31" class="0">
 <segment>
 <wire x1="294.64" y1="50.8" x2="264.16" y2="50.8" width="0.1524" layer="91"/>
@@ -6733,8 +6725,7 @@ DIN A3, landscape with location and doc. field</description>
 </net>
 <net name="N$32" class="0">
 <segment>
-<wire x1="264.16" y1="30.48" x2="264.16" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="264.16" y1="33.02" x2="264.16" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="264.16" y1="30.48" x2="264.16" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="R16" gate="G$1" pin="2"/>
 <pinref part="LED3" gate="G$1" pin="A"/>
 </segment>
@@ -6786,6 +6777,14 @@ DIN A3, landscape with location and doc. field</description>
 <wire x1="175.26" y1="109.22" x2="180.34" y2="109.22" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="RESET"/>
 <pinref part="JP1" gate="A" pin="2"/>
+</segment>
+</net>
+<net name="N$7" class="0">
+<segment>
+<pinref part="LED5" gate="G$1" pin="C"/>
+<pinref part="U$1" gate="G$1" pin="DIO5/RTS0"/>
+<wire x1="279.4" y1="38.1" x2="279.4" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="279.4" y1="58.42" x2="294.64" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

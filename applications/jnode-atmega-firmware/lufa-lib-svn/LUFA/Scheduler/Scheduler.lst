@@ -1,0 +1,691 @@
+   1               		.file	"Scheduler.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.Scheduler_HasDelayElapsed,"ax",@progbits
+  11               	.global	Scheduler_HasDelayElapsed
+  13               	Scheduler_HasDelayElapsed:
+  14               	.LFB19:
+  15               		.file 1 "lufa-lib-svn/LUFA/Scheduler/Scheduler.c"
+   1:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** /*
+   2:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****              LUFA Library
+   3:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****      Copyright (C) Dean Camera, 2011.
+   4:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+   5:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   dean [at] fourwalledcubicle [dot] com
+   6:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****            www.lufa-lib.org
+   7:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** */
+   8:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+   9:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** /*
+  10:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  11:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  12:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   Permission to use, copy, modify, distribute, and sell this
+  13:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   software and its documentation for any purpose is hereby granted
+  14:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   without fee, provided that the above copyright notice appear in
+  15:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   all copies and that both that the copyright notice and this
+  16:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   permission notice and warranty disclaimer appear in supporting
+  17:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   documentation, and that the name of the author not be used in
+  18:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   advertising or publicity pertaining to distribution of the
+  19:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   software without specific, written prior permission.
+  20:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  21:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   The author disclaim all warranties with regard to this
+  22:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   software, including all implied warranties of merchantability
+  23:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   and fitness.  In no event shall the author be liable for any
+  24:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   special, indirect or consequential damages or any damages
+  25:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   whatsoever resulting from loss of use, data or profits, whether
+  26:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   in an action of contract, negligence or other tortious action,
+  27:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   arising out of or in connection with the use or performance of
+  28:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****   this software.
+  29:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** */
+  30:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  31:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** #include "Scheduler.h"
+  32:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  33:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** volatile SchedulerDelayCounter_t Scheduler_TickCounter;
+  34:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** volatile uint_least8_t           Scheduler_TotalTasks;
+  35:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  36:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** bool Scheduler_HasDelayElapsed(const uint_least16_t Delay,
+  37:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****                                SchedulerDelayCounter_t* const DelayCounter)
+  38:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** {
+  16               		.loc 1 38 0
+  17               		.cfi_startproc
+  18               	.LVL0:
+  19               	/* prologue: function */
+  20               	/* frame size = 0 */
+  21               	/* stack size = 0 */
+  22               	.L__stack_usage = 0
+  23 0000 FB01      		movw r30,r22
+  24               	.LBB8:
+  25               	.LBB9:
+  26               		.file 2 "lufa-lib-svn/LUFA/Scheduler/../Common/Common.h"
+   1:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** /*
+   2:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****              LUFA Library
+   3:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****      Copyright (C) Dean Camera, 2011.
+   4:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+   5:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   dean [at] fourwalledcubicle [dot] com
+   6:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****            www.lufa-lib.org
+   7:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** */
+   8:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+   9:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** /*
+  10:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  11:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  12:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   Permission to use, copy, modify, distribute, and sell this
+  13:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   software and its documentation for any purpose is hereby granted
+  14:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   without fee, provided that the above copyright notice appear in
+  15:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   all copies and that both that the copyright notice and this
+  16:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   permission notice and warranty disclaimer appear in supporting
+  17:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   documentation, and that the name of the author not be used in
+  18:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   advertising or publicity pertaining to distribution of the
+  19:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   software without specific, written prior permission.
+  20:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  21:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   The author disclaim all warranties with regard to this
+  22:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   software, including all implied warranties of merchantability
+  23:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   and fitness.  In no event shall the author be liable for any
+  24:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   special, indirect or consequential damages or any damages
+  25:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   whatsoever resulting from loss of use, data or profits, whether
+  26:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   in an action of contract, negligence or other tortious action,
+  27:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   arising out of or in connection with the use or performance of
+  28:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****   this software.
+  29:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** */
+  30:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  31:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** /** \file
+  32:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  \brief Common library convenience headers, macros and functions.
+  33:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *
+  34:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  \copydetails Group_Common
+  35:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  */
+  36:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  37:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** /** \defgroup Group_Common Common Utility Headers - LUFA/Drivers/Common/Common.h
+  38:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  \brief Common library convenience headers, macros and functions.
+  39:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *
+  40:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  Common utility headers containing macros, functions, enums and types which are common to all
+  41:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  aspects of the library.
+  42:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *
+  43:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  @{
+  44:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  */
+  45:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  46:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** /** \defgroup Group_GlobalInt Global Interrupt Macros
+  47:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  \brief Convenience macros for the management of interrupts globally within the device.
+  48:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *
+  49:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  *  Macros and functions to create and control global interrupts within the device.
+  50:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h ****  */
+  51:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  52:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** #ifndef __LUFA_COMMON_H__
+  53:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** #define __LUFA_COMMON_H__
+  54:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  55:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 	/* Macros: */
+  56:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#define __INCLUDE_FROM_COMMON_H
+  57:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  58:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 	/* Includes: */
+  59:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include <stdint.h>
+  60:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include <stdbool.h>
+  61:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include <string.h>
+  62:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include <stddef.h>
+  63:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  64:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#if defined(USE_LUFA_CONFIG_HEADER)
+  65:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include "LUFAConfig.h"
+  66:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#endif
+  67:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  68:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include "Architectures.h"
+  69:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include "BoardTypes.h"
+  70:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include "ArchitectureSpecific.h"
+  71:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include "CompilerSpecific.h"
+  72:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#include "Attributes.h"
+  73:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  74:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 	/* Enable C linkage for C++ Compilers: */
+  75:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#if defined(__cplusplus)
+  76:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			extern "C" {
+  77:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#endif
+  78:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  79:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 	/* Architecture specific utility includes: */
+  80:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#if defined(__DOXYGEN__)
+  81:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Type define for an unsigned integer the same width as the selected architecture's machine re
+  82:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  This is distinct from the non-specific standard int data type, whose width is machine depend
+  83:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  which may not reflect the actual machine register width on some targets (e.g. AVR8).
+  84:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+  85:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			typedef MACHINE_REG_t uint_reg_t;
+  86:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#elif (ARCH == ARCH_AVR8)
+  87:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/io.h>
+  88:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/interrupt.h>
+  89:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/pgmspace.h>
+  90:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/eeprom.h>
+  91:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/boot.h>
+  92:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <util/delay.h>
+  93:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  94:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			typedef uint8_t uint_reg_t;
+  95:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+  96:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_HAS_EEPROM_ADDRESS_SPACE
+  97:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_HAS_FLASH_ADDRESS_SPACE
+  98:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_HAS_MULTI_ADDRESS_SPACE
+  99:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_LITTLE_ENDIAN
+ 100:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 101:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include "Endianness.h"
+ 102:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#elif (ARCH == ARCH_UC3)
+ 103:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr32/io.h>
+ 104:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 105:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			// === TODO: Find abstracted way to handle these ===
+ 106:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define PROGMEM                  const
+ 107:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define pgm_read_byte(x)         *x
+ 108:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define memcmp_P(...)            memcmp(__VA_ARGS__)
+ 109:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define memcpy_P(...)            memcpy(__VA_ARGS__)
+ 110:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			// =================================================
+ 111:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 112:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			typedef uint32_t uint_reg_t;
+ 113:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 114:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_BIG_ENDIAN
+ 115:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 116:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include "Endianness.h"
+ 117:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#elif (ARCH == ARCH_XMEGA)
+ 118:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/io.h>
+ 119:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/interrupt.h>
+ 120:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/pgmspace.h>
+ 121:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <avr/eeprom.h>
+ 122:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include <util/delay.h>
+ 123:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 124:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			typedef uint8_t uint_reg_t;
+ 125:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 126:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_HAS_EEPROM_ADDRESS_SPACE
+ 127:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_HAS_FLASH_ADDRESS_SPACE
+ 128:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_HAS_MULTI_ADDRESS_SPACE
+ 129:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define ARCH_LITTLE_ENDIAN
+ 130:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 131:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#include "Endianness.h"
+ 132:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#else
+ 133:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#error Unknown device architecture specified.
+ 134:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		#endif
+ 135:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 136:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 	/* Public Interface - May be used in end-application: */
+ 137:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		/* Macros: */
+ 138:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Macro for encasing other multi-statement macros. This should be used along with an opening b
+ 139:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  before the start of any multi-statement macro, so that the macros contents as a whole are tr
+ 140:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  as a discrete block and not as a list of separate statements which may cause problems when u
+ 141:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  a block (such as inline \c if statements).
+ 142:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 143:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define MACROS                  do
+ 144:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 145:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Macro for encasing other multi-statement macros. This should be used along with a preceding 
+ 146:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  brace at the end of any multi-statement macro, so that the macros contents as a whole are tr
+ 147:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  as a discrete block and not as a list of separate statements which may cause problems when u
+ 148:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  a block (such as inline \c if statements).
+ 149:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 150:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#define MACROE                  while (0)
+ 151:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 152:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Convenience macro to determine the larger of two values.
+ 153:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 154:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \note This macro should only be used with operands that do not have side effects from being 
+ 155:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *        multiple times.
+ 156:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 157:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \param[in] x  First value to compare
+ 158:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \param[in] y  First value to compare
+ 159:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 160:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \return The larger of the two input parameters
+ 161:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 162:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#if !defined(MAX) || defined(__DOXYGEN__)
+ 163:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#define MAX(x, y)               (((x) > (y)) ? (x) : (y))
+ 164:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#endif
+ 165:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 166:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Convenience macro to determine the smaller of two values.
+ 167:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 168:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \note This macro should only be used with operands that do not have side effects from being 
+ 169:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *        multiple times.
+ 170:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 171:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \param[in] x  First value to compare
+ 172:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \param[in] y  First value to compare
+ 173:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 174:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \return The smaller of the two input parameters
+ 175:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 176:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#if !defined(MIN) || defined(__DOXYGEN__)
+ 177:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#define MIN(x, y)               (((x) < (y)) ? (x) : (y))
+ 178:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#endif
+ 179:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 180:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#if !defined(STRINGIFY) || defined(__DOXYGEN__)
+ 181:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				/** Converts the given input into a string, via the C Preprocessor. This macro puts literal quo
+ 182:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  marks around the input, converting the source into a string literal.
+ 183:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 184:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  \param[in] x  Input to convert into a string literal.
+ 185:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 186:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  \return String version of the input.
+ 187:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 */
+ 188:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#define STRINGIFY(x)            #x
+ 189:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 190:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				/** Converts the given input into a string after macro expansion, via the C Preprocessor. This 
+ 191:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  literal quotation marks around the expanded input, converting the source into a string lite
+ 192:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 193:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  \param[in] x  Input to expand and convert into a string literal.
+ 194:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 195:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  \return String version of the expanded input.
+ 196:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 */
+ 197:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#define STRINGIFY_EXPANDED(x)   STRINGIFY(x)
+ 198:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#endif
+ 199:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 200:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#if !defined(ISR) || defined(__DOXYGEN__)
+ 201:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				/** Macro for the definition of interrupt service routines, so that the compiler can insert the
+ 202:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  prologue and epilogue code to properly manage the interrupt routine without affecting the m
+ 203:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  state with unintentional side-effects.
+ 204:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 205:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  Interrupt handlers written using this macro may still need to be registered with the microc
+ 206:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  Interrupt Controller (if present) before they will properly handle incoming interrupt event
+ 207:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 208:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  \note This macro is only supplied on some architectures, where the standard library does no
+ 209:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *        definition. If an existing definition exists, the alternative definition here will be
+ 210:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 211:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  \ingroup Group_GlobalInt
+ 212:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *
+ 213:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 *  \param Name  Unique name of the interrupt service routine.
+ 214:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				 */
+ 215:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#define ISR(Name, ...)                  void Name (void) __attribute__((__interrupt__)) __VA_AR
+ 216:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			#endif
+ 217:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 218:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 		/* Inline Functions: */
+ 219:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Function to reverse the individual bits in a byte - i.e. bit 7 is moved to bit 0, bit 6 to b
+ 220:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  etc.
+ 221:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 222:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \param[in] Byte  Byte of data whose bits are to be reversed.
+ 223:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 224:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \return Input data with the individual bits reversed (mirrored).
+ 225:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 226:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline uint8_t BitReverse(uint8_t Byte) ATTR_WARN_UNUSED_RESULT ATTR_CONST;
+ 227:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline uint8_t BitReverse(uint8_t Byte)
+ 228:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			{
+ 229:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				Byte = (((Byte & 0xF0) >> 4) | ((Byte & 0x0F) << 4));
+ 230:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				Byte = (((Byte & 0xCC) >> 2) | ((Byte & 0x33) << 2));
+ 231:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				Byte = (((Byte & 0xAA) >> 1) | ((Byte & 0x55) << 1));
+ 232:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 233:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				return Byte;
+ 234:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			}
+ 235:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 236:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Function to perform a blocking delay for a specified number of milliseconds. The actual dela
+ 237:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  at a minimum the specified number of milliseconds, however due to loop overhead and internal
+ 238:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  may be slightly higher.
+ 239:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 240:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \param[in] Milliseconds  Number of milliseconds to delay
+ 241:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 242:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void Delay_MS(uint16_t Milliseconds) ATTR_ALWAYS_INLINE;
+ 243:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void Delay_MS(uint16_t Milliseconds)
+ 244:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			{
+ 245:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#if (ARCH == ARCH_AVR8)
+ 246:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				if (GCC_IS_COMPILE_CONST(Milliseconds))
+ 247:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				{
+ 248:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					_delay_ms(Milliseconds);
+ 249:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				}
+ 250:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				else
+ 251:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				{
+ 252:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					while (Milliseconds--)
+ 253:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					  _delay_ms(1);
+ 254:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				}
+ 255:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_UC3)
+ 256:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				while (Milliseconds--)
+ 257:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				{
+ 258:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					__builtin_mtsr(AVR32_COUNT, 0);
+ 259:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					while (__builtin_mfsr(AVR32_COUNT) < (F_CPU / 1000));
+ 260:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				}
+ 261:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_XMEGA)
+ 262:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				if (GCC_IS_COMPILE_CONST(Milliseconds))
+ 263:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				{
+ 264:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					_delay_ms(Milliseconds);
+ 265:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				}
+ 266:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				else
+ 267:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				{
+ 268:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					while (Milliseconds--)
+ 269:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 					  _delay_ms(1);
+ 270:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				}
+ 271:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#endif
+ 272:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			}
+ 273:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 274:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Retrieves a mask which contains the current state of the global interrupts for the device. T
+ 275:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  value can be stored before altering the global interrupt enable state, before restoring the
+ 276:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  flag(s) back to their previous values after a critical section using \ref SetGlobalInterrupt
+ 277:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 278:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \ingroup Group_GlobalInt
+ 279:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 280:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \return  Mask containing the current Global Interrupt Enable Mask bit(s).
+ 281:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 282:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline uint_reg_t GetGlobalInterruptMask(void) ATTR_ALWAYS_INLINE ATTR_WARN_UNUSED_RESULT
+ 283:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline uint_reg_t GetGlobalInterruptMask(void)
+ 284:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			{
+ 285:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+  27               		.loc 2 285 0
+ 286:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 287:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#if (ARCH == ARCH_AVR8)
+ 288:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				return SREG;
+  28               		.loc 2 288 0
+  29 0002 4FB7      		in r20,__SREG__
+  30               	.LBE9:
+  31               	.LBE8:
+  32               	.LBB10:
+  33               	.LBB11:
+ 289:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_UC3)
+ 290:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				return __builtin_mfsr(AVR32_SR);
+ 291:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_XMEGA)
+ 292:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				return SREG;
+ 293:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#endif
+ 294:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 295:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+ 296:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			}
+ 297:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 298:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Sets the global interrupt enable state of the microcontroller to the mask passed into the fu
+ 299:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  This can be combined with \ref GetGlobalInterruptMask() to save and restore the Global Inter
+ 300:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  Mask bit(s) of the device after a critical section has completed.
+ 301:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 302:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \ingroup Group_GlobalInt
+ 303:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 304:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \param[in] GlobalIntState  Global Interrupt Enable Mask value to use
+ 305:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 306:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void SetGlobalInterruptMask(const uint_reg_t GlobalIntState) ATTR_ALWAYS_INLINE;
+ 307:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void SetGlobalInterruptMask(const uint_reg_t GlobalIntState)
+ 308:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			{
+ 309:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+ 310:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 311:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#if (ARCH == ARCH_AVR8)
+ 312:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				SREG = GlobalIntState;
+ 313:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_UC3)
+ 314:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				if (GlobalIntState & AVR32_SR_GM)
+ 315:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				  __builtin_ssrf(AVR32_SR_GM_OFFSET);
+ 316:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				else
+ 317:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				  __builtin_csrf(AVR32_SR_GM_OFFSET);
+ 318:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_XMEGA)
+ 319:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				SREG = GlobalIntState;
+ 320:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#endif
+ 321:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 322:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+ 323:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			}
+ 324:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 325:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Enables global interrupt handling for the device, allowing interrupts to be handled.
+ 326:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 327:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \ingroup Group_GlobalInt
+ 328:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 329:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void GlobalInterruptEnable(void) ATTR_ALWAYS_INLINE;
+ 330:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void GlobalInterruptEnable(void)
+ 331:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			{
+ 332:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+ 333:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 334:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#if (ARCH == ARCH_AVR8)
+ 335:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				sei();
+ 336:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_UC3)
+ 337:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				__builtin_csrf(AVR32_SR_GM_OFFSET);
+ 338:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_XMEGA)
+ 339:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				sei();
+ 340:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#endif
+ 341:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 342:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+ 343:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			}
+ 344:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 345:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			/** Disabled global interrupt handling for the device, preventing interrupts from being handled.
+ 346:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *
+ 347:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 *  \ingroup Group_GlobalInt
+ 348:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			 */
+ 349:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void GlobalInterruptDisable(void) ATTR_ALWAYS_INLINE;
+ 350:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			static inline void GlobalInterruptDisable(void)
+ 351:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 			{
+ 352:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+  34               		.loc 2 352 0
+ 353:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 354:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#if (ARCH == ARCH_AVR8)
+ 355:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				cli();
+  35               		.loc 2 355 0
+  36               	/* #APP */
+  37               	 ;  355 "lufa-lib-svn/LUFA/Scheduler/../Common/Common.h" 1
+  38 0004 F894      		cli
+  39               	 ;  0 "" 2
+ 356:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_UC3)
+ 357:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				__builtin_ssrf(AVR32_SR_GM_OFFSET);
+ 358:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#elif (ARCH == ARCH_XMEGA)
+ 359:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				cli();
+ 360:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				#endif
+ 361:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 
+ 362:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+  40               		.loc 2 362 0
+  41               	/* #NOAPP */
+  42               	.LBE11:
+  43               	.LBE10:
+  39:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	SchedulerDelayCounter_t CurrentTickValue_LCL;
+  40:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	SchedulerDelayCounter_t DelayCounter_LCL;
+  41:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  42:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	uint_reg_t CurrentGlobalInt = GetGlobalInterruptMask();
+  43:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	GlobalInterruptDisable();
+  44:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  45:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	CurrentTickValue_LCL = Scheduler_TickCounter;
+  44               		.loc 1 45 0
+  45 0006 2091 0000 		lds r18,Scheduler_TickCounter
+  46 000a 3091 0000 		lds r19,Scheduler_TickCounter+1
+  47               	.LVL1:
+  48               	.LBB12:
+  49               	.LBB13:
+ 309:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+  50               		.loc 2 309 0
+ 312:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				SREG = GlobalIntState;
+  51               		.loc 2 312 0
+  52 000e 4FBF      		out __SREG__,r20
+ 322:lufa-lib-svn/LUFA/Scheduler/../Common/Common.h **** 				GCC_MEMORY_BARRIER();
+  53               		.loc 2 322 0
+  54               	.LBE13:
+  55               	.LBE12:
+  46:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  47:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	SetGlobalInterruptMask(CurrentGlobalInt);
+  48:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  49:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	DelayCounter_LCL = *DelayCounter;
+  56               		.loc 1 49 0
+  57 0010 4081      		ld r20,Z
+  58 0012 5181      		ldd r21,Z+1
+  59               	.LVL2:
+  50:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  51:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	if (CurrentTickValue_LCL >= DelayCounter_LCL)
+  60               		.loc 1 51 0
+  61 0014 2417      		cp r18,r20
+  62 0016 3507      		cpc r19,r21
+  63 0018 00F0      		brlo .L2
+  52:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	{
+  53:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		if ((CurrentTickValue_LCL - DelayCounter_LCL) >= Delay)
+  64               		.loc 1 53 0
+  65 001a B901      		movw r22,r18
+  66               	.LVL3:
+  67 001c 641B      		sub r22,r20
+  68 001e 750B      		sbc r23,r21
+  69 0020 AB01      		movw r20,r22
+  70               	.LVL4:
+  71 0022 00C0      		rjmp .L8
+  72               	.LVL5:
+  73               	.L2:
+  54:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		{
+  55:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 			*DelayCounter = CurrentTickValue_LCL;
+  56:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 			return true;
+  57:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		}
+  58:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	}
+  59:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	else
+  60:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	{
+  61:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		if (((MAX_DELAYCTR_COUNT - DelayCounter_LCL) + CurrentTickValue_LCL) >= Delay)
+  74               		.loc 1 61 0
+  75 0024 4095      		com r20
+  76 0026 5095      		com r21
+  77               	.LVL6:
+  78 0028 420F      		add r20,r18
+  79 002a 531F      		adc r21,r19
+  80               	.LVL7:
+  81               	.L8:
+  82 002c 4817      		cp r20,r24
+  83 002e 5907      		cpc r21,r25
+  84 0030 00F0      		brlo .L5
+  62:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		{
+  63:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 			*DelayCounter = CurrentTickValue_LCL;
+  85               		.loc 1 63 0
+  86 0032 3183      		std Z+1,r19
+  87 0034 2083      		st Z,r18
+  64:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 			return true;
+  88               		.loc 1 64 0
+  89 0036 81E0      		ldi r24,lo8(1)
+  90               	.LVL8:
+  91 0038 0895      		ret
+  92               	.LVL9:
+  93               	.L5:
+  65:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		}
+  66:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	}
+  67:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  68:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	return false;
+  94               		.loc 1 68 0
+  95 003a 80E0      		ldi r24,0
+  96               	.LVL10:
+  69:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** }
+  97               		.loc 1 69 0
+  98 003c 0895      		ret
+  99               		.cfi_endproc
+ 100               	.LFE19:
+ 102               		.section	.text.Scheduler_SetTaskMode,"ax",@progbits
+ 103               	.global	Scheduler_SetTaskMode
+ 105               	Scheduler_SetTaskMode:
+ 106               	.LFB20:
+  70:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  71:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** void Scheduler_SetTaskMode(const TaskPtr_t Task,
+  72:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****                            const bool TaskStatus)
+  73:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** {
+ 107               		.loc 1 73 0
+ 108               		.cfi_startproc
+ 109               	.LVL11:
+ 110               	/* prologue: function */
+ 111               	/* frame size = 0 */
+ 112               	/* stack size = 0 */
+ 113               	.L__stack_usage = 0
+  74:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	TaskEntry_t* CurrTask = &Scheduler_TaskList[0];
+ 114               		.loc 1 74 0
+ 115 0000 E0E0      		ldi r30,lo8(Scheduler_TaskList)
+ 116 0002 F0E0      		ldi r31,hi8(Scheduler_TaskList)
+  75:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  76:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	while (CurrTask != &Scheduler_TaskList[Scheduler_TotalTasks])
+ 117               		.loc 1 76 0
+ 118 0004 00C0      		rjmp .L10
+ 119               	.LVL12:
+ 120               	.L13:
+  77:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	{
+  78:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		if (CurrTask->Task == Task)
+ 121               		.loc 1 78 0
+ 122 0006 2081      		ld r18,Z
+ 123 0008 3181      		ldd r19,Z+1
+ 124 000a 2817      		cp r18,r24
+ 125 000c 3907      		cpc r19,r25
+ 126 000e 01F4      		brne .L11
+  79:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		{
+  80:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 			CurrTask->TaskStatus = TaskStatus;
+ 127               		.loc 1 80 0
+ 128 0010 6283      		std Z+2,r22
+  81:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 			break;
+ 129               		.loc 1 81 0
+ 130 0012 0895      		ret
+ 131               	.L11:
+  82:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		}
+  83:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  84:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		CurrTask++;
+ 132               		.loc 1 84 0
+ 133 0014 3496      		adiw r30,4
+ 134               	.LVL13:
+ 135               	.L10:
+  76:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	while (CurrTask != &Scheduler_TaskList[Scheduler_TotalTasks])
+ 136               		.loc 1 76 0 discriminator 1
+ 137 0016 2091 0000 		lds r18,Scheduler_TotalTasks
+ 138 001a 44E0      		ldi r20,lo8(4)
+ 139 001c 249F      		mul r18,r20
+ 140 001e 9001      		movw r18,r0
+ 141 0020 1124      		clr __zero_reg__
+ 142 0022 2050      		subi r18,lo8(-(Scheduler_TaskList))
+ 143 0024 3040      		sbci r19,hi8(-(Scheduler_TaskList))
+ 144 0026 E217      		cp r30,r18
+ 145 0028 F307      		cpc r31,r19
+ 146 002a 01F4      		brne .L13
+ 147 002c 0895      		ret
+ 148               		.cfi_endproc
+ 149               	.LFE20:
+ 151               		.section	.text.Scheduler_SetGroupTaskMode,"ax",@progbits
+ 152               	.global	Scheduler_SetGroupTaskMode
+ 154               	Scheduler_SetGroupTaskMode:
+ 155               	.LFB21:
+  85:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	}
+  86:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** }
+  87:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  88:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** void Scheduler_SetGroupTaskMode(const uint_least8_t GroupID,
+  89:lufa-lib-svn/LUFA/Scheduler/Scheduler.c ****                                 const bool TaskStatus)
+  90:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** {
+ 156               		.loc 1 90 0
+ 157               		.cfi_startproc
+ 158               	.LVL14:
+ 159               	/* prologue: function */
+ 160               	/* frame size = 0 */
+ 161               	/* stack size = 0 */
+ 162               	.L__stack_usage = 0
+ 163 0000 E0E0      		ldi r30,lo8(Scheduler_TaskList+3)
+ 164 0002 F0E0      		ldi r31,hi8(Scheduler_TaskList+3)
+  91:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	TaskEntry_t* CurrTask = &Scheduler_TaskList[0];
+  92:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  93:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	while (CurrTask != &Scheduler_TaskList[Scheduler_TotalTasks])
+ 165               		.loc 1 93 0
+ 166 0004 00C0      		rjmp .L15
+ 167               	.LVL15:
+ 168               	.L17:
+  94:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	{
+  95:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		if (CurrTask->GroupID == GroupID)
+ 169               		.loc 1 95 0
+ 170 0006 9081      		ld r25,Z
+ 171 0008 9813      		cpse r25,r24
+ 172 000a 00C0      		rjmp .L16
+  88:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** void Scheduler_SetGroupTaskMode(const uint_least8_t GroupID,
+ 173               		.loc 1 88 0
+ 174 000c DF01      		movw r26,r30
+ 175 000e 1197      		sbiw r26,1
+  96:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		  CurrTask->TaskStatus = TaskStatus;
+ 176               		.loc 1 96 0
+ 177 0010 6C93      		st X,r22
+ 178               	.L16:
+ 179               	.LVL16:
+ 180 0012 3496      		adiw r30,4
+ 181               	.LVL17:
+ 182               	.L15:
+  93:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	while (CurrTask != &Scheduler_TaskList[Scheduler_TotalTasks])
+ 183               		.loc 1 93 0 discriminator 1
+ 184 0014 2091 0000 		lds r18,Scheduler_TotalTasks
+  88:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** void Scheduler_SetGroupTaskMode(const uint_least8_t GroupID,
+ 185               		.loc 1 88 0 discriminator 1
+ 186 0018 AF01      		movw r20,r30
+ 187 001a 4350      		subi r20,3
+ 188 001c 5109      		sbc r21,__zero_reg__
+ 189               	.LVL18:
+  93:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	while (CurrTask != &Scheduler_TaskList[Scheduler_TotalTasks])
+ 190               		.loc 1 93 0 discriminator 1
+ 191 001e 94E0      		ldi r25,lo8(4)
+ 192 0020 299F      		mul r18,r25
+ 193 0022 9001      		movw r18,r0
+ 194 0024 1124      		clr __zero_reg__
+ 195 0026 2050      		subi r18,lo8(-(Scheduler_TaskList))
+ 196 0028 3040      		sbci r19,hi8(-(Scheduler_TaskList))
+ 197 002a 4217      		cp r20,r18
+ 198 002c 5307      		cpc r21,r19
+ 199 002e 01F4      		brne .L17
+ 200               	/* epilogue start */
+  97:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 
+  98:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 		CurrTask++;
+  99:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** 	}
+ 100:lufa-lib-svn/LUFA/Scheduler/Scheduler.c **** }
+ 201               		.loc 1 100 0
+ 202 0030 0895      		ret
+ 203               		.cfi_endproc
+ 204               	.LFE21:
+ 206               		.comm	Scheduler_TotalTasks,1,1
+ 207               		.comm	Scheduler_TickCounter,2,1
+ 208               		.text
+ 209               	.Letext0:
+ 210               		.file 3 "/usr/lib/gcc/avr/4.7.0/../../../../avr/include/stdint.h"
+ 211               		.file 4 "lufa-lib-svn/LUFA/Scheduler/Scheduler.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 Scheduler.c
+     /tmp/ccYOyY9D.s:2      *ABS*:0000003e __SP_H__
+     /tmp/ccYOyY9D.s:3      *ABS*:0000003d __SP_L__
+     /tmp/ccYOyY9D.s:4      *ABS*:0000003f __SREG__
+     /tmp/ccYOyY9D.s:5      *ABS*:00000000 __tmp_reg__
+     /tmp/ccYOyY9D.s:6      *ABS*:00000001 __zero_reg__
+     /tmp/ccYOyY9D.s:13     .text.Scheduler_HasDelayElapsed:00000000 Scheduler_HasDelayElapsed
+                            *COM*:00000002 Scheduler_TickCounter
+     /tmp/ccYOyY9D.s:105    .text.Scheduler_SetTaskMode:00000000 Scheduler_SetTaskMode
+                            *COM*:00000001 Scheduler_TotalTasks
+     /tmp/ccYOyY9D.s:154    .text.Scheduler_SetGroupTaskMode:00000000 Scheduler_SetGroupTaskMode
+
+UNDEFINED SYMBOLS
+Scheduler_TaskList
+__do_clear_bss
