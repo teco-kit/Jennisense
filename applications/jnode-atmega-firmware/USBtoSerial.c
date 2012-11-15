@@ -43,8 +43,12 @@
 #define JEN_SPIMISO _BV(3) /* PB3 */
 #define JEN_SPIMOSI _BV(2) /* PB2 */
 #define JEN_CLOCK   _BV(1) /* PB1 */
-#define JEN_CTS     _BV(0) /* PF0 */
 #define JEN_SPISS   _BV(6) /* PE6 */
+
+#define PWR_BUCKON  _BV(1) /* PF1, on by default */
+#define PWR_STBY    _BV(4) /* PF4, pull low! */
+#define PWR_BUTTON  _BV(4) /* PB4, input pin */
+#define PWR_SENSORS _BV(6) /* PC6, on by default, toggle for reset */
 
 /** Circular buffer to hold data from the host before it is sent to the device via the serial port. */
 static RingBuffer_t USBtoUSART_Buffer;
@@ -95,14 +99,14 @@ int main(void)
   SetupHardware();
   clock_init();
 
-  /* pull jennic into normal mode */
-  DDRC |= JEN_RESETN;
+  /* pull jennic into normal mode and also reset sensors*/
+  DDRC |= (JEN_RESETN|PWR_SENSORS);
   DDRB |= JEN_SPIMISO;
   _delay_ms(5);
 
   DDRB &= ~JEN_SPIMISO;
   _delay_ms(10);
-  DDRC &= ~JEN_RESETN;
+  DDRC &= ~(JEN_RESETN|PWR_SENSORS);
 
   /* get off the spi-bus */
   DDRB &= ~JEN_SPIMISO;
@@ -156,25 +160,27 @@ int main(void)
       if (!jennic_in_programming_mode)
       {
         /* pull jennic into programming mode */
-        DDRC |= JEN_RESETN;
+        DDRC |= (JEN_RESETN|PWR_SENSORS);
         DDRB |= JEN_SPIMISO;
         _delay_ms(5);
 
         DDRC &= ~JEN_RESETN;
         _delay_ms(10);
         DDRB &= ~JEN_SPIMISO;
+        DDRC &~ ~PWR_SENSORS;
         jennic_in_programming_mode = true;
       }
       else
       {
         /* pull jennic into normal mode */
-        DDRC |= JEN_RESETN;
+        DDRC |= (JEN_RESETN|PWR_SENSORS);
         DDRB |= JEN_SPIMISO;
         _delay_ms(5);
 
         DDRB &= ~JEN_SPIMISO;
         _delay_ms(10);
         DDRC &= ~JEN_RESETN;
+        DDRC &~ ~PWR_SENSORS;
         jennic_in_programming_mode = false;
       }
 
@@ -191,7 +197,6 @@ int main(void)
   }
 }
 
-/** Configures the board hardware and chip peripherals for the demo's functionality. */
 void SetupHardware(void)
 {
   /* Disable watchdog if enabled by bootloader/fuses */
@@ -205,9 +210,14 @@ void SetupHardware(void)
   LEDs_Init();
   USB_Init();
 
+  /* pull STBY low, so enough power can be provided */
+  DDRF &= ~(PWR_STBY);
+  PORTF &= ~(PWR_STBY);
+
   /* Start the flush timer so that overflows occur rapidly to push received bytes to the USB interface */
   TCCR0B = (1 << CS02);
 
+  /* reset the jennic */
   PORTB &= ~(JEN_CLOCK|JEN_SPIMOSI);
 }
 
@@ -256,7 +266,6 @@ ISR(USART1_RX_vect, ISR_BLOCK)
 }
 
 /** Event handler for the CDC Class driver Line Encoding Changed event.
- *
  *  \param[in] CDCInterfaceInfo  Pointer to the CDC class interface configuration structure being referenced
  */
 void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo)
