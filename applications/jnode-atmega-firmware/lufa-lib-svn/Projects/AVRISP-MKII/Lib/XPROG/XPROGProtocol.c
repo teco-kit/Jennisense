@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -65,7 +65,7 @@ void XPROGProtocol_SetMode(void)
 	Endpoint_Read_Stream_LE(&SetMode_XPROG_Params, sizeof(SetMode_XPROG_Params), NULL);
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	XPROG_SelectedProtocol = SetMode_XPROG_Params.Protocol;
@@ -112,7 +112,7 @@ void XPROGProtocol_Command(void)
 static void XPROGProtocol_EnterXPROGMode(void)
 {
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	bool NVMBusEnabled = false;
@@ -134,7 +134,7 @@ static void XPROGProtocol_EnterXPROGMode(void)
 static void XPROGProtocol_LeaveXPROGMode(void)
 {
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	if (XPROG_SelectedProtocol == XPRG_PROTOCOL_PDI)
@@ -169,7 +169,7 @@ static void XPROGProtocol_Erase(void)
 	Erase_XPROG_Params.Address = SwapEndian_32(Erase_XPROG_Params.Address);
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	uint8_t EraseCommand;
@@ -260,7 +260,7 @@ static void XPROGProtocol_WriteMemory(void)
 	}
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	if (XPROG_SelectedProtocol == XPRG_PROTOCOL_PDI)
@@ -342,7 +342,7 @@ static void XPROGProtocol_ReadMemory(void)
 	ReadMemory_XPROG_Params.Length  = SwapEndian_16(ReadMemory_XPROG_Params.Length);
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	uint8_t ReadBuffer[256];
@@ -385,7 +385,7 @@ static void XPROGProtocol_ReadCRC(void)
 	Endpoint_Read_Stream_LE(&ReadCRC_XPROG_Params, sizeof(ReadCRC_XPROG_Params), NULL);
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	uint32_t MemoryCRC;
@@ -444,10 +444,10 @@ static void XPROGProtocol_SetParam(void)
 	switch (XPROGParam)
 	{
 		case XPRG_PARAM_NVMBASE:
-			XPROG_Param_NVMBase = Endpoint_Read_32_BE();
+			XPROG_Param_NVMBase       = Endpoint_Read_32_BE();
 			break;
 		case XPRG_PARAM_EEPPAGESIZE:
-			XPROG_Param_EEPageSize = Endpoint_Read_16_BE();
+			XPROG_Param_EEPageSize    = Endpoint_Read_16_BE();
 			break;
 		case XPRG_PARAM_NVMCMD_REG:
 			XPROG_Param_NVMCMDRegAddr = Endpoint_Read_8();
@@ -455,13 +455,19 @@ static void XPROGProtocol_SetParam(void)
 		case XPRG_PARAM_NVMCSR_REG:
 			XPROG_Param_NVMCSRRegAddr = Endpoint_Read_8();
 			break;
+		case XPRG_PARAM_UNKNOWN_1:
+			/* TODO: Undocumented parameter added in AVRStudio 5.1, purpose unknown. Must ACK and discard or
+			         the communication with AVRStudio 5.1 will fail.
+			*/
+			Endpoint_Discard_16();
+			break;
 		default:
 			ReturnStatus = XPRG_ERR_FAILED;
 			break;
 	}
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	Endpoint_Write_8(CMD_XPROG);

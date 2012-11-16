@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -129,9 +129,12 @@ ISR(TIMER1_COMPA_vect, ISR_BLOCK)
 	{
 		SoftSPI_Data <<= 1;
 
-		if (!(SoftSPI_BitsRemaining--))
-		  TCCR1B = 0;
-
+		if (!(--SoftSPI_BitsRemaining))
+		{
+			TCCR1B = 0;
+			TIFR1  = (1 << OCF1A);
+		}
+		
 		if (PINB & (1 << 3))
 		  SoftSPI_Data |= (1 << 0);
 	}
@@ -251,7 +254,7 @@ uint8_t ISPTarget_TransferSoftSPIByte(const uint8_t Byte)
 
 	TCNT1  = 0;
 	TCCR1B = ((1 << WGM12) | (1 << CS11));
-	while (SoftSPI_BitsRemaining && !(TimeoutExpired));
+	while (SoftSPI_BitsRemaining && TimeoutTicksRemaining);
 	TCCR1B = 0;
 
 	return SoftSPI_Data;
@@ -293,9 +296,9 @@ uint8_t ISPTarget_WaitWhileTargetBusy(void)
 		ISPTarget_SendByte(0x00);
 		ISPTarget_SendByte(0x00);
 	}
-	while ((ISPTarget_ReceiveByte() & 0x01) && !(TimeoutExpired));
+	while ((ISPTarget_ReceiveByte() & 0x01) && TimeoutTicksRemaining);
 
-	return (TimeoutExpired) ? STATUS_RDY_BSY_TOUT : STATUS_CMD_OK;
+	return (TimeoutTicksRemaining > 0) ? STATUS_CMD_OK : STATUS_RDY_BSY_TOUT;
 }
 
 /** Sends a low-level LOAD EXTENDED ADDRESS command to the target, for addressing of memory beyond the
@@ -313,7 +316,7 @@ void ISPTarget_LoadExtendedAddress(void)
 /** Waits until the last issued target memory programming command has completed, via the check mode given and using
  *  the given parameters.
  *
- *  \param[in] ProgrammingMode  Programming mode used and completion check to use, a mask of PROG_MODE_* constants
+ *  \param[in] ProgrammingMode  Programming mode used and completion check to use, a mask of \c PROG_MODE_* constants
  *  \param[in] PollAddress      Memory address to poll for completion if polling check mode used
  *  \param[in] PollValue        Poll value to check against if polling check mode used
  *  \param[in] DelayMS          Milliseconds to delay before returning if delay check mode used
@@ -345,10 +348,10 @@ uint8_t ISPTarget_WaitForProgComplete(const uint8_t ProgrammingMode,
 				ISPTarget_SendByte(PollAddress >> 8);
 				ISPTarget_SendByte(PollAddress & 0xFF);
 			}
-			while ((ISPTarget_TransferByte(0x00) == PollValue) && !(TimeoutExpired));
+			while ((ISPTarget_TransferByte(0x00) == PollValue) && TimeoutTicksRemaining);
 
-			if (TimeoutExpired)
-			 ProgrammingStatus = STATUS_CMD_TOUT;
+			if (!(TimeoutTicksRemaining))
+			  ProgrammingStatus = STATUS_CMD_TOUT;
 
 			break;
 		case PROG_MODE_WORD_READYBUSY_MASK:
@@ -356,6 +359,9 @@ uint8_t ISPTarget_WaitForProgComplete(const uint8_t ProgrammingMode,
 			ProgrammingStatus = ISPTarget_WaitWhileTargetBusy();
 			break;
 	}
+
+	/* Program complete - reset timeout */
+	TimeoutTicksRemaining = COMMAND_TIMEOUT_TICKS;
 
 	return ProgrammingStatus;
 }

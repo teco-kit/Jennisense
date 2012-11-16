@@ -10,9 +10,9 @@
  *
  *  The following list indicates what microcontrollers are compatible with this demo.
  *
- *  - Series 7 USB AVRs (AT90USBxxx7)
- *  - Series 6 USB AVRs (AT90USBxxx6)
- *  - Series 4 USB AVRs (ATMEGAxxU4)
+ *  \li Series 7 USB AVRs (AT90USBxxx7)
+ *  \li Series 6 USB AVRs (AT90USBxxx6)
+ *  \li Series 4 USB AVRs (ATMEGAxxU4)
  *
  *  \section Sec_Info USB Information:
  *
@@ -38,7 +38,7 @@
  *        USBIF Audio 1.0 Data Formats Specification</td>
  *   </tr>
  *   <tr>
- *    <td><b>Usable Speeds:</b></td>
+ *    <td><b>Supported USB Speeds:</b></td>
  *    <td>Full Speed Mode</td>
  *   </tr>
  *  </table>
@@ -73,17 +73,17 @@
  *   </tr>
  *   <tr>
  *    <td>AUDIO_OUT_STEREO</td>
- *    <td>Makefile LUFA_OPTS</td>
+ *    <td>AppConfig.h</td>
  *    <td>When defined, this outputs the audio samples in stereo to the timer output pins of the microcontroller.</td>
  *   </tr>
  *   <tr>
  *    <td>AUDIO_OUT_MONO</td>
- *    <td>Makefile LUFA_OPTS</td>
+ *    <td>AppConfig.h</td>
  *    <td>When defined, this outputs the audio samples in mono to the timer output pin of the microcontroller.</td>
  *   </tr>
  *   <tr>
  *    <td>AUDIO_OUT_PORTC</td>
- *    <td>Makefile LUFA_OPTS</td>
+ *    <td>AppConfig.h</td>
  *    <td>When defined, this outputs the audio samples in mono to port C of the microcontroller, for connection to an
  *        external DAC.</td>
  *   </tr>

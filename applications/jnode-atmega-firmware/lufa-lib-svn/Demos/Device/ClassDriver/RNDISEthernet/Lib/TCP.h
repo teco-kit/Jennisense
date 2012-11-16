@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -236,14 +236,14 @@
 		                                       void (*Handler)(TCP_ConnectionState_t*, TCP_ConnectionBuffer_t*));
 		uint8_t               TCP_GetPortState(const uint16_t Port);
 		bool                  TCP_SetConnectionState(const uint16_t Port,
-		                                             const IP_Address_t RemoteAddress,
+		                                             const IP_Address_t* RemoteAddress,
 		                                             const uint16_t RemotePort,
 		                                             const uint8_t State);
 		uint8_t               TCP_GetConnectionState(const uint16_t Port,
-		                                             const IP_Address_t RemoteAddress,
+		                                             const IP_Address_t* RemoteAddress,
 		                                             const uint16_t RemotePort);
 		TCP_ConnectionInfo_t* TCP_GetConnectionInfo(const uint16_t Port,
-		                                            const IP_Address_t RemoteAddress,
+		                                            const IP_Address_t* RemoteAddress,
 		                                            const uint16_t RemotePort);
 		int16_t               TCP_ProcessTCPPacket(void* IPHeaderInStart,
 		                                           void* TCPHeaderInStart,
@@ -251,8 +251,8 @@
 
 		#if defined(INCLUDE_FROM_TCP_C)
 			static uint16_t TCP_Checksum16(void* TCPHeaderOutStart,
-			                               const IP_Address_t SourceAddress,
-										   const IP_Address_t DestinationAddress,
+			                               const IP_Address_t* SourceAddress,
+			                               const IP_Address_t* DestinationAddress,
 			                               uint16_t TCPOutSize);
 		#endif
 

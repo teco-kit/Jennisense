@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -55,7 +55,7 @@ int main(void)
 	SetupHardware();
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{
@@ -79,6 +79,13 @@ void SetupHardware(void)
 	SPI_Init(SPI_SPEED_FCPU_DIV_2 | SPI_ORDER_MSB_FIRST | SPI_SCK_LEAD_FALLING | SPI_SAMPLE_TRAILING | SPI_MODE_MASTER);
 	Dataflash_Init();
 	USB_Init();
+
+	/* Check if the Dataflash is working, abort if not */
+	if (!(DataflashManager_CheckDataflashOperation()))
+	{
+		LEDs_SetAllLEDs(LEDMASK_USB_ERROR);
+		for(;;);
+	}
 
 	/* Clear Dataflash sector protections, if enabled */
 	DataflashManager_ResetDataflashProtections();
@@ -111,10 +118,8 @@ void EVENT_USB_Device_ConfigurationChanged(void)
 	bool ConfigSuccess = true;
 
 	/* Setup Mass Storage Data Endpoints */
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(MASS_STORAGE_IN_EPNUM,  EP_TYPE_BULK, ENDPOINT_DIR_IN,
-	                                            MASS_STORAGE_IO_EPSIZE, ENDPOINT_BANK_SINGLE);
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(MASS_STORAGE_OUT_EPNUM, EP_TYPE_BULK, ENDPOINT_DIR_OUT,
-	                                            MASS_STORAGE_IO_EPSIZE, ENDPOINT_BANK_SINGLE);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(MASS_STORAGE_IN_EPADDR,  EP_TYPE_BULK, MASS_STORAGE_IO_EPSIZE, 1);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(MASS_STORAGE_OUT_EPADDR, EP_TYPE_BULK, MASS_STORAGE_IO_EPSIZE, 1);
 
 	/* Indicate endpoint configuration success or failure */
 	LEDs_SetAllLEDs(ConfigSuccess ? LEDMASK_USB_READY : LEDMASK_USB_ERROR);
@@ -173,7 +178,7 @@ void MassStorage_Task(void)
 
 		/* Check direction of command, select Data IN endpoint if data is from the device */
 		if (CommandBlock.Flags & MS_COMMAND_DIR_DATA_IN)
-		  Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPNUM);
+		  Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPADDR);
 
 		/* Decode the received SCSI command, set returned status code */
 		CommandStatus.Status = SCSI_DecodeSCSICommand() ? MS_SCSI_COMMAND_Pass : MS_SCSI_COMMAND_Fail;
@@ -199,13 +204,13 @@ void MassStorage_Task(void)
 	if (IsMassStoreReset)
 	{
 		/* Reset the data endpoint banks */
-		Endpoint_ResetEndpoint(MASS_STORAGE_OUT_EPNUM);
-		Endpoint_ResetEndpoint(MASS_STORAGE_IN_EPNUM);
+		Endpoint_ResetEndpoint(MASS_STORAGE_OUT_EPADDR);
+		Endpoint_ResetEndpoint(MASS_STORAGE_IN_EPADDR);
 
-		Endpoint_SelectEndpoint(MASS_STORAGE_OUT_EPNUM);
+		Endpoint_SelectEndpoint(MASS_STORAGE_OUT_EPADDR);
 		Endpoint_ClearStall();
 		Endpoint_ResetDataToggle();
-		Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPNUM);
+		Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPADDR);
 		Endpoint_ClearStall();
 		Endpoint_ResetDataToggle();
 
@@ -224,7 +229,7 @@ static bool ReadInCommandBlock(void)
 	uint16_t BytesTransferred;
 
 	/* Select the Data Out endpoint */
-	Endpoint_SelectEndpoint(MASS_STORAGE_OUT_EPNUM);
+	Endpoint_SelectEndpoint(MASS_STORAGE_OUT_EPADDR);
 
 	/* Abort if no command has been sent from the host */
 	if (!(Endpoint_IsOUTReceived()))
@@ -249,7 +254,7 @@ static bool ReadInCommandBlock(void)
 	{
 		/* Stall both data pipes until reset by host */
 		Endpoint_StallTransaction();
-		Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPNUM);
+		Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPADDR);
 		Endpoint_StallTransaction();
 
 		return false;
@@ -279,7 +284,7 @@ static void ReturnCommandStatus(void)
 	uint16_t BytesTransferred;
 
 	/* Select the Data Out endpoint */
-	Endpoint_SelectEndpoint(MASS_STORAGE_OUT_EPNUM);
+	Endpoint_SelectEndpoint(MASS_STORAGE_OUT_EPADDR);
 
 	/* While data pipe is stalled, wait until the host issues a control request to clear the stall */
 	while (Endpoint_IsStalled())
@@ -290,7 +295,7 @@ static void ReturnCommandStatus(void)
 	}
 
 	/* Select the Data In endpoint */
-	Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPNUM);
+	Endpoint_SelectEndpoint(MASS_STORAGE_IN_EPADDR);
 
 	/* While data pipe is stalled, wait until the host issues a control request to clear the stall */
 	while (Endpoint_IsStalled())

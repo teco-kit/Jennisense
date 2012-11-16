@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -91,12 +91,12 @@
 
 		/* Global Variables: */
 			/** Indicates the currently set configuration number of the attached device. This indicates the currently
-			 *  selected configuration value if one has been set sucessfully, or 0 if no configuration has been selected.
+			 *  selected configuration value if one has been set successfully, or 0 if no configuration has been selected.
 			 *
 			 *  To set a device configuration, call the \ref USB_Host_SetDeviceConfiguration() function.
 			 *
-			 *  \note This variable should be treated as read-only in the user application, and never manually
-			 *        changed in value.
+			 *  \attention This variable should be treated as read-only in the user application, and never manually
+			 *             changed in value.
 			 *
 			 *  \ingroup Group_Host
 			 */
@@ -165,7 +165,7 @@
 
 			/** Retrieves the current feature status of the attached device, via a GET STATUS standard request. The
 			 *  retrieved feature status can then be examined by masking the retrieved value with the various
-			 *  FEATURE_* masks for bus/self power information and remote wakeup support.
+			 *  \c FEATURE_* masks for bus/self power information and remote wakeup support.
 			 *
 			 *  \note After this routine returns, the control pipe will be selected.
 			 *
@@ -278,6 +278,7 @@
 
 		/* Function Prototypes: */
 			#if defined(__INCLUDE_FROM_HOSTSTDREQ_C)
+				static uint8_t USB_Host_SendControlRequest_PRV(void* const BufferPtr);
 				static uint8_t USB_Host_WaitForIOS(const uint8_t WaitType);
 			#endif
 	#endif

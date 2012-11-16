@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -77,13 +77,10 @@
 			 */
 			typedef struct
 			{
-				const struct
+				struct
 				{
-					uint8_t  DataINPipeNumber; /**< Pipe number of the MIDI interface's streaming IN data pipe. */
-					bool     DataINPipeDoubleBank; /**< Indicates if the MIDI interface's IN data pipe should use double banking. */
-
-					uint8_t  DataOUTPipeNumber; /**< Pipe number of the MIDI interface's streaming OUT data pipe. */
-					bool     DataOUTPipeDoubleBank; /**< Indicates if the MIDI interface's OUT data pipe should use double banking. */
+					USB_Pipe_Table_t DataINPipe; /**< Data IN Pipe configuration table. */
+					USB_Pipe_Table_t DataOUTPipe; /**< Data OUT Pipe configuration table. */
 				} Config; /**< Config data for the USB class interface within the device. All elements in this section
 				           *   <b>must</b> be set or the interface will fail to enumerate and operate correctly.
 				           */
@@ -94,9 +91,6 @@
 					                    *   Configured state.
 					                    */
 					uint8_t  InterfaceNumber; /**< Interface index of the MIDI interface within the attached device. */
-
-					uint16_t DataINPipeSize; /**< Size in bytes of the MIDI Streaming Data interface's IN data pipe. */
-					uint16_t DataOUTPipeSize;  /**< Size in bytes of the MIDI Streaming Data interface's OUT data pipe. */
 				} State; /**< State data for the USB class interface within the device. All elements in this section
 						  *   <b>may</b> be set to initial values, but may also be ignored to default to sane values when
 						  *   the interface is enumerated.
@@ -151,7 +145,7 @@
 			                                  MIDI_EventPacket_t* const Event) ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
 
 			/** Flushes the MIDI send buffer, sending any queued MIDI events to the device. This should be called to override the
-			 *  \ref MIDI_Host_SendEventPacket() function's packing behaviour, to flush queued events. Events are queued into the
+			 *  \ref MIDI_Host_SendEventPacket() function's packing behavior, to flush queued events. Events are queued into the
 			 *  pipe bank until either the pipe bank is full, or \ref MIDI_Host_Flush() is called. This allows for multiple MIDI
 			 *  events to be packed into a single pipe packet, increasing data throughput.
 			 *

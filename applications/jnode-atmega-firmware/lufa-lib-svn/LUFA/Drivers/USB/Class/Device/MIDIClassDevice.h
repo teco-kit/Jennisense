@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -77,24 +77,19 @@
 			 */
 			typedef struct
 			{
-				const struct
+				struct
 				{
 					uint8_t  StreamingInterfaceNumber; /**< Index of the Audio Streaming interface within the device this structure controls. */
 
-					uint8_t  DataINEndpointNumber; /**< Endpoint number of the incoming MIDI IN data, if available (zero if unused). */
-					uint16_t DataINEndpointSize; /**< Size in bytes of the incoming MIDI IN data endpoint, if available (zero if unused). */
-					bool     DataINEndpointDoubleBank; /**< Indicates if the MIDI interface's IN data endpoint should use double banking. */
-
-					uint8_t  DataOUTEndpointNumber; /**< Endpoint number of the outgoing MIDI OUT data, if available (zero if unused). */
-					uint16_t DataOUTEndpointSize; /**< Size in bytes of the outgoing MIDI OUT data endpoint, if available (zero if unused). */
-					bool     DataOUTEndpointDoubleBank; /**< Indicates if the MIDI interface's OUT data endpoint should use double banking. */
+					USB_Endpoint_Table_t DataINEndpoint; /**< Data IN endpoint configuration table. */
+					USB_Endpoint_Table_t DataOUTEndpoint; /**< Data OUT endpoint configuration table. */
 				} Config; /**< Config data for the USB class interface within the device. All elements in this section
 				           *   <b>must</b> be set or the interface will fail to enumerate and operate correctly.
 				           */
 
 				struct
 				{
-					// No state information for this class
+					uint8_t RESERVED; // No state information for this class
 				} State; /**< State data for the USB class interface within the device. All elements in this section
 				          *   are reset to their defaults when the interface is enumerated.
 				          */
@@ -135,7 +130,7 @@
 
 
 			/** Flushes the MIDI send buffer, sending any queued MIDI events to the host. This should be called to override the
-			 *  \ref MIDI_Device_SendEventPacket() function's packing behaviour, to flush queued events.
+			 *  \ref MIDI_Device_SendEventPacket() function's packing behavior, to flush queued events.
 			 *
 			 *  \param[in,out] MIDIInterfaceInfo  Pointer to a structure containing a MIDI Class configuration and state.
 			 *

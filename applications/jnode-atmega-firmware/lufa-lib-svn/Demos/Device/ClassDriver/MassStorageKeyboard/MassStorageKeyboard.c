@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
   Copyright 2010  Matthias Hullin (lufa [at] matthias [dot] hullin [dot] net)
 
   Permission to use, copy, modify, distribute, and sell this
@@ -19,7 +19,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -46,15 +46,18 @@ USB_ClassInfo_MS_Device_t Disk_MS_Interface =
 		.Config =
 			{
 				.InterfaceNumber           = 0,
-
-				.DataINEndpointNumber      = MASS_STORAGE_IN_EPNUM,
-				.DataINEndpointSize        = MASS_STORAGE_IO_EPSIZE,
-				.DataINEndpointDoubleBank  = false,
-
-				.DataOUTEndpointNumber     = MASS_STORAGE_OUT_EPNUM,
-				.DataOUTEndpointSize       = MASS_STORAGE_IO_EPSIZE,
-				.DataOUTEndpointDoubleBank = false,
-
+				.DataINEndpoint            =
+					{
+						.Address           = MASS_STORAGE_IN_EPADDR,
+						.Size              = MASS_STORAGE_IO_EPSIZE,
+						.Banks             = 1,
+					},
+				.DataOUTEndpoint            =
+					{
+						.Address           = MASS_STORAGE_OUT_EPADDR,
+						.Size              = MASS_STORAGE_IO_EPSIZE,
+						.Banks             = 1,
+					},
 				.TotalLUNs                 = TOTAL_LUNS,
 			},
 	};
@@ -71,11 +74,12 @@ USB_ClassInfo_HID_Device_t Keyboard_HID_Interface =
 		.Config =
 			{
 				.InterfaceNumber              = 1,
-
-				.ReportINEndpointNumber       = KEYBOARD_EPNUM,
-				.ReportINEndpointSize         = KEYBOARD_EPSIZE,
-				.ReportINEndpointDoubleBank   = false,
-
+				.ReportINEndpoint             =
+					{
+						.Address              = KEYBOARD_EPADDR,
+						.Size                 = KEYBOARD_EPSIZE,
+						.Banks                = 1,
+					},
 				.PrevReportINBuffer           = PrevKeyboardHIDReportBuffer,
 				.PrevReportINBufferSize       = sizeof(PrevKeyboardHIDReportBuffer),
 			},
@@ -89,7 +93,7 @@ int main(void)
 	SetupHardware();
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{
@@ -116,6 +120,13 @@ void SetupHardware(void)
 	SPI_Init(SPI_SPEED_FCPU_DIV_2 | SPI_ORDER_MSB_FIRST | SPI_SCK_LEAD_FALLING | SPI_SAMPLE_TRAILING | SPI_MODE_MASTER);
 	Dataflash_Init();
 	USB_Init();
+
+	/* Check if the Dataflash is working, abort if not */
+	if (!(DataflashManager_CheckDataflashOperation()))
+	{
+		LEDs_SetAllLEDs(LEDMASK_USB_ERROR);
+		for(;;);
+	}
 
 	/* Clear Dataflash sector protections, if enabled */
 	DataflashManager_ResetDataflashProtections();
@@ -180,7 +191,7 @@ void EVENT_USB_Device_StartOfFrame(void)
  *  \param[in,out] ReportID    Report ID requested by the host if non-zero, otherwise callback should set to the generated report ID
  *  \param[in]     ReportType  Type of the report to create, either HID_REPORT_ITEM_In or HID_REPORT_ITEM_Feature
  *  \param[out]    ReportData  Pointer to a buffer where the created report should be stored
- *  \param[out]    ReportSize  Number of bytes written in the report (or zero if no report is to be sent
+ *  \param[out]    ReportSize  Number of bytes written in the report (or zero if no report is to be sent)
  *
  *  \return Boolean true to force the sending of the report, false to let the library determine if it needs to be sent
  */

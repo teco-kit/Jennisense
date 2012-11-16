@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -40,8 +40,6 @@
 		#include <avr/io.h>
 		#include <avr/eeprom.h>
 
-		#include <LUFA/Version.h>
-
 		#if defined(ADC)
 			#include <LUFA/Drivers/Peripheral/ADC.h>
 		#endif
@@ -49,7 +47,8 @@
 		#include "V2Protocol.h"
 		#include "V2ProtocolConstants.h"
 		#include "ISP/ISPTarget.h"
-
+		#include "Config/AppConfig.h"
+		
 	/* Macros: */
 		/** Parameter privilege mask to allow the host PC to read the parameter's value. */
 		#define PARAM_PRIV_READ     (1 << 0)
@@ -59,6 +58,12 @@
 
 		/** Total number of parameters in the parameter table */
 		#define TABLE_PARAM_COUNT   (sizeof(ParameterTable) / sizeof(ParameterTable[0]))
+		
+		#if (!defined(FIRMWARE_VERSION_MINOR) || defined(__DOXYGEN__))
+			/** Minor firmware version, reported to the host on request; must match the version
+			 *  the host is expecting, or it (may) reject further communications with the programmer. */
+			#define FIRMWARE_VERSION_MINOR   0x11
+		#endif
 
 	/* Type Defines: */
 		/** Type define for a parameter table entry indicating a PC readable or writable device parameter. */

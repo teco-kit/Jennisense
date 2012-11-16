@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -56,14 +56,14 @@
  *  provides an interface to configure, test and change the status of all the board LEDs.
  *
  *  If the \c BOARD value is set to \c BOARD_USER, this will include the \c /Board/LEDs.h file in the user project
- *  directory. Otherwise, it will include the appropriate built in board driver header file. If the BOARD value
+ *  directory. Otherwise, it will include the appropriate built-in board driver header file. If the BOARD value
  *  is set to \c BOARD_NONE, this driver is silently disabled.
  *
  *  For possible \c BOARD makefile values, see \ref Group_BoardTypes.
  *
  *  \note To make code as compatible as possible, it is assumed that all boards carry a minimum of four LEDs. If
  *        a board contains less than four LEDs, the remaining LED masks are defined to 0 so as to have no effect.
- *        If other behaviour is desired, either alias the remaining LED masks to existing LED masks via the -D
+ *        If other behavior is desired, either alias the remaining LED masks to existing LED masks via the -D
  *        switch in the project makefile, or alias them to nothing in the makefile to cause compilation errors when
  *        a non-existing LED is referenced in application code. Note that this means that it is possible to make
  *        compatible code for a board with no LEDs by making a board LED driver (see \ref Page_WritingBoardDrivers)
@@ -76,21 +76,21 @@
  *  \code
  *      // Initialize the board LED driver before first use
  *      LEDs_Init();
- *
+ *      
  *      // Turn on each of the four LEDs in turn
  *      LEDs_SetAllLEDs(LEDS_LED1);
  *      Delay_MS(500);
- *      LEDs_SetAllLEDs(LEDS_LED1);
+ *      LEDs_SetAllLEDs(LEDS_LED2);
  *      Delay_MS(500);
- *      LEDs_SetAllLEDs(LEDS_LED1);
+ *      LEDs_SetAllLEDs(LEDS_LED3);
  *      Delay_MS(500);
- *      LEDs_SetAllLEDs(LEDS_LED1);
+ *      LEDs_SetAllLEDs(LEDS_LED4);
  *      Delay_MS(500);
- *
+ *      
  *      // Turn on all LEDs
  *      LEDs_SetAllLEDs(LEDS_ALL_LEDS);
  *      Delay_MS(1000);
- *
+ *      
  *      // Turn on LED 1, turn off LED 2, leaving LEDs 3 and 4 in their current state
  *      LEDs_ChangeLEDs((LEDS_LED1 | LEDS_LED2), LEDS_LED1);
  *  \endcode
@@ -109,6 +109,7 @@
 
 		#if (BOARD == BOARD_NONE)
 			static inline void LEDs_Init(void) {};
+			static inline void LEDs_Disable(void) {};
 			static inline void LEDs_TurnOnLEDs(const uint_reg_t LEDMask) {};
 			static inline void LEDs_TurnOffLEDs(const uint_reg_t LEDMask) {};
 			static inline void LEDs_SetAllLEDs(const uint_reg_t LEDMask) {};
@@ -173,8 +174,29 @@
 			#include "UC3/EVK1104/LEDs.h"
 		#elif (BOARD == BOARD_A3BU_XPLAINED)
 			#include "XMEGA/A3BU_XPLAINED/LEDs.h"
-		#elif ((BOARD == BOARD_USB2AX) || (BOARD == BOARD_USB2AX_V3))
+		#elif ((BOARD == BOARD_USB2AX) || (BOARD == BOARD_USB2AX_V3) || (BOARD == BOARD_USB2AX_V31))
 			#include "AVR8/USB2AX/LEDs.h"
+		#elif ((BOARD == BOARD_MICROPENDOUS_REV1) || (BOARD == BOARD_MICROPENDOUS_REV2) || \
+		       (BOARD == BOARD_MICROPENDOUS_32U2))
+			#include "AVR8/MICROPENDOUS/LEDs.h"
+		#elif (BOARD == BOARD_B1_XPLAINED)
+			#include "XMEGA/B1_XPLAINED/LEDs.h"
+		#elif (BOARD == BOARD_MULTIO)
+			#include "AVR8/MULTIO/LEDs.h"
+		#elif (BOARD == BOARD_BIGMULTIO)
+			#include "AVR8/BIGMULTIO/LEDs.h"
+		#elif (BOARD == BOARD_DUCE)
+			#include "AVR8/DUCE/LEDs.h"
+		#elif (BOARD == BOARD_OLIMEX32U4)
+			#include "AVR8/OLIMEX32U4/LEDs.h"
+		#elif (BOARD == BOARD_OLIMEXT32U4)
+			#include "AVR8/OLIMEXT32U4/LEDs.h"
+		#elif (BOARD == BOARD_OLIMEXISPMK2)
+			#include "AVR8/OLIMEXISPMK2/LEDs.h"
+		#elif (BOARD == BOARD_LEONARDO)
+			#include "AVR8/LEONARDO/LEDs.h"
+		#elif (BOARD == BOARD_UC3A3_XPLAINED)
+			#include "UC3/UC3A3_XPLAINED/LEDs.h"
 		#else
 			#include "Board/LEDs.h"
 		#endif
@@ -202,8 +224,13 @@
 	#if defined(__DOXYGEN__)
 		/** Initializes the board LED driver so that the LEDs can be controlled. This sets the appropriate port
 		 *  I/O pins as outputs, and sets the LEDs to default to off.
+		 *
+		 *  This must be called before any LED driver functions are used.
 		 */
 		static inline void LEDs_Init(void);
+
+		/** Disables the board LED driver, releasing the I/O pins back to their default high-impedance input mode. */
+		static inline void LEDs_Disable(void);
 
 		/** Turns on the LEDs specified in the given LED mask.
 		 *
@@ -242,7 +269,7 @@
 		/** Returns the status of all the board LEDs; set LED masks in the return value indicate that the
 		 *  corresponding LED is on.
 		 *
-		 *  \return Mask of the board LEDs which are currently turned on.
+		 *  \return Mask of \c LEDS_LED* constants indicating which of the board LEDs are currently turned on.
 		 */
 		static inline uint_reg_t LEDs_GetLEDs(void) ATTR_WARN_UNUSED_RESULT;
 	#endif

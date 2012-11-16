@@ -1,24 +1,24 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
-      www.fourwalledcubicle.com
+           www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
-  Permission to use, copy, modify, and distribute this software
-  and its documentation for any purpose and without fee is hereby
-  granted, provided that the above copyright notice appear in all
-  copies and that both that the copyright notice and this
+  Permission to use, copy, modify, distribute, and sell this
+  software and its documentation for any purpose is hereby granted
+  without fee, provided that the above copyright notice appear in
+  all copies and that both that the copyright notice and this
   permission notice and warranty disclaimer appear in supporting
   documentation, and that the name of the author not be used in
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -41,6 +41,13 @@
  *  \brief Board specific Buttons driver header for the Atmel XMEGA A3BU Xplained.
  *
  *  Board specific Buttons driver header for the Atmel XMEGA A3BU Xplained.
+ *
+ *  <table>
+ *    <tr><th>Name</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>BUTTONS_BUTTON1</td><td>SW0 Button</td><td>Low</td><td>PORTE.5</td></tr>
+ *    <tr><td>BUTTONS_BUTTON2</td><td>SW1 Button</td><td>Low</td><td>PORTF.1</td></tr>
+ *    <tr><td>BUTTONS_BUTTON3</td><td>SW2 Button</td><td>Low</td><td>PORTF.2</td></tr>
+ *  </table>
  *
  *  @{
  */
@@ -76,18 +83,28 @@
 		#if !defined(__DOXYGEN__)
 			static inline void Buttons_Init(void)
 			{
-				PORTE_OUTCLR = BUTTONS_BUTTON1;
-				PORTF_OUTCLR = (BUTTONS_BUTTON2 | BUTTONS_BUTTON3);
+				PORTE.OUTCLR   = BUTTONS_BUTTON1;
+				PORTE.PIN5CTRL = (PORT_OPC_PULLUP_gc | PORT_INVEN_bm);
 
-				PORTE_PIN5CTRL = PORT_OPC_PULLUP_gc;
-				PORTF_PIN1CTRL = PORT_OPC_PULLUP_gc;
-				PORTF_PIN2CTRL = PORT_OPC_PULLUP_gc;
+				PORTF.OUTCLR   = (BUTTONS_BUTTON2 | BUTTONS_BUTTON3);
+				PORTF.PIN1CTRL = (PORT_OPC_PULLUP_gc | PORT_INVEN_bm);
+				PORTF.PIN2CTRL = (PORT_OPC_PULLUP_gc | PORT_INVEN_bm);
+			}
+
+			static inline void Buttons_Disable(void)
+			{
+				PORTE.OUTCLR   = BUTTONS_BUTTON1;
+				PORTE.PIN5CTRL = 0;
+				
+				PORTF.OUTCLR   = (BUTTONS_BUTTON2 | BUTTONS_BUTTON3);
+				PORTF.PIN1CTRL = 0;
+				PORTF.PIN2CTRL = 0;
 			}
 
 			static inline uint8_t Buttons_GetStatus(void) ATTR_WARN_UNUSED_RESULT;
 			static inline uint8_t Buttons_GetStatus(void)
 			{
-				return ((~PORTE_IN & BUTTONS_BUTTON1) | (~PORTF_IN & (BUTTONS_BUTTON2 | BUTTONS_BUTTON3)));
+				return ((PORTE_IN & BUTTONS_BUTTON1) | (PORTF_IN & (BUTTONS_BUTTON2 | BUTTONS_BUTTON3)));
 			}
 		#endif
 

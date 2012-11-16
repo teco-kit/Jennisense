@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -62,6 +62,10 @@
 	/* Preprocessor Checks: */
 		#if !defined(__INCLUDE_FROM_USB_DRIVER)
 			#error Do not include this file directly. Include LUFA/Drivers/USB/USB.h instead.
+		#endif
+
+		#if defined(INVERTED_VBUS_ENABLE_LINE) && !defined(NO_AUTO_VBUS_MANAGEMENT)
+			#error The INVERTED_VBUS_ENABLE_LINE compile option requires NO_AUTO_VBUS_MANAGEMENT for the AVR8 architecture.
 		#endif
 
 	/* Public Interface - May be used in end-application: */
@@ -142,7 +146,7 @@
 				 *  \ref EVENT_USB_Host_StartOfFrame() event to fire once per millisecond, synchronized to the USB bus,
 				 *  at the start of each USB frame when a device is enumerated while in host mode.
 				 *
-				 *  \note Not available when the \c NO_SOF_EVENTS compile time token is defined.
+				 *  \note This function is not available when the \c NO_SOF_EVENTS compile time token is defined.
 				 */
 				static inline void USB_Host_EnableSOFEvents(void) ATTR_ALWAYS_INLINE;
 				static inline void USB_Host_EnableSOFEvents(void)
@@ -153,7 +157,7 @@
 				/** Disables the host mode Start Of Frame events. When disabled, this stops the firing of the
 				 *  \ref EVENT_USB_Host_StartOfFrame() event when enumerated in host mode.
 				 *
-				 *  \note Not available when the NO_SOF_EVENTS compile time token is defined.
+				 *  \note This function is not available when the \c NO_SOF_EVENTS compile time token is defined.
 				 */
 				static inline void USB_Host_DisableSOFEvents(void) ATTR_ALWAYS_INLINE;
 				static inline void USB_Host_DisableSOFEvents(void)
@@ -199,8 +203,8 @@
 			 *  device until the bus has been resumed. This stops the transmission of the 1MS Start Of Frame
 			 *  messages to the device.
 			 *
-			 *  \note While the USB bus is suspended, all USB interrupt sources are also disabled; this means that
-			 *        some events (such as device disconnections) will not fire until the bus is resumed.
+			 *  \attention While the USB bus is suspended, all USB interrupt sources are also disabled; this means that
+			 *             some events (such as device disconnections) will not fire until the bus is resumed.
 			 */
 			static inline void USB_Host_SuspendBus(void) ATTR_ALWAYS_INLINE;
 			static inline void USB_Host_SuspendBus(void)
@@ -310,7 +314,11 @@
 			static inline void USB_Host_VBUS_Manual_On(void) ATTR_ALWAYS_INLINE;
 			static inline void USB_Host_VBUS_Manual_On(void)
 			{
+				#if defined(INVERTED_VBUS_ENABLE_LINE)
+				PORTE  &= ~(1 << 7);
+				#else
 				PORTE  |=  (1 << 7);
+				#endif
 			}
 
 			static inline void USB_Host_VBUS_Auto_Off(void) ATTR_ALWAYS_INLINE;
@@ -322,7 +330,11 @@
 			static inline void USB_Host_VBUS_Manual_Off(void) ATTR_ALWAYS_INLINE;
 			static inline void USB_Host_VBUS_Manual_Off(void)
 			{
+				#if defined(INVERTED_VBUS_ENABLE_LINE)
+				PORTE  |=  (1 << 7);
+				#else
 				PORTE  &= ~(1 << 7);
+				#endif
 			}
 
 			static inline void USB_Host_SetDeviceAddress(const uint8_t Address) ATTR_ALWAYS_INLINE;

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -77,17 +77,12 @@
 			 */
 			typedef struct
 			{
-				const struct
+				struct
 				{
 					uint8_t  InterfaceNumber; /**< Interface number of the Mass Storage interface within the device. */
 
-					uint8_t  DataINEndpointNumber; /**< Endpoint number of the Mass Storage interface's IN data endpoint. */
-					uint16_t DataINEndpointSize; /**< Size in bytes of the Mass Storage interface's IN data endpoint. */
-					bool     DataINEndpointDoubleBank; /**< Indicates if the Mass Storage interface's IN data endpoint should use double banking. */
-
-					uint8_t  DataOUTEndpointNumber; /**< Endpoint number of the Mass Storage interface's OUT data endpoint. */
-					uint16_t DataOUTEndpointSize;  /**< Size in bytes of the Mass Storage interface's OUT data endpoint. */
-					bool     DataOUTEndpointDoubleBank; /**< Indicates if the Mass Storage interface's OUT data endpoint should use double banking. */
+					USB_Endpoint_Table_t DataINEndpoint; /**< Data IN endpoint configuration table. */
+					USB_Endpoint_Table_t DataOUTEndpoint; /**< Data OUT endpoint configuration table. */
 
 					uint8_t  TotalLUNs; /**< Total number of logical drives in the Mass Storage interface. */
 				} Config; /**< Config data for the USB class interface within the device. All elements in this section

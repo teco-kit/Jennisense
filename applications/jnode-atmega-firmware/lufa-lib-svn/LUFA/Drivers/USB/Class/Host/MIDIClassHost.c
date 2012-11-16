@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -78,45 +78,19 @@ uint8_t MIDI_Host_ConfigurePipes(USB_ClassInfo_MIDI_Host_t* const MIDIInterfaceI
 		  DataOUTEndpoint = EndpointData;
 	}
 
-	for (uint8_t PipeNum = 1; PipeNum < PIPE_TOTAL_PIPES; PipeNum++)
-	{
-		uint16_t Size;
-		uint8_t  Type;
-		uint8_t  Token;
-		uint8_t  EndpointAddress;
-		bool     DoubleBanked;
-
-		if (PipeNum == MIDIInterfaceInfo->Config.DataINPipeNumber)
-		{
-			Size            = le16_to_cpu(DataINEndpoint->EndpointSize);
-			EndpointAddress = DataINEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_IN;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = MIDIInterfaceInfo->Config.DataINPipeDoubleBank;
-
-			MIDIInterfaceInfo->State.DataINPipeSize = DataINEndpoint->EndpointSize;
-		}
-		else if (PipeNum == MIDIInterfaceInfo->Config.DataOUTPipeNumber)
-		{
-			Size            = le16_to_cpu(DataOUTEndpoint->EndpointSize);
-			EndpointAddress = DataOUTEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_OUT;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = MIDIInterfaceInfo->Config.DataOUTPipeDoubleBank;
-
-			MIDIInterfaceInfo->State.DataOUTPipeSize = DataOUTEndpoint->EndpointSize;
-		}
-		else
-		{
-			continue;
-		}
-
-		if (!(Pipe_ConfigurePipe(PipeNum, Type, Token, EndpointAddress, Size,
-		                         DoubleBanked ? PIPE_BANK_DOUBLE : PIPE_BANK_SINGLE)))
-		{
-			return MIDI_ENUMERROR_PipeConfigurationFailed;
-		}
-	}
+	MIDIInterfaceInfo->Config.DataINPipe.Size  = le16_to_cpu(DataINEndpoint->EndpointSize);
+	MIDIInterfaceInfo->Config.DataINPipe.EndpointAddress = DataINEndpoint->EndpointAddress;
+	MIDIInterfaceInfo->Config.DataINPipe.Type  = EP_TYPE_BULK;
+	
+	MIDIInterfaceInfo->Config.DataOUTPipe.Size = le16_to_cpu(DataOUTEndpoint->EndpointSize);
+	MIDIInterfaceInfo->Config.DataOUTPipe.EndpointAddress = DataOUTEndpoint->EndpointAddress;
+	MIDIInterfaceInfo->Config.DataOUTPipe.Type = EP_TYPE_BULK;
+	
+	if (!(Pipe_ConfigurePipeTable(&MIDIInterfaceInfo->Config.DataINPipe, 1)))
+	  return false;
+	
+	if (!(Pipe_ConfigurePipeTable(&MIDIInterfaceInfo->Config.DataOUTPipe, 1)))
+	  return false;	
 
 	MIDIInterfaceInfo->State.InterfaceNumber = MIDIInterface->InterfaceNumber;
 	MIDIInterfaceInfo->State.IsActive = true;
@@ -181,15 +155,21 @@ uint8_t MIDI_Host_Flush(USB_ClassInfo_MIDI_Host_t* const MIDIInterfaceInfo)
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(MIDIInterfaceInfo->Config.DataOUTPipeNumber);
-
+	Pipe_SelectPipe(MIDIInterfaceInfo->Config.DataOUTPipe.Address);
+	Pipe_Unfreeze();
+	
 	if (Pipe_BytesInPipe())
 	{
 		Pipe_ClearOUT();
 
 		if ((ErrorCode = Pipe_WaitUntilReady()) != PIPE_READYWAIT_NoError)
-		  return ErrorCode;
+		{
+			Pipe_Freeze();
+			return ErrorCode;
+		}
 	}
+
+	Pipe_Freeze();
 
 	return PIPE_READYWAIT_NoError;
 }
@@ -202,13 +182,19 @@ uint8_t MIDI_Host_SendEventPacket(USB_ClassInfo_MIDI_Host_t* const MIDIInterface
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(MIDIInterfaceInfo->Config.DataOUTPipeNumber);
-
+	Pipe_SelectPipe(MIDIInterfaceInfo->Config.DataOUTPipe.Address);
+	Pipe_Unfreeze();
+	
 	if ((ErrorCode = Pipe_Write_Stream_LE(Event, sizeof(MIDI_EventPacket_t), NULL)) != PIPE_RWSTREAM_NoError)
-	  return ErrorCode;
+	{
+		Pipe_Freeze();
+		return ErrorCode;
+	}
 
 	if (!(Pipe_IsReadWriteAllowed()))
 	  Pipe_ClearOUT();
+
+	Pipe_Freeze();
 
 	return PIPE_RWSTREAM_NoError;
 }
@@ -218,18 +204,27 @@ bool MIDI_Host_ReceiveEventPacket(USB_ClassInfo_MIDI_Host_t* const MIDIInterface
 {
 	if ((USB_HostState != HOST_STATE_Configured) || !(MIDIInterfaceInfo->State.IsActive))
 	  return HOST_SENDCONTROL_DeviceDisconnected;
+	  
+	bool DataReady = false;
 
-	Pipe_SelectPipe(MIDIInterfaceInfo->Config.DataINPipeNumber);
+	Pipe_SelectPipe(MIDIInterfaceInfo->Config.DataINPipe.Address);
+	Pipe_Unfreeze();
 
-	if (!(Pipe_IsReadWriteAllowed()))
-	  return false;
+	if (Pipe_IsINReceived())
+	{
+		if (Pipe_BytesInPipe())
+		{
+			Pipe_Read_Stream_LE(Event, sizeof(MIDI_EventPacket_t), NULL);
+			DataReady = true;
+		}
 
-	Pipe_Read_Stream_LE(Event, sizeof(MIDI_EventPacket_t), NULL);
-
-	if (!(Pipe_IsReadWriteAllowed()))
-	  Pipe_ClearIN();
-
-	return true;
+		if (!(Pipe_BytesInPipe()))
+		  Pipe_ClearIN();
+	}
+	
+	Pipe_Freeze();
+	
+	return DataReady;
 }
 
 #endif

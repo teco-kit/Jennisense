@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -27,6 +27,9 @@
   arising out of or in connection with the use or performance of
   this software.
 */
+
+#include "../../../../Common/Common.h"
+#if (ARCH == ARCH_UC3)
 
 #define  __INCLUDE_FROM_USB_DRIVER
 #include "../USBMode.h"
@@ -42,10 +45,27 @@ uint8_t USB_Device_ControlEndpointSize = ENDPOINT_CONTROLEP_DEFAULT_SIZE;
 volatile uint32_t USB_Endpoint_SelectedEndpoint = ENDPOINT_CONTROLEP;
 volatile uint8_t* USB_Endpoint_FIFOPos[ENDPOINT_TOTAL_ENDPOINTS];
 
+bool Endpoint_ConfigureEndpointTable(const USB_Endpoint_Table_t* const Table,
+                                     const uint8_t Entries)
+{
+	for (uint8_t i = 0; i < Entries; i++)
+	{
+		if (!(Table[i].Address))
+		  continue;
+	
+		if (!(Endpoint_ConfigureEndpoint(Table[i].Address, Table[i].Type, Table[i].Size, Table[i].Banks)))
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
+
 bool Endpoint_ConfigureEndpoint_Prv(const uint8_t Number,
                                     const uint32_t UECFG0Data)
 {
-	USB_Endpoint_FIFOPos[Number] = &AVR32_USBB_SLAVE[Number * 0x10000];
+	USB_Endpoint_FIFOPos[Number] = &AVR32_USBB_SLAVE[Number * ENDPOINT_HSB_ADDRESS_SPACE_SIZE];
 
 #if defined(CONTROL_ONLY_DEVICE) || defined(ORDERED_EP_CONFIG)
 	Endpoint_SelectEndpoint(Number);
@@ -173,3 +193,4 @@ uint8_t Endpoint_WaitUntilReady(void)
 
 #endif
 
+#endif

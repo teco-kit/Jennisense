@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -94,8 +94,8 @@
 			 *
 			 *  \param[in]  x  Version number to encode as a 16-bit little-endian number, as a floating point number.
 			 */
-			#define VERSION_BCD(x)                    CPU_TO_LE16((((VERSION_TENS(x) << 4) | VERSION_ONES(x)) << 8) | \
-			                                          ((VERSION_TENTHS(x) << 4) | VERSION_HUNDREDTHS(x)))
+			#define VERSION_BCD(x)                    CPU_TO_LE16((VERSION_TENS(x) << 12)  | (VERSION_ONES(x) << 8) | \
+			                                                      (VERSION_TENTHS(x) << 4) | (VERSION_HUNDREDTHS(x) << 0) )
 
 			/** String language ID for the English language. Should be used in \ref USB_Descriptor_String_t descriptors
 			 *  to indicate that the English language is supported by the device in its string descriptors.
@@ -105,7 +105,7 @@
 			/** \name USB Configuration Descriptor Attribute Masks */
 			//@{
 			/** Mask for the reserved bit in the Configuration Descriptor's \c ConfigAttributes field, which must be set on all
-			 *  devices for historial purposes.
+			 *  devices for historical purposes.
 			 */
 			#define USB_CONFIG_ATTR_RESERVED          0x80
 
@@ -431,8 +431,8 @@
 				uint8_t  ConfigurationNumber; /**< Configuration index of the current configuration. */
 				uint8_t  ConfigurationStrIndex; /**< Index of a string descriptor describing the configuration. */
 
-				uint8_t  ConfigAttributes; /**< Configuration attributes, comprised of a mask of zero or
-				                            *   more USB_CONFIG_ATTR_* masks.
+				uint8_t  ConfigAttributes; /**< Configuration attributes, comprised of a mask of \c USB_CONFIG_ATTR_* masks.
+				                            *   On all devices, this should include USB_CONFIG_ATTR_RESERVED at a minimum.
 				                            */
 
 				uint8_t  MaxPowerConsumption; /**< Maximum power consumption of the device while in the
@@ -462,8 +462,8 @@
 				uint8_t  bNumInterfaces; /**< Total number of interfaces in the configuration. */
 				uint8_t  bConfigurationValue; /**< Configuration index of the current configuration. */
 				uint8_t  iConfiguration; /**< Index of a string descriptor describing the configuration. */
-				uint8_t  bmAttributes; /**< Configuration attributes, comprised of a mask of zero or
-				                        *   more USB_CONFIG_ATTR_* masks.
+				uint8_t  bmAttributes; /**< Configuration attributes, comprised of a mask of \c USB_CONFIG_ATTR_* masks.
+				                        *   On all devices, this should include USB_CONFIG_ATTR_RESERVED at a minimum.
 				                        */
 				uint8_t  bMaxPower; /**< Maximum power consumption of the device while in the
 				                     *   current configuration, calculated by the \ref USB_CONFIG_POWER_MA()
@@ -722,10 +722,10 @@
 	/* Private Interface - For use in library only: */
 	#if !defined(__DOXYGEN__)
 		/* Macros: */
-			#define VERSION_TENS(x)                   (int)((x) / 10)
-			#define VERSION_ONES(x)                   (int)((x) - (10 * VERSION_TENS(x)))
-			#define VERSION_TENTHS(x)                 (int)(((x) - (int)(x)) * 10)
-			#define VERSION_HUNDREDTHS(x)             (int)((((x) - (int)(x)) * 100) - (10 * VERSION_TENTHS(x)))
+			#define VERSION_TENS(x)                   (int)((int)(x) / 10)
+			#define VERSION_ONES(x)                   (int)((int)(x) % 10)
+			#define VERSION_TENTHS(x)                 (int)((x - (int)x) * 10)
+			#define VERSION_HUNDREDTHS(x)             (int)((x * 100) - ((int)(x * 10) * 10))
 	#endif
 
 	/* Disable C linkage for C++ Compilers: */

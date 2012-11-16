@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -51,7 +51,7 @@ int main(void)
 	SetupHardware();
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{
@@ -77,7 +77,7 @@ void SetupHardware(void)
 	USB_Init();
 
 	/* Start the ADC conversion in free running mode */
-	ADC_StartReading(ADC_REFERENCE_AVCC | ADC_RIGHT_ADJUSTED | MIC_IN_ADC_MUX_MASK);
+	ADC_StartReading(ADC_REFERENCE_AVCC | ADC_RIGHT_ADJUSTED | ADC_GET_CHANNEL_MASK(MIC_IN_ADC_CHANNEL));
 }
 
 /** Event handler for the USB_Connect event. This indicates that the device is enumerating via the status LEDs, and
@@ -118,8 +118,7 @@ void EVENT_USB_Device_ConfigurationChanged(void)
 	bool ConfigSuccess = true;
 
 	/* Setup Audio Stream Endpoint */
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(AUDIO_STREAM_EPNUM, EP_TYPE_ISOCHRONOUS, ENDPOINT_DIR_IN,
-	                                            AUDIO_STREAM_EPSIZE, ENDPOINT_BANK_DOUBLE);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(AUDIO_STREAM_EPADDR, EP_TYPE_ISOCHRONOUS, AUDIO_STREAM_EPSIZE, 2);
 
 	/* Indicate endpoint configuration success or failure */
 	LEDs_SetAllLEDs(ConfigSuccess ? LEDMASK_USB_READY : LEDMASK_USB_ERROR);
@@ -165,7 +164,7 @@ void EVENT_USB_Device_ControlRequest(void)
 				uint8_t EndpointControl = (USB_ControlRequest.wValue >> 8);
 
 				/* Only handle SET CURRENT requests to the audio endpoint's sample frequency property */
-				if ((EndpointAddress == (ENDPOINT_DIR_IN | AUDIO_STREAM_EPNUM)) && (EndpointControl == AUDIO_EPCONTROL_SamplingFreq))
+				if ((EndpointAddress == AUDIO_STREAM_EPADDR) && (EndpointControl == AUDIO_EPCONTROL_SamplingFreq))
 				{
 					uint8_t SampleRate[3];
 
@@ -190,7 +189,7 @@ void EVENT_USB_Device_ControlRequest(void)
 				uint8_t EndpointControl = (USB_ControlRequest.wValue >> 8);
 
 				/* Only handle GET CURRENT requests to the audio endpoint's sample frequency property */
-				if ((EndpointAddress == (ENDPOINT_DIR_IN | AUDIO_STREAM_EPNUM)) && (EndpointControl == AUDIO_EPCONTROL_SamplingFreq))
+				if ((EndpointAddress == AUDIO_STREAM_EPADDR) && (EndpointControl == AUDIO_EPCONTROL_SamplingFreq))
 				{
 					uint8_t SampleRate[3];
 
@@ -215,7 +214,7 @@ ISR(TIMER0_COMPA_vect, ISR_BLOCK)
 	uint8_t PrevEndpoint = Endpoint_GetCurrentEndpoint();
 
 	/* Select the audio stream endpoint */
-	Endpoint_SelectEndpoint(AUDIO_STREAM_EPNUM);
+	Endpoint_SelectEndpoint(AUDIO_STREAM_EPADDR);
 
 	/* Check if the current endpoint can be written to and that the audio interface is enabled */
 	if (Endpoint_IsINReady() && StreamingAudioInterfaceSelected)

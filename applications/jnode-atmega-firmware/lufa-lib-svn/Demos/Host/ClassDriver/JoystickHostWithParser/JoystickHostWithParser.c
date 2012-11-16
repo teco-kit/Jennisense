@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -47,14 +47,17 @@ USB_ClassInfo_HID_Host_t Joystick_HID_Interface =
 	{
 		.Config =
 			{
-				.DataINPipeNumber       = 1,
-				.DataINPipeDoubleBank   = false,
-
-				.DataOUTPipeNumber      = 2,
-				.DataOUTPipeDoubleBank  = false,
-
+				.DataINPipe             =
+					{
+						.Address        = (PIPE_DIR_IN  | 1),
+						.Banks          = 1,
+					},
+				.DataOUTPipe            =
+					{
+						.Address        = (PIPE_DIR_OUT | 2),
+						.Banks          = 1,
+					},
 				.HIDInterfaceProtocol   = HID_CSCP_NonBootProtocol,
-
 				.HIDParserData          = &HIDReportInfo
 			},
 	};
@@ -70,7 +73,7 @@ int main(void)
 	puts_P(PSTR(ESC_FG_CYAN "Joystick Host Demo running.\r\n" ESC_FG_WHITE));
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{

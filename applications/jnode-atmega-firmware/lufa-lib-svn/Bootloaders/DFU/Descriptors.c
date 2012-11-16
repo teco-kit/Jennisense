@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -57,8 +57,8 @@ const USB_Descriptor_Device_t DeviceDescriptor =
 	.ProductID              = PRODUCT_ID_CODE,
 	.ReleaseNumber          = VERSION_BCD(00.00),
 
-	.ManufacturerStrIndex   = NO_DESCRIPTOR,
-	.ProductStrIndex        = 0x01,
+	.ManufacturerStrIndex   = 0x01,
+	.ProductStrIndex        = 0x02,
 	.SerialNumStrIndex      = NO_DESCRIPTOR,
 
 	.NumberOfConfigurations = FIXED_NUM_CONFIGURATIONS
@@ -111,7 +111,7 @@ const USB_Descriptor_Configuration_t ConfigurationDescriptor =
 			.DetachTimeout          = 0x0000,
 			.TransferSize           = 0x0C00,
 
-			.DFUSpecification       = VERSION_BCD(01.01)
+			.DFUSpecification       = VERSION_BCD(01.10)
 		}
 };
 
@@ -126,15 +126,26 @@ const USB_Descriptor_String_t LanguageString =
 	.UnicodeString          = {LANGUAGE_ID_ENG}
 };
 
+/** Manufacturer descriptor string. This is a Unicode string containing the manufacturer's details in human readable
+ *  form, and is read out upon request by the host when the appropriate string ID is requested, listed in the Device
+ *  Descriptor.
+ */
+const USB_Descriptor_String_t ManufacturerString =
+{
+	.Header                 = {.Size = USB_STRING_LEN(11), .Type = DTYPE_String},
+
+	.UnicodeString          = L"Dean Camera"
+};
+
 /** Product descriptor string. This is a Unicode string containing the product's details in human readable form,
  *  and is read out upon request by the host when the appropriate string ID is requested, listed in the Device
  *  Descriptor.
  */
 const USB_Descriptor_String_t ProductString =
 {
-	.Header                 = {.Size = USB_STRING_LEN(18), .Type = DTYPE_String},
+	.Header                 = {.Size = USB_STRING_LEN(8), .Type = DTYPE_String},
 
-	.UnicodeString          = L"AVR DFU Bootloader"
+	.UnicodeString          = L"LUFA DFU"
 };
 
 /** This function is called by the library when in device mode, and must be overridden (see library "USB Descriptors"
@@ -169,7 +180,12 @@ uint16_t CALLBACK_USB_GetDescriptor(const uint16_t wValue,
 				Address = &LanguageString;
 				Size    = LanguageString.Header.Size;
 			}
-			else
+			else if (DescriptorNumber == 0x01)
+			{
+				Address = &ManufacturerString;
+				Size    = ManufacturerString.Header.Size;
+			}
+			else if (DescriptorNumber == 0x02)
 			{
 				Address = &ProductString;
 				Size    = ProductString.Header.Size;

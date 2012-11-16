@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -78,7 +78,7 @@ void XPROGTarget_EnableTargetTPI(void)
 	DDRD |=  (1 << 5) | (1 << 3);
 	DDRD &= ~(1 << 2);
 
-	/* Set up the synchronous USART for TINY communications - 8 data bits, even parity, 2 stop bits */
+	/* Set up the synchronous USART for TPI communications - 8 data bits, even parity, 2 stop bits */
 	UBRR1  = ((F_CPU / 2 / XPROG_HARDWARE_SPEED) - 1);
 	UCSR1B = (1 << TXEN1);
 	UCSR1C = (1 << UMSEL10) | (1 << UPM11) | (1 << USBS1) | (1 << UCSZ11) | (1 << UCSZ10) | (1 << UCPOL1);
@@ -153,7 +153,7 @@ uint8_t XPROGTarget_ReceiveByte(void)
 	  XPROGTarget_SetRxMode();
 
 	/* Wait until a byte has been received before reading */
-	while (!(UCSR1A & (1 << RXC1)) && !(TimeoutExpired));
+	while (!(UCSR1A & (1 << RXC1)) && TimeoutTicksRemaining);
 
 	return UDR1;
 }

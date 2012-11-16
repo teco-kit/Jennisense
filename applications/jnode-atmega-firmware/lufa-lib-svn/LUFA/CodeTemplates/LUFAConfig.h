@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -28,17 +28,19 @@
   this software.
 */
 
-/*
-   This is a header file which can be used to configure LUFA's
-   compile time options, as an alternative to the compile time
-   constants supplied through a makefile. To use this configuration
-   header, copy this into your project's root directory and supply
-   the \c USE_LUFA_CONFIG_HEADER token to the compiler so that it is
-   defined in all compiled source files.
-
-   For information on what each token does, refer to the LUFA
-   manual section "Summary of Compile Tokens".
-*/
+/** \file
+ *  \brief LUFA Library Configuration Header File (Template)
+ *
+ *  This is a header file which can be used to configure LUFA's
+ *  compile time options, as an alternative to the compile time
+ *  constants supplied through a makefile. To use this configuration
+ *  header, copy this into your project's root directory and supply
+ *  the \c USE_LUFA_CONFIG_HEADER token to the compiler so that it is
+ *  defined in all compiled source files.
+ *
+ *  For information on what each token does, refer to the LUFA
+ *  manual section "Summary of Compile Tokens".
+ */
 
 #ifndef __LUFA_CONFIG_H__
 #define __LUFA_CONFIG_H__
@@ -73,7 +75,7 @@
 //		#define NO_INTERNAL_SERIAL
 //		#define FIXED_CONTROL_ENDPOINT_SIZE      {Insert Value Here}
 //		#define DEVICE_STATE_AS_GPIOR            {Insert Value Here}
-//		#define FIXED_NUM_CONFIGURATION          {Insert Value Here}
+//		#define FIXED_NUM_CONFIGURATIONS         {Insert Value Here}
 //		#define CONTROL_ONLY_DEVICE
 //		#define INTERRUPT_CONTROL_ENDPOINT
 //		#define NO_DEVICE_REMOTE_WAKEUP
@@ -83,6 +85,8 @@
 //		#define HOST_STATE_AS_GPIOR              {Insert Value Here}
 //		#define USB_HOST_TIMEOUT_MS              {Insert Value Here}
 //		#define HOST_DEVICE_SETTLE_DELAY_MS	     {Insert Value Here}
+//      #define NO_AUTO_VBUS_MANAGEMENT
+//      #define INVERTED_VBUS_ENABLE_LINE
 
 	#elif (ARCH == ARCH_XMEGA)
 
@@ -111,8 +115,9 @@
 //		#define NO_INTERNAL_SERIAL
 //		#define FIXED_CONTROL_ENDPOINT_SIZE      {Insert Value Here}
 //		#define DEVICE_STATE_AS_GPIOR            {Insert Value Here}
-//		#define FIXED_NUM_CONFIGURATION          {Insert Value Here}
+//		#define FIXED_NUM_CONFIGURATIONS         {Insert Value Here}
 //		#define CONTROL_ONLY_DEVICE
+// 		#define MAX_ENDPOINT_INDEX               {Insert Value Here}
 //		#define NO_DEVICE_REMOTE_WAKEUP
 //		#define NO_DEVICE_SELF_POWER
 
@@ -141,7 +146,7 @@
 		/* USB Device Mode Driver Related Tokens: */
 //		#define NO_INTERNAL_SERIAL
 //		#define FIXED_CONTROL_ENDPOINT_SIZE      {Insert Value Here}
-//		#define FIXED_NUM_CONFIGURATION          {Insert Value Here}
+//		#define FIXED_NUM_CONFIGURATIONS         {Insert Value Here}
 //		#define CONTROL_ONLY_DEVICE
 //		#define INTERRUPT_CONTROL_ENDPOINT
 //		#define NO_DEVICE_REMOTE_WAKEUP
@@ -150,6 +155,12 @@
 		/* USB Host Mode Driver Related Tokens: */
 //		#define USB_HOST_TIMEOUT_MS              {Insert Value Here}
 //		#define HOST_DEVICE_SETTLE_DELAY_MS	     {Insert Value Here}
+//      #define NO_AUTO_VBUS_MANAGEMENT
+//      #define INVERTED_VBUS_ENABLE_LINE
+
+	#else
+
+		#error Unsupported architecture for this LUFA configuration file.
 
 	#endif
 #endif

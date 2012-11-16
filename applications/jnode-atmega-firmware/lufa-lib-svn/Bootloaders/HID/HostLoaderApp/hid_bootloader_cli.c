@@ -195,7 +195,9 @@ usb_dev_handle * open_usb_device(int vid, int pid)
 	struct usb_bus *bus;
 	struct usb_device *dev;
 	usb_dev_handle *h;
+	#ifdef LIBUSB_HAS_GET_DRIVER_NP
 	char buf[128];
+	#endif
 	int r;
 
 	usb_init();
@@ -390,19 +392,7 @@ int write_usb_device(HANDLE h, void *buf, int len, int timeout)
 		if (r != WAIT_OBJECT_0) return 0;
 	}
 	if (!GetOverlappedResult(h, &ov, &n, FALSE)) return 0;
-	if (n <= 0) return 0;
 	return 1;
-}
-
-void print_win32_err(void)
-{
-        char buf[256];
-        DWORD err;
-
-        err = GetLastError();
-        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, err,
-                0, buf, sizeof(buf), NULL);
-        printf("err %ld: %s\n", err, buf);
 }
 
 static HANDLE win32_teensy_handle = NULL;
@@ -667,6 +657,11 @@ int hard_reboot(void)
 #include <dev/usb/usb_ioctl.h>
 #endif
 
+#ifndef USB_GET_DEVICEINFO
+# define USB_GET_DEVICEINFO 0
+# error The USB_GET_DEVICEINFO ioctl() value is not defined for your system.
+#endif
+
 int open_usb_device(int vid, int pid)
 {
 	int r, fd;
@@ -722,7 +717,7 @@ int teensy_write(void *buf, int len, double timeout)
 {
 	int r;
 
-	// TODO: imeplement timeout... how??
+	// TODO: implement timeout... how??
 	r = write(uhid_teensy_fd, buf, len);
 	if (r == len) return 1;
 	return 0;
@@ -801,6 +796,7 @@ int read_intel_hex(const char *filename)
 		if (*buf) {
 			if (parse_hex_line(buf) == 0) {
 				//printf("Warning, parse error line %d\n", lineno);
+				fclose(fp);
 				return -2;
 			}
 		}
@@ -816,7 +812,7 @@ int read_intel_hex(const char *filename)
 
 /* parses a line of intel hex code, stores the data in bytes[] */
 /* and the beginning address in addr, and returns a 1 if the */
-/* line was valid, or a 0 if an error occured.  The variable */
+/* line was valid, or a 0 if an error occurred.  The variable */
 /* num gets the number of bytes that were stored into bytes[] */
 
 
@@ -979,13 +975,9 @@ void parse_options(int argc, char **argv)
 			} else if (strncmp(arg, "-mmcu=", 6) == 0) {
 				arg += 6;
 
-				uint8_t valid_prefix = 0;
-
 				if (strncmp(arg, "at90usb", 7) == 0) {
-					valid_prefix = 1;
 					arg += 7;
 				} else if (strncmp(arg, "atmega", 6) == 0) {
-					valid_prefix = 1;
 					arg += 6;
 				} else {
 					die("Unknown MCU type\n");

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -63,25 +63,45 @@
 
 	/* Public Interface - May be used in end-application: */
 		/* Macros: */
-			#if (ARCH == ARCH_AVR8) || defined(__DOXYGEN__)
-				/** Disables the AVR's JTAG bus in software, until a system reset. This will override the current JTAG
-				 *  status as set by the JTAGEN fuse, disabling JTAG debugging and reverting the JTAG pins back to GPIO
-				 *  mode.
-				 *
-				 *  \note This macro is not available for all architectures.
-				 */
-				#define JTAG_DISABLE()                  MACROS{                                      \
-				                                                __asm__ __volatile__ (               \
-				                                                "in __tmp_reg__,__SREG__" "\n\t"     \
-				                                                "cli" "\n\t"                         \
-				                                                "out %1, %0" "\n\t"                  \
-				                                                "out __SREG__, __tmp_reg__" "\n\t"   \
-				                                                "out %1, %0" "\n\t"                  \
-				                                                :                                    \
-				                                                : "r" (1 << JTD),                    \
-				                                                  "M" (_SFR_IO_ADDR(MCUCR))          \
-				                                                : "r0");                             \
-				                                        }MACROE
+			#if (ARCH == ARCH_AVR8) || (ARCH == ARCH_XMEGA) || defined(__DOXYGEN__)
+				#if (ARCH == ARCH_AVR8) || defined(__DOXYGEN__)
+					/** Re-enables the AVR's JTAG bus in software, until a system reset. This will re-enable JTAG debugging
+					 *  interface after is has been disabled in software via \ref JTAG_DISABLE().
+					 *
+					 *  \note This macro is not available for all architectures.
+					 */
+					#define JTAG_ENABLE()                  MACROS{                                      \
+																	__asm__ __volatile__ (               \
+																	"in __tmp_reg__,__SREG__" "\n\t"     \
+																	"cli" "\n\t"                         \
+																	"out %1, %0" "\n\t"                  \
+																	"out __SREG__, __tmp_reg__" "\n\t"   \
+																	"out %1, %0" "\n\t"                  \
+																	:                                    \
+																	: "r" (MCUCR & ~(1 << JTD)),         \
+																	  "M" (_SFR_IO_ADDR(MCUCR))          \
+																	: "r0");                             \
+															}MACROE
+
+					/** Disables the AVR's JTAG bus in software, until a system reset. This will override the current JTAG
+					 *  status as set by the JTAGEN fuse, disabling JTAG debugging and reverting the JTAG pins back to GPIO
+					 *  mode.
+					 *
+					 *  \note This macro is not available for all architectures.
+					 */
+					#define JTAG_DISABLE()                  MACROS{                                      \
+																	__asm__ __volatile__ (               \
+																	"in __tmp_reg__,__SREG__" "\n\t"     \
+																	"cli" "\n\t"                         \
+																	"out %1, %0" "\n\t"                  \
+																	"out __SREG__, __tmp_reg__" "\n\t"   \
+																	"out %1, %0" "\n\t"                  \
+																	:                                    \
+																	: "r" (MCUCR | (1 << JTD)),          \
+																	  "M" (_SFR_IO_ADDR(MCUCR))          \
+																	: "r0");                             \
+															}MACROE
+				#endif
 
 				/** Defines a volatile \c NOP statement which cannot be optimized out by the compiler, and thus can always
 				 *  be set as a breakpoint in the resulting code. Useful for debugging purposes, where the optimizer
@@ -116,9 +136,10 @@
 				 *
 				 *  \param[in] Condition  Condition that will be evaluated,
 				 */
-				#define STDOUT_ASSERT(Condition)        MACROS{ if (!(x)) { printf_P(PSTR("%s: Function \"%s\", Line %d: "   \
-				                                                "Assertion \"%s\" failed.\r\n"),     \
-				                                                __FILE__, __func__, __LINE__, #Condition); } }MACROE
+				#define STDOUT_ASSERT(Condition)        MACROS{ if (!(x)) {                                             \
+				                                                     printf_P(PSTR("%s: Function \"%s\", Line %d: "     \
+				                                                                   "Assertion \"%s\" failed.\r\n"),     \
+				                                                                   __FILE__, __func__, __LINE__, #Condition); } }MACROE
 
 				#if !defined(pgm_read_ptr) || defined(__DOXYGEN__)
 					/** Reads a pointer out of PROGMEM space on the AVR8 architecture. This is currently a wrapper for the
@@ -135,6 +156,14 @@
 					 */
 					#define pgm_read_ptr(Address)        (void*)pgm_read_word(Address)
 				#endif
+			#elif (ARCH == ARCH_UC3)
+				#define JTAG_DEBUG_POINT()              __asm__ __volatile__ ("nop" ::)
+				#define JTAG_DEBUG_BREAK()              __asm__ __volatile__ ("breakpoint" ::)
+				#define JTAG_ASSERT(Condition)          MACROS{ if (!(Condition)) { JTAG_DEBUG_BREAK(); } }MACROE
+				#define STDOUT_ASSERT(Condition)        MACROS{ if (!(x)) {                                      \
+				                                                     printf("%s: Function \"%s\", Line %d: "     \
+				                                                            "Assertion \"%s\" failed.\r\n"),     \
+				                                                            __FILE__, __func__, __LINE__, #Condition); } }MACROE
 			#endif
 
 	/* Disable C linkage for C++ Compilers: */

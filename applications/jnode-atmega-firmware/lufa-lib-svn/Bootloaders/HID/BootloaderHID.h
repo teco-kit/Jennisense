@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -30,11 +30,11 @@
 
 /** \file
  *
- *  Header file for TeensyHID.c.
+ *  Header file for BootloaderHID.c.
  */
 
-#ifndef _TEENSYHID_H_
-#define _TEENSYHID_H_
+#ifndef _BOOTLOADERHID_H_
+#define _BOOTLOADERHID_H_
 
 	/* Includes: */
 		#include <avr/io.h>
@@ -52,9 +52,14 @@
 		/** Bootloader special address to start the user application */
 		#define COMMAND_STARTAPPLICATION   0xFFFF
 
+		/** Magic bootloader key to unlock forced application start mode. */
+		#define MAGIC_BOOT_KEY             0xDC42
+		
 	/* Function Prototypes: */
 		static void SetupHardware(void);
 
+		void Application_Jump_Check(void) ATTR_INIT_SECTION(3);
+		
 		void EVENT_USB_Device_ConfigurationChanged(void);
 		void EVENT_USB_Device_UnhandledControlRequest(void);
 

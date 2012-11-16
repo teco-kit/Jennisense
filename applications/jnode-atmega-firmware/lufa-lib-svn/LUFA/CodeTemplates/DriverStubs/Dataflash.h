@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -28,15 +28,17 @@
   this software.
 */
 
-/*
-   This is a stub driver header file, for implementing custom board
-   layout hardware with compatible LUFA board specific drivers. If
-   the library is configured to use the BOARD_USER board mode, this
-   driver file should be completed and copied into the "/Board/" folder
-   inside the application's folder.
-
-   This stub is for the board-specific component of the LUFA Dataflash
-   driver.
+/** \file
+ *  \brief LUFA Custom Board Dataflash Hardware Driver (Template)
+ *
+ *  This is a stub driver header file, for implementing custom board
+ *  layout hardware with compatible LUFA board specific drivers. If
+ *  the library is configured to use the BOARD_USER board mode, this
+ *  driver file should be completed and copied into the "/Board/" folder
+ *  inside the application's folder.
+ *
+ *  This stub is for the board-specific component of the LUFA Dataflash
+ *  driver.
 */
 
 #ifndef __DATAFLASH_USER_H__
@@ -64,13 +66,13 @@
 			#define DATAFLASH_TOTALCHIPS                 1 // TODO: Replace with the number of Dataflashes on the board, max 2
 
 			/** Mask for no dataflash chip selected. */
-			#define DATAFLASH_NO_CHIP                    DATAFLASH_CHIPCS_MASK
+			#define DATAFLASH_NO_CHIP                    0
 
 			/** Mask for the first dataflash chip selected. */
-			#define DATAFLASH_CHIP1                      // TODO: Replace with mask to hold /CS of first Dataflash low, and all others high
+			#define DATAFLASH_CHIP1                      // TODO: Replace with mask with the pin attached to the first Dataflash /CS set
 
 			/** Mask for the second dataflash chip selected. */
-			#define DATAFLASH_CHIP2                      // TODO: Replace with mask to hold /CS of second Dataflash low, and all others high
+			#define DATAFLASH_CHIP2                      // TODO: Replace with mask with the pin attached to the second Dataflash /CS set
 
 			/** Internal main memory page size for the board's dataflash ICs. */
 			#define DATAFLASH_PAGE_SIZE                  // TODO: Replace with the page size for the Dataflash ICs
@@ -90,24 +92,24 @@
 
 			/** Sends a byte to the currently selected dataflash IC, and returns a byte from the dataflash.
 			 *
-			 *  \param[in] Byte of data to send to the dataflash
+			 *  \param[in] Byte  Byte of data to send to the dataflash
 			 *
 			 *  \return Last response byte from the dataflash
 			 */
 			static inline uint8_t Dataflash_TransferByte(const uint8_t Byte) ATTR_ALWAYS_INLINE;
 			static inline uint8_t Dataflash_TransferByte(const uint8_t Byte)
 			{
-				return SPI_TransferByte(Byte);
+				// TODO
 			}
 
 			/** Sends a byte to the currently selected dataflash IC, and ignores the next byte from the dataflash.
 			 *
-			 *  \param[in] Byte of data to send to the dataflash
+			 *  \param[in] Byte  Byte of data to send to the dataflash
 			 */
 			static inline void Dataflash_SendByte(const uint8_t Byte) ATTR_ALWAYS_INLINE;
 			static inline void Dataflash_SendByte(const uint8_t Byte)
 			{
-				SPI_SendByte(Byte);
+				// TODO
 			}
 
 			/** Sends a dummy byte to the currently selected dataflash IC, and returns the next byte from the dataflash.
@@ -117,7 +119,7 @@
 			static inline uint8_t Dataflash_ReceiveByte(void) ATTR_ALWAYS_INLINE ATTR_WARN_UNUSED_RESULT;
 			static inline uint8_t Dataflash_ReceiveByte(void)
 			{
-				return SPI_ReceiveByte();
+				// TODO
 			}
 
 			/** Determines the currently selected dataflash chip.
@@ -128,18 +130,18 @@
 			static inline uint8_t Dataflash_GetSelectedChip(void) ATTR_ALWAYS_INLINE ATTR_WARN_UNUSED_RESULT;
 			static inline uint8_t Dataflash_GetSelectedChip(void)
 			{
-				return (DATAFLASH_CHIPCS_PORT & DATAFLASH_CHIPCS_MASK);
+				return (~DATAFLASH_CHIPCS_PORT & DATAFLASH_CHIPCS_MASK);
 			}
 
 			/** Selects the given dataflash chip.
 			 *
-			 *  \param[in]  ChipMask  Mask of the Dataflash IC to select, in the form of DATAFLASH_CHIPn mask (where n is
+			 *  \param[in]  ChipMask  Mask of the Dataflash IC to select, in the form of a \c DATAFLASH_CHIPn mask (where n is
 			 *              the chip number).
 			 */
 			static inline void Dataflash_SelectChip(const uint8_t ChipMask) ATTR_ALWAYS_INLINE;
 			static inline void Dataflash_SelectChip(const uint8_t ChipMask)
 			{
-				DATAFLASH_CHIPCS_PORT = ((DATAFLASH_CHIPCS_PORT & ~DATAFLASH_CHIPCS_MASK) | ChipMask);
+				DATAFLASH_CHIPCS_PORT = ((DATAFLASH_CHIPCS_PORT | DATAFLASH_CHIPCS_MASK) & ~ChipMask);
 			}
 
 			/** Deselects the current dataflash chip, so that no dataflash is selected. */

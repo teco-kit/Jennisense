@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -41,6 +41,8 @@ bool AOA_Host_ValidateAccessoryDevice(USB_ClassInfo_AOA_Host_t* const AOAInterfa
                                       const USB_Descriptor_Device_t* const DeviceDescriptor,
                                       bool* const NeedModeSwitch)
 {
+	(void)AOAInterfaceInfo;
+
 	if (DeviceDescriptor->Header.Type != DTYPE_Device)
 	  return false;
 
@@ -87,45 +89,19 @@ uint8_t AOA_Host_ConfigurePipes(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo
 		  DataOUTEndpoint = EndpointData;
 	}
 
-	for (uint8_t PipeNum = 1; PipeNum < PIPE_TOTAL_PIPES; PipeNum++)
-	{
-		uint16_t Size;
-		uint8_t  Type;
-		uint8_t  Token;
-		uint8_t  EndpointAddress;
-		bool     DoubleBanked;
-
-		if (PipeNum == AOAInterfaceInfo->Config.DataINPipeNumber)
-		{
-			Size            = le16_to_cpu(DataINEndpoint->EndpointSize);
-			EndpointAddress = DataINEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_IN;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = AOAInterfaceInfo->Config.DataINPipeDoubleBank;
-
-			AOAInterfaceInfo->State.DataINPipeSize = DataINEndpoint->EndpointSize;
-		}
-		else if (PipeNum == AOAInterfaceInfo->Config.DataOUTPipeNumber)
-		{
-			Size            = le16_to_cpu(DataOUTEndpoint->EndpointSize);
-			EndpointAddress = DataOUTEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_OUT;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = AOAInterfaceInfo->Config.DataOUTPipeDoubleBank;
-
-			AOAInterfaceInfo->State.DataOUTPipeSize = DataOUTEndpoint->EndpointSize;
-		}
-		else
-		{
-			continue;
-		}
-		
-		if (!(Pipe_ConfigurePipe(PipeNum, Type, Token, EndpointAddress, Size,
-		                         DoubleBanked ? PIPE_BANK_DOUBLE : PIPE_BANK_SINGLE)))
-		{
-			return AOA_ENUMERROR_PipeConfigurationFailed;
-		}
-	}
+	AOAInterfaceInfo->Config.DataINPipe.Size  = le16_to_cpu(DataINEndpoint->EndpointSize);
+	AOAInterfaceInfo->Config.DataINPipe.EndpointAddress = DataINEndpoint->EndpointAddress;
+	AOAInterfaceInfo->Config.DataINPipe.Type  = EP_TYPE_BULK;
+	
+	AOAInterfaceInfo->Config.DataOUTPipe.Size = le16_to_cpu(DataOUTEndpoint->EndpointSize);
+	AOAInterfaceInfo->Config.DataOUTPipe.EndpointAddress = DataOUTEndpoint->EndpointAddress;
+	AOAInterfaceInfo->Config.DataOUTPipe.Type = EP_TYPE_BULK;
+	
+	if (!(Pipe_ConfigurePipeTable(&AOAInterfaceInfo->Config.DataINPipe, 1)))
+	  return false;
+	
+	if (!(Pipe_ConfigurePipeTable(&AOAInterfaceInfo->Config.DataOUTPipe, 1)))
+	  return false;
 
 	AOAInterfaceInfo->State.IsActive        = true;
 	AOAInterfaceInfo->State.InterfaceNumber = AOAInterface->InterfaceNumber;
@@ -231,7 +207,7 @@ static uint8_t AOA_Host_GetAccessoryProtocol(uint16_t* const Protocol)
 static uint8_t AOA_Host_SendPropertyString(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo,
                                            const uint8_t StringIndex)
 {	
-	const char* String = ((char**)&AOAInterfaceInfo->Config.PropertyStrings)[StringIndex];
+	const char* String = AOAInterfaceInfo->Config.PropertyStrings[StringIndex];
 	
 	if (String == NULL)
 	  String = "";
@@ -258,7 +234,7 @@ uint8_t AOA_Host_SendData(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo,
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipe.Address);
 
 	Pipe_Unfreeze();
 	ErrorCode = Pipe_Write_Stream_LE(Buffer, Length, NULL);
@@ -275,7 +251,7 @@ uint8_t AOA_Host_SendString(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo,
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipe.Address);
 
 	Pipe_Unfreeze();
 	ErrorCode = Pipe_Write_Stream_LE(String, strlen(String), NULL);
@@ -292,7 +268,7 @@ uint8_t AOA_Host_SendByte(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo,
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipe.Address);
 	Pipe_Unfreeze();
 
 	if (!(Pipe_IsReadWriteAllowed()))
@@ -314,7 +290,7 @@ uint16_t AOA_Host_BytesReceived(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo
 	if ((USB_HostState != HOST_STATE_Configured) || !(AOAInterfaceInfo->State.IsActive))
 	  return 0;
 
-	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataINPipeNumber);
+	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataINPipe.Address);
 	Pipe_Unfreeze();
 
 	if (Pipe_IsINReceived())
@@ -346,7 +322,7 @@ int16_t AOA_Host_ReceiveByte(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo)
 
 	int16_t ReceivedByte = -1;
 
-	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataINPipeNumber);
+	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataINPipe.Address);
 	Pipe_Unfreeze();
 
 	if (Pipe_IsINReceived())
@@ -370,7 +346,7 @@ uint8_t AOA_Host_Flush(USB_ClassInfo_AOA_Host_t* const AOAInterfaceInfo)
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(AOAInterfaceInfo->Config.DataOUTPipe.Address);
 	Pipe_Unfreeze();
 
 	if (!(Pipe_BytesInPipe()))

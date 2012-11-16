@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -29,7 +29,7 @@
 */
 
 /** \file
- *  \brief Board specific LED driver header for the Paranoid Studio USB2AX.
+ *  \brief Board specific LED driver header for the Xevelabs USB2AX.
  *  \copydetails Group_LEDs_USB2AX
  *
  *  \note This file should not be included directly. It is automatically included as needed by the LEDs driver
@@ -37,19 +37,45 @@
  */
  
 /** \ingroup Group_LEDs
+ *  \defgroup Group_LEDs_USB2AX_V31 USB2AX_V31
+ *  \brief Board specific LED driver header for the Xevelabs USB2AX revision 3.1.
+ *
+ *  See \ref Group_LEDs_USB2AX for more details.
+ */
+
+/** \ingroup Group_LEDs
  *  \defgroup Group_LEDs_USB2AX_V3 USB2AX_V3
- *  \brief Board specific LED driver header for the Paranoid Studio USB2AX revision 3.
+ *  \brief Board specific LED driver header for the Xevelabs USB2AX revision 3.
  *
  *  See \ref Group_LEDs_USB2AX for more details.
  */
 
 /** \ingroup Group_LEDs
  *  \defgroup Group_LEDs_USB2AX USB2AX
- *  \brief Board specific LED driver header for the Paranoid Studio USB2AX.
+ *  \brief Board specific LED driver header for the Xevelabs USB2AX revisions 1 and 2.
  *
- *  \note For version 3 USB2AX boards, compile with <code>BOARD = USB2AX_V3</code>.
+ *  \note For version 3 USB2AX boards, compile with <code>BOARD = USB2AX_V3</code> and for version 3.1, with <code>BOARD = USB2AX_V31</code>. 
+ *  
+ *  Board specific LED driver header for the Xevelabs USB2AX (http://paranoidstudio.assembla.com/wiki/show/paranoidstudio/USB2AX).
  *
- *  Board specific LED driver header for the Paranoid Studio USB2AX (http://paranoidstudio.assembla.com/wiki/show/paranoidstudio/USB2AX).
+ *  <b>USB2AX</b>:
+ *  <table>
+ *    <tr><th>Name</th><th>Color</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>LEDS_LED1</td><td>Green</td><td>General Indicator</td><td>High</td><td>PORTC.6</td></tr>
+ *  </table>
+ *
+ *  <b>USB2AX_V3</b>:
+ *  <table>
+ *    <tr><th>Name</th><th>Color</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>LEDS_LED1</td><td>Green</td><td>General Indicator</td><td>High</td><td>PORTD.1</td></tr>
+ *  </table>
+ *
+ *  <b>USB2AX_V31</b>:
+ *  <table>
+ *    <tr><th>Name</th><th>Color</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>LEDS_LED1</td><td>Green</td><td>General Indicator</td><td>High</td><td>PORTD.5</td></tr>
+ *    <tr><td>LEDS_LED2</td><td>Red</td><td>General Indicator</td><td>High</td><td>PORTD.6</td></tr>
+ *  </table>
  *
  *  @{
  */
@@ -73,10 +99,15 @@
 	/* Private Interface - For use in library only: */
 	#if !defined(__DOXYGEN__)
 		/* Macros: */
-			#if (BOARD == BOARD_USB2AX)
-				#define USB2AX_LEDS_LED1   (1 << 6)
+			#if (BOARD == BOARD_USB2AX_V31)
+                #define USB2AX_LEDS_LED1   (1 << 5)
+                #define USB2AX_LEDS_LED2   (1 << 6)
+            #elif (BOARD == BOARD_USB2AX_V3)
+				#define USB2AX_LEDS_LED1   (1 << 1)
+                #define USB2AX_LEDS_LED2   0
 			#else
-				#define USB2AX_LEDS_LED1   (1 << 1)			
+				#define USB2AX_LEDS_LED1   (1 << 6)
+                #define USB2AX_LEDS_LED2   0
 			#endif
 	#endif
 
@@ -85,8 +116,11 @@
 			/** LED mask for the first LED on the board. */
 			#define LEDS_LED1        USB2AX_LEDS_LED1
 
+			/** LED mask for the second LED on the board. */
+			#define LEDS_LED2        USB2AX_LEDS_LED2
+
 			/** LED mask for all the LEDs on the board. */
-			#define LEDS_ALL_LEDS    LEDS_LED1
+			#define LEDS_ALL_LEDS    (LEDS_LED1 | LEDS_LED2)
 
 			/** LED mask for none of the board LEDs. */
 			#define LEDS_NO_LEDS     0
@@ -96,24 +130,26 @@
 			static inline void LEDs_Init(void)
 			{
 				#if (BOARD == BOARD_USB2AX)
-				DDRC  |= LEDS_ALL_LEDS;
-				PORTC |= LEDS_ALL_LEDS;				
+				DDRC  |=  LEDS_ALL_LEDS;
+				PORTC &= ~LEDS_ALL_LEDS;
 				#else
-				DDRD  |= LEDS_ALL_LEDS;
-				PORTD |= LEDS_ALL_LEDS;				
-				#endif				
-			}
-
-			static inline void LEDs_TurnOnLEDs(const uint8_t LEDMask)
-			{
-				#if (BOARD == BOARD_USB2AX)
-				PORTC &= ~LEDMask;				
-				#else
-				PORTD &= ~LEDMask;
+				DDRD  |=  LEDS_ALL_LEDS;
+				PORTD &= ~LEDS_ALL_LEDS;
 				#endif
 			}
 
-			static inline void LEDs_TurnOffLEDs(const uint8_t LEDMask)
+			static inline void LEDs_Disable(void)
+			{
+				#if (BOARD == BOARD_USB2AX)
+				DDRC  &= ~LEDS_ALL_LEDS;
+				PORTC &= ~LEDS_ALL_LEDS;
+				#else
+				DDRD  &= ~LEDS_ALL_LEDS;
+				PORTD &= ~LEDS_ALL_LEDS;
+				#endif
+			}
+
+			static inline void LEDs_TurnOnLEDs(const uint8_t LEDMask)
 			{
 				#if (BOARD == BOARD_USB2AX)
 				PORTC |= LEDMask;
@@ -122,12 +158,21 @@
 				#endif
 			}
 
+			static inline void LEDs_TurnOffLEDs(const uint8_t LEDMask)
+			{
+				#if (BOARD == BOARD_USB2AX)
+				PORTC &= ~LEDMask;
+				#else
+				PORTD &= ~LEDMask;
+				#endif
+			}
+
 			static inline void LEDs_SetAllLEDs(const uint8_t LEDMask)
 			{
 				#if (BOARD == BOARD_USB2AX)
-				PORTC = ((PORTC | LEDS_ALL_LEDS) & ~LEDMask);				
+				PORTC = ((PORTC & ~LEDS_ALL_LEDS) | LEDMask);
 				#else
-				PORTD = ((PORTD | LEDS_ALL_LEDS) & ~LEDMask);
+				PORTD = ((PORTD & ~LEDS_ALL_LEDS) | LEDMask);
 				#endif
 			}
 
@@ -135,18 +180,18 @@
 			                                   const uint8_t ActiveMask)
 			{
 				#if (BOARD == BOARD_USB2AX)
-				PORTC = ((PORTC | LEDMask) & ~ActiveMask);				
+				PORTC = ((PORTC & ~LEDMask) | ActiveMask);
 				#else
-				PORTD = ((PORTD | LEDMask) & ~ActiveMask);
+				PORTD = ((PORTD & ~LEDMask) | ActiveMask);
 				#endif
 			}
 
 			static inline void LEDs_ToggleLEDs(const uint8_t LEDMask)
 			{
 				#if (BOARD == BOARD_USB2AX)
-				PORTC ^= LEDMask;				
+				PINC  = LEDMask;
 				#else
-				PORTD ^= LEDMask;
+				PIND  = LEDMask;
 				#endif
 			}
 
@@ -154,9 +199,9 @@
 			static inline uint8_t LEDs_GetLEDs(void)
 			{
 				#if (BOARD == BOARD_USB2AX)
-				return (~PORTC & LEDS_ALL_LEDS);				
+				return (PORTC & LEDS_ALL_LEDS);
 				#else
-				return (~PORTD & LEDS_ALL_LEDS);
+				return (PORTD & LEDS_ALL_LEDS);
 				#endif
 			}
 		#endif

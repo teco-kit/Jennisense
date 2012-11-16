@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -99,62 +99,26 @@ uint8_t CDC_Host_ConfigurePipes(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo
 		}
 	}
 
-	for (uint8_t PipeNum = 1; PipeNum < PIPE_TOTAL_PIPES; PipeNum++)
-	{
-		uint16_t Size;
-		uint8_t  Type;
-		uint8_t  Token;
-		uint8_t  EndpointAddress;
-		uint8_t  InterruptPeriod;
-		bool     DoubleBanked;
+	CDCInterfaceInfo->Config.DataINPipe.Size  = le16_to_cpu(DataINEndpoint->EndpointSize);
+	CDCInterfaceInfo->Config.DataINPipe.EndpointAddress = DataINEndpoint->EndpointAddress;
+	CDCInterfaceInfo->Config.DataINPipe.Type  = EP_TYPE_BULK;
+	
+	CDCInterfaceInfo->Config.DataOUTPipe.Size = le16_to_cpu(DataOUTEndpoint->EndpointSize);
+	CDCInterfaceInfo->Config.DataOUTPipe.EndpointAddress = DataOUTEndpoint->EndpointAddress;
+	CDCInterfaceInfo->Config.DataOUTPipe.Type = EP_TYPE_BULK;
+	
+	CDCInterfaceInfo->Config.NotificationPipe.Size = le16_to_cpu(NotificationEndpoint->EndpointSize);
+	CDCInterfaceInfo->Config.NotificationPipe.EndpointAddress = NotificationEndpoint->EndpointAddress;
+	CDCInterfaceInfo->Config.NotificationPipe.Type = EP_TYPE_INTERRUPT;
 
-		if (PipeNum == CDCInterfaceInfo->Config.DataINPipeNumber)
-		{
-			Size            = le16_to_cpu(DataINEndpoint->EndpointSize);
-			EndpointAddress = DataINEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_IN;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = CDCInterfaceInfo->Config.DataINPipeDoubleBank;
-			InterruptPeriod = 0;
+	if (!(Pipe_ConfigurePipeTable(&CDCInterfaceInfo->Config.DataINPipe, 1)))
+	  return false;
+	
+	if (!(Pipe_ConfigurePipeTable(&CDCInterfaceInfo->Config.DataOUTPipe, 1)))
+	  return false;
 
-			CDCInterfaceInfo->State.DataINPipeSize = DataINEndpoint->EndpointSize;
-		}
-		else if (PipeNum == CDCInterfaceInfo->Config.DataOUTPipeNumber)
-		{
-			Size            = le16_to_cpu(DataOUTEndpoint->EndpointSize);
-			EndpointAddress = DataOUTEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_OUT;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = CDCInterfaceInfo->Config.DataOUTPipeDoubleBank;
-			InterruptPeriod = 0;
-
-			CDCInterfaceInfo->State.DataOUTPipeSize = DataOUTEndpoint->EndpointSize;
-		}
-		else if (PipeNum == CDCInterfaceInfo->Config.NotificationPipeNumber)
-		{
-			Size            = le16_to_cpu(NotificationEndpoint->EndpointSize);
-			EndpointAddress = NotificationEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_IN;
-			Type            = EP_TYPE_INTERRUPT;
-			DoubleBanked    = CDCInterfaceInfo->Config.NotificationPipeDoubleBank;
-			InterruptPeriod = NotificationEndpoint->PollingIntervalMS;
-
-			CDCInterfaceInfo->State.NotificationPipeSize = NotificationEndpoint->EndpointSize;
-		}
-		else
-		{
-			continue;
-		}
-
-		if (!(Pipe_ConfigurePipe(PipeNum, Type, Token, EndpointAddress, Size,
-		                         DoubleBanked ? PIPE_BANK_DOUBLE : PIPE_BANK_SINGLE)))
-		{
-			return CDC_ENUMERROR_PipeConfigurationFailed;
-		}
-
-		if (InterruptPeriod)
-		  Pipe_SetInterruptPeriod(InterruptPeriod);
-	}
+	if (!(Pipe_ConfigurePipeTable(&CDCInterfaceInfo->Config.NotificationPipe, 1)))
+	  return false;
 
 	CDCInterfaceInfo->State.ControlInterfaceNumber = CDCControlInterface->InterfaceNumber;
 	CDCInterfaceInfo->State.ControlLineStates.HostToDevice = (CDC_CONTROL_LINE_OUT_RTS | CDC_CONTROL_LINE_OUT_DTR);
@@ -231,7 +195,7 @@ void CDC_Host_USBTask(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo)
 	if ((USB_HostState != HOST_STATE_Configured) || !(CDCInterfaceInfo->State.IsActive))
 	  return;
 
-	Pipe_SelectPipe(CDCInterfaceInfo->Config.NotificationPipeNumber);
+	Pipe_SelectPipe(CDCInterfaceInfo->Config.NotificationPipe.Address);
 	Pipe_Unfreeze();
 
 	if (Pipe_IsINReceived())
@@ -321,7 +285,7 @@ uint8_t CDC_Host_SendData(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo,
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipe.Address);
 
 	Pipe_Unfreeze();
 	ErrorCode = Pipe_Write_Stream_LE(Buffer, Length, NULL);
@@ -338,7 +302,7 @@ uint8_t CDC_Host_SendString(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo,
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipe.Address);
 
 	Pipe_Unfreeze();
 	ErrorCode = Pipe_Write_Stream_LE(String, strlen(String), NULL);
@@ -355,7 +319,7 @@ uint8_t CDC_Host_SendByte(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo,
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipe.Address);
 	Pipe_Unfreeze();
 
 	if (!(Pipe_IsReadWriteAllowed()))
@@ -377,7 +341,7 @@ uint16_t CDC_Host_BytesReceived(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo
 	if ((USB_HostState != HOST_STATE_Configured) || !(CDCInterfaceInfo->State.IsActive))
 	  return 0;
 
-	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataINPipeNumber);
+	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataINPipe.Address);
 	Pipe_Unfreeze();
 
 	if (Pipe_IsINReceived())
@@ -409,7 +373,7 @@ int16_t CDC_Host_ReceiveByte(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo)
 
 	int16_t ReceivedByte = -1;
 
-	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataINPipeNumber);
+	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataINPipe.Address);
 	Pipe_Unfreeze();
 
 	if (Pipe_IsINReceived())
@@ -433,7 +397,7 @@ uint8_t CDC_Host_Flush(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo)
 
 	uint8_t ErrorCode;
 
-	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(CDCInterfaceInfo->Config.DataOUTPipe.Address);
 	Pipe_Unfreeze();
 
 	if (!(Pipe_BytesInPipe()))
@@ -504,6 +468,7 @@ static int CDC_Host_getchar_Blocking(FILE* Stream)
 }
 #endif
 
+// cppcheck-suppress unusedFunction
 void CDC_Host_Event_Stub(void)
 {
 

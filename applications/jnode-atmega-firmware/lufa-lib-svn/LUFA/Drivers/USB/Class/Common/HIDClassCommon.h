@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -103,8 +103,11 @@
 		/** Constant for a keyboard output report LED byte, indicating that the host's SCROLL LOCK mode is currently set. */
 		#define HID_KEYBOARD_LED_SCROLLLOCK                       (1 << 2)
 
-		/** Constant for a keyboard output report LED byte, indicating that the host's KATANA mode is currently set. */
-		#define HID_KEYBOARD_LED_KATANA                           (1 << 3)
+		/** Constant for a keyboard output report LED byte, indicating that the host's COMPOSE mode is currently set. */
+		#define HID_KEYBOARD_LED_COMPOSE                          (1 << 3)
+
+		/** Constant for a keyboard output report LED byte, indicating that the host's KANA mode is currently set. */
+		#define HID_KEYBOARD_LED_KANA                             (1 << 4)
 		//@}
 
 		/** \name Keyboard Standard Report Key Scan-codes */
@@ -209,8 +212,9 @@
 		#define HID_KEYBOARD_SC_KEYPAD_0_AND_INSERT               0x62
 		#define HID_KEYBOARD_SC_KEYPAD_DOT_AND_DELETE             0x63
 		#define HID_KEYBOARD_SC_NON_US_BACKSLASH_AND_PIPE         0x64
+		#define HID_KEYBOARD_SC_APPLICATION                       0x65
 		#define HID_KEYBOARD_SC_POWER                             0x66
-		#define HID_KEYBOARD_SC_EQUAL_SIGN                        0x67
+		#define HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN                 0x67
 		#define HID_KEYBOARD_SC_F13                               0x68
 		#define HID_KEYBOARD_SC_F14                               0x69
 		#define HID_KEYBOARD_SC_F15                               0x6A
@@ -241,7 +245,7 @@
 		#define HID_KEYBOARD_SC_LOCKING_NUM_LOCK                  0x83
 		#define HID_KEYBOARD_SC_LOCKING_SCROLL_LOCK               0x84
 		#define HID_KEYBOARD_SC_KEYPAD_COMMA                      0x85
-		#define HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN                 0x86
+		#define HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN_AS400           0x86
 		#define HID_KEYBOARD_SC_INTERNATIONAL1                    0x87
 		#define HID_KEYBOARD_SC_INTERNATIONAL2                    0x88
 		#define HID_KEYBOARD_SC_INTERNATIONAL3                    0x89
@@ -337,37 +341,36 @@
 		 *  \code
 		 *  struct
 		 *  {
-		 *      intB_t X; // Signed X axis value
-		 *      intB_t Y; // Signed Y axis value
-		 *      int8_t Z; // Signed Z axis value
-		 *      // Additional axis elements here
-		 *      uintA_t Buttons; // Pressed buttons bitmask
+		 *      intA_t X; // Signed X axis value
+		 *      intA_t Y; // Signed Y axis value
+		 *      intA_t Z; // Signed Z axis value
+		 *      uintB_t Buttons; // Pressed buttons bitmask
 		 *  } Joystick_Report;
 		 *  \endcode
 		 *
-		 *  Where \c uintA_t is a type large enough to hold one bit per button, and \c intB_t is a type large enough to hold the
-		 *  ranges of the signed \c MinAxisVal and \c MaxAxisVal values.
+		 *  Where \c uintA_t is a type large enough to hold the ranges of the signed \c MinAxisVal and \c MaxAxisVal values,
+		 *  and \c intB_t is a type large enough to hold one bit per button.
 		 *
-		 *  \param[in] NumAxis         Number of axis in the joystick (8-bit)
 		 *  \param[in] MinAxisVal      Minimum logical axis value (16-bit).
 		 *  \param[in] MaxAxisVal      Maximum logical axis value (16-bit).
 		 *  \param[in] MinPhysicalVal  Minimum physical axis value, for movement resolution calculations (16-bit).
 		 *  \param[in] MaxPhysicalVal  Maximum physical axis value, for movement resolution calculations (16-bit).
 		 *  \param[in] Buttons         Total number of buttons in the device (8-bit).
 		 */
-		#define HID_DESCRIPTOR_JOYSTICK(NumAxis, MinAxisVal, MaxAxisVal, MinPhysicalVal, MaxPhysicalVal, Buttons) \
+		#define HID_DESCRIPTOR_JOYSTICK(MinAxisVal, MaxAxisVal, MinPhysicalVal, MaxPhysicalVal, Buttons) \
 			HID_RI_USAGE_PAGE(8, 0x01),                     \
 			HID_RI_USAGE(8, 0x04),                          \
 			HID_RI_COLLECTION(8, 0x01),                     \
 				HID_RI_USAGE(8, 0x01),                      \
 				HID_RI_COLLECTION(8, 0x00),                 \
-					HID_RI_USAGE_MINIMUM(8, 0x30),          \
-					HID_RI_USAGE_MAXIMUM(8, (0x30 + (NumAxis - 1))), \
+					HID_RI_USAGE(8, 0x30),                  \
+					HID_RI_USAGE(8, 0x31),                  \
+					HID_RI_USAGE(8, 0x32),                  \
 					HID_RI_LOGICAL_MINIMUM(16, MinAxisVal), \
 					HID_RI_LOGICAL_MAXIMUM(16, MaxAxisVal), \
 					HID_RI_PHYSICAL_MINIMUM(16, MinPhysicalVal), \
 					HID_RI_PHYSICAL_MAXIMUM(16, MaxPhysicalVal), \
-					HID_RI_REPORT_COUNT(8, NumAxis),        \
+					HID_RI_REPORT_COUNT(8, 3),              \
 					HID_RI_REPORT_SIZE(8, ((((MinAxisVal >= -0xFF) && (MaxAxisVal <= 0xFF)) ? 8 : 16))), \
 					HID_RI_INPUT(8, HID_IOF_DATA | HID_IOF_VARIABLE | HID_IOF_ABSOLUTE), \
 				HID_RI_END_COLLECTION(0),                   \
@@ -392,7 +395,7 @@
 		 *  \code
 		 *  struct
 		 *  {
-		 *      uint8_t Modifier; // Keyboard modifier byte indicating pressed modifier keys (HID_KEYBOARD_MODIFER_* masks)
+		 *      uint8_t Modifier; // Keyboard modifier byte indicating pressed modifier keys (\c HID_KEYBOARD_MODIFER_* masks)
 		 *      uint8_t Reserved; // Reserved for OEM use, always set to 0.
 		 *      uint8_t KeyCode[MaxKeys]; // Length determined by the number of keys that can be reported
 		 *  } Keyboard_Report;
@@ -425,10 +428,10 @@
 				HID_RI_REPORT_SIZE(8, 0x03),                \
 				HID_RI_OUTPUT(8, HID_IOF_CONSTANT),         \
 				HID_RI_LOGICAL_MINIMUM(8, 0x00),            \
-				HID_RI_LOGICAL_MAXIMUM(8, 0x65),            \
+				HID_RI_LOGICAL_MAXIMUM(8, 0xFF),            \
 				HID_RI_USAGE_PAGE(8, 0x07),                 \
 				HID_RI_USAGE_MINIMUM(8, 0x00),              \
-				HID_RI_USAGE_MAXIMUM(8, 0x65),              \
+				HID_RI_USAGE_MAXIMUM(8, 0xFF),              \
 				HID_RI_REPORT_COUNT(8, MaxKeys),            \
 				HID_RI_REPORT_SIZE(8, 0x08),                \
 				HID_RI_INPUT(8, HID_IOF_DATA | HID_IOF_ARRAY | HID_IOF_ABSOLUTE), \
@@ -456,7 +459,7 @@
 		 *  \param[in] MinPhysicalVal  Minimum X/Y physical axis value, for movement resolution calculations (16-bit).
 		 *  \param[in] MaxPhysicalVal  Maximum X/Y physical axis value, for movement resolution calculations (16-bit).
 		 *  \param[in] Buttons         Total number of buttons in the device (8-bit).
-		 *  \param[in] AbsoluteCoords  Boolean true to use absolute X/Y coordinates (e.g. touchscreen).
+		 *  \param[in] AbsoluteCoords  Boolean \c true to use absolute X/Y coordinates (e.g. touchscreen).
 		 */
 		#define HID_DESCRIPTOR_MOUSE(MinAxisVal, MaxAxisVal, MinPhysicalVal, MaxPhysicalVal, Buttons, AbsoluteCoords) \
 			HID_RI_USAGE_PAGE(8, 0x01),                     \
@@ -491,7 +494,7 @@
 		/** \hideinitializer
 		 *  A list of HID report item array elements that describe a typical Vendor Defined byte array HID report descriptor,
 		 *  used for transporting arbitrary data between the USB host and device via HID reports. The resulting report should be
-		 *  a uint8_t byte array of the specified length in both Device to Host (IN) and Host to Device (OUT) directions.
+		 *  a \c uint8_t byte array of the specified length in both Device to Host (IN) and Host to Device (OUT) directions.
 		 *
 		 *  \param[in] VendorPageNum    Vendor Defined HID Usage Page index, ranging from 0x00 to 0xFF.
 		 *  \param[in] CollectionUsage  Vendor Usage for the encompassing report IN and OUT collection, ranging from 0x00 to 0xFF.

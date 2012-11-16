@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -81,13 +81,10 @@
 			 */
 			typedef struct
 			{
-				const struct
+				struct
 				{
-					uint8_t  DataINPipeNumber; /**< Pipe number of the HID interface's IN data pipe. */
-					bool     DataINPipeDoubleBank; /**< Indicates if the HID interface's IN data pipe should use double banking. */
-
-					uint8_t  DataOUTPipeNumber; /**< Pipe number of the HID interface's OUT data pipe. */
-					bool     DataOUTPipeDoubleBank; /**< Indicates if the HID interface's OUT data pipe should use double banking. */
+					USB_Pipe_Table_t DataINPipe; /**< Data IN Pipe configuration table. */
+					USB_Pipe_Table_t DataOUTPipe; /**< Data OUT Pipe configuration table. */
 
 					uint8_t  HIDInterfaceProtocol; /**< HID interface protocol value to match against if a specific
 					                                *   boot subclass protocol is required, a protocol value from the
@@ -111,9 +108,6 @@
 					                *   Configured state.
 					                */
 					uint8_t InterfaceNumber; /**< Interface index of the HID interface within the attached device. */
-
-					uint16_t DataINPipeSize; /**< Size in bytes of the HID interface's IN data pipe. */
-					uint16_t DataOUTPipeSize;  /**< Size in bytes of the HID interface's OUT data pipe. */
 
 					bool SupportsBootProtocol; /**< Indicates if the current interface instance supports the HID Boot
 					                            *   Protocol when enabled via \ref HID_Host_SetBootProtocol().
@@ -148,8 +142,8 @@
 			 *  device. This should be called once after the stack has enumerated the attached device, while the host state
 			 *  machine is in the Addressed state.
 			 *
-			 *  \note Once the device pipes are configured, the HID device's reporting protocol <b>must</b> be set via a call
-			 *        to either the \ref HID_Host_SetBootProtocol() or \ref HID_Host_SetReportProtocol() function.
+			 *  \attention Once the device pipes are configured, the HID device's reporting protocol <b>must</b> be set via a call
+			 *             to either the \ref HID_Host_SetBootProtocol() or \ref HID_Host_SetReportProtocol() function.
 			 *
 			 *  \param[in,out] HIDInterfaceInfo      Pointer to a structure containing a HID Class host configuration and state.
 			 *  \param[in]     ConfigDescriptorSize  Length of the attached device's Configuration Descriptor.
@@ -167,8 +161,8 @@
 			 *  \pre This function must only be called when the Host state machine is in the \ref HOST_STATE_Configured state or the
 			 *       call will fail.
 			 *
-			 *  \note The destination buffer should be large enough to accommodate the largest report that the attached device
-			 *        can generate.
+			 *  \attention The destination buffer should be large enough to accommodate the largest report that the attached device
+			 *             can generate.
 			 *
 			 *  \param[in,out] HIDInterfaceInfo  Pointer to a structure containing a HID Class host configuration and state.
 			 *  \param[in]     Buffer            Buffer to store the received report into.
@@ -252,7 +246,7 @@
 			uint8_t HID_Host_SetBootProtocol(USB_ClassInfo_HID_Host_t* const HIDInterfaceInfo) ATTR_NON_NULL_PTR_ARG(1);
 
 			/** Sets the idle period for the attached HID device to the specified interval. The HID idle period determines the rate
-			 *  at which the device should send a report, when no state changes have ocurred; i.e. on HID keyboards, this sets the
+			 *  at which the device should send a report, when no state changes have occurred; i.e. on HID keyboards, this sets the
 			 *  hardware key repeat interval.
 			 *
 			 *  \param[in,out] HIDInterfaceInfo  Pointer to a structure containing a HID Class host configuration and state.
@@ -267,9 +261,8 @@
 			/** Switches the attached HID device's reporting protocol over to the standard Report protocol mode. This also retrieves
 			 *  and parses the device's HID report descriptor, so that the size of each report can be determined in advance.
 			 *
-			 *  \note Whether this function is used or not, the \ref CALLBACK_HIDParser_FilterHIDReportItem() callback from the HID
-			 *        Report Parser this function references <b>must</b> be implemented in the user code.
-			 *        \n\n
+			 *  \attention Whether this function is used or not, the \ref CALLBACK_HIDParser_FilterHIDReportItem() callback from the HID
+			 *             Report Parser this function references <b>must</b> be implemented in the user code.
 			 *
 			 *  \note When the \c HID_HOST_BOOT_PROTOCOL_ONLY compile time token is defined, this method is unavailable.
 			 *

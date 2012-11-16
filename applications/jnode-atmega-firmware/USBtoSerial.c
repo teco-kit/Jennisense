@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -35,7 +35,6 @@
  */
 
 #include "USBtoSerial.h"
-#include "LUFA/Scheduler/Scheduler.h"
 #include <avr/sleep.h>
 #include "clock.h"
 
@@ -75,21 +74,26 @@ USB_ClassInfo_CDC_Device_t VirtualSerial_CDC_Interface =
     .Config =
       {
         .ControlInterfaceNumber         = 0,
-
-        .DataINEndpointNumber           = CDC_TX_EPNUM,
-        .DataINEndpointSize             = CDC_TXRX_EPSIZE,
-        .DataINEndpointDoubleBank       = false,
-
-        .DataOUTEndpointNumber          = CDC_RX_EPNUM,
-        .DataOUTEndpointSize            = CDC_TXRX_EPSIZE,
-        .DataOUTEndpointDoubleBank      = false,
-
-        .NotificationEndpointNumber     = CDC_NOTIFICATION_EPNUM,
-        .NotificationEndpointSize       = CDC_NOTIFICATION_EPSIZE,
-        .NotificationEndpointDoubleBank = false,
+        .DataINEndpoint                 =
+          {
+            .Address                = CDC_TX_EPADDR,
+            .Size                   = CDC_TXRX_EPSIZE,
+            .Banks                  = 1,
+          },
+        .DataOUTEndpoint                =
+          {
+            .Address                = CDC_RX_EPADDR,
+            .Size                   = CDC_TXRX_EPSIZE,
+            .Banks                  = 1,
+          },
+        .NotificationEndpoint           =
+          {
+            .Address                = CDC_NOTIFICATION_EPADDR,
+            .Size                   = CDC_NOTIFICATION_EPSIZE,
+            .Banks                  = 1,
+          },
       },
   };
-
 
 /** Main program entry point. This routine contains the overall program flow, including initial
  *  setup of all components and the main program loop.
@@ -100,13 +104,13 @@ int main(void)
   clock_init();
 
   /* pull jennic into normal mode and also reset sensors*/
-  DDRC |= (JEN_RESETN|PWR_SENSORS);
+  DDRC |= (JEN_RESETN); //|PWR_SENSORS);
   DDRB |= JEN_SPIMISO;
   _delay_ms(5);
 
   DDRB &= ~JEN_SPIMISO;
   _delay_ms(10);
-  DDRC &= ~(JEN_RESETN|PWR_SENSORS);
+  DDRC &= ~(JEN_RESETN); //|PWR_SENSORS);
 
   /* get off the spi-bus */
   DDRB &= ~JEN_SPIMISO;
@@ -118,7 +122,7 @@ int main(void)
   RingBuffer_InitBuffer(&USARTtoUSB_Buffer, USARTtoUSB_Buffer_Data, sizeof(USARTtoUSB_Buffer_Data));
 
   LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-  sei();
+  GlobalInterruptEnable();
 
   for (;;)
   {
@@ -134,22 +138,31 @@ int main(void)
 
     /* Check if the UART receive buffer flush timer has expired or the buffer is nearly full */
     uint16_t BufferCount = RingBuffer_GetCount(&USARTtoUSB_Buffer);
-    if ((TIFR0 & (1 << TOV0)) || (BufferCount > (uint8_t)(sizeof(USARTtoUSB_Buffer_Data) * .75)))
+    if (BufferCount)
     {
-      /* Clear flush timer expiry flag */
-      TIFR0 |= (1 << TOV0);
+      Endpoint_SelectEndpoint(VirtualSerial_CDC_Interface.Config.DataINEndpoint.Address);
 
-      /* Read bytes from the USART receive buffer into the USB IN endpoint */
-      while (BufferCount--)
+      /* Check if a packet is already enqueued to the host - if so, we shouldn't try to send more data
+       * until it completes as there is a chance nothing is listening and a lengthy timeout could occur */
+      if (Endpoint_IsINReady())
       {
-        /* Try to send the next byte of data to the host, abort if there is an error without dequeuing */
-        if (CDC_Device_SendByte(&VirtualSerial_CDC_Interface,
-                                RingBuffer_Peek(&USARTtoUSB_Buffer)) != ENDPOINT_READYWAIT_NoError)
-        {
-          break;
-        }
+        /* Never send more than one bank size less one byte to the host at a time, so that we don't block
+         * while a Zero Length Packet (ZLP) to terminate the transfer is sent if the host isn't listening */
+        uint8_t BytesToSend = MIN(BufferCount, (CDC_TXRX_EPSIZE - 1));
 
-        RingBuffer_Remove(&USARTtoUSB_Buffer);
+        /* Read bytes from the USART receive buffer into the USB IN endpoint */
+        while (BytesToSend--)
+        {
+          /* Try to send the next byte of data to the host, abort if there is an error without dequeuing */
+          if (CDC_Device_SendByte(&VirtualSerial_CDC_Interface,
+                      RingBuffer_Peek(&USARTtoUSB_Buffer)) != ENDPOINT_READYWAIT_NoError)
+          {
+            break;
+          }
+
+          /* Dequeue the already sent byte from the buffer now we have confirmed that no transmission error occurred */
+          RingBuffer_Remove(&USARTtoUSB_Buffer);
+        }
       }
     }
 
@@ -160,33 +173,33 @@ int main(void)
       if (!jennic_in_programming_mode)
       {
         /* pull jennic into programming mode */
-        DDRC |= (JEN_RESETN|PWR_SENSORS);
+        DDRC |= (JEN_RESETN); //|PWR_SENSORS);
         DDRB |= JEN_SPIMISO;
         _delay_ms(5);
 
         DDRC &= ~JEN_RESETN;
         _delay_ms(10);
         DDRB &= ~JEN_SPIMISO;
-        DDRC &~ ~PWR_SENSORS;
+        //DDRC &= ~PWR_SENSORS;
         jennic_in_programming_mode = true;
       }
       else
       {
         /* pull jennic into normal mode */
-        DDRC |= (JEN_RESETN|PWR_SENSORS);
+        DDRC |= (JEN_RESETN); //|PWR_SENSORS);
         DDRB |= JEN_SPIMISO;
         _delay_ms(5);
 
         DDRB &= ~JEN_SPIMISO;
         _delay_ms(10);
         DDRC &= ~JEN_RESETN;
-        DDRC &~ ~PWR_SENSORS;
+        //DDRC &= ~PWR_SENSORS;
         jennic_in_programming_mode = false;
+        set_default_uart();
       }
 
       jennic_reset_event = false;
     }
-
 
     /* Load the next byte from the USART transmit buffer into the USART */
     if (!(RingBuffer_IsEmpty(&USBtoUSART_Buffer)))
@@ -203,7 +216,10 @@ void SetupHardware(void)
   MCUSR &= ~(1 << WDRF);
   wdt_disable();
 
-  /* enable clock division, run on 16MHz */
+  /* disable JTAG since we use the pins for I/O, e.g. the STBY pin */
+  JTAG_DISABLE();
+
+  /* disable clock division, run on 16MHz */
   clock_prescale_set(clock_div_1);
 
   /* Hardware Initialization */
@@ -211,20 +227,31 @@ void SetupHardware(void)
   USB_Init();
 
   /* pull STBY low, so enough power can be provided */
-  DDRF &= ~(PWR_STBY);
+  DDRF  |=  (PWR_STBY);
   PORTF &= ~(PWR_STBY);
 
-  /* Start the flush timer so that overflows occur rapidly to push received bytes to the USB interface */
-  TCCR0B = (1 << CS02);
+  /* configure to 1M Baud 8N1 */
+  set_default_uart();
+}
 
-  /* reset the jennic */
-  PORTB &= ~(JEN_CLOCK|JEN_SPIMOSI);
+void set_default_uart() 
+{
+  /* Must turn off USART before reconfiguring it, otherwise incorrect operation may occur */
+  UCSR1B = 0;
+  UCSR1A = 0;
+  UCSR1C = 0;
+
+  /* Set the new baud rate before configuring the USART */
+  UBRR1  = SERIAL_2X_UBBRVAL(1000000);
+  UCSR1A = (1 << U2X1);
+  UCSR1C = (1 << UCSZ11) | (1 << UCSZ10);
+  UCSR1B = (1 << RXCIE1) | (1 << TXEN1) | (1 << RXEN1);
 }
 
 /** Event handler for the library USB Connection event. */
 void EVENT_USB_Device_Connect(void)
 {
-  sleep_disable();
+  //sleep_disable();
   LEDs_SetAllLEDs(LEDMASK_USB_ENUMERATING);
 }
 
@@ -234,8 +261,8 @@ void EVENT_USB_Device_Disconnect(void)
   LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
 
   /* go to deep-sleep */
-  set_sleep_mode(SLEEP_MODE_STANDBY);
-  sleep_mode();
+  //set_sleep_mode(SLEEP_MODE_STANDBY);
+  //sleep_mode();
 }
 
 /** Event handler for the library USB Configuration Changed event. */
@@ -330,7 +357,7 @@ void EVENT_CDC_Device_ControLineStateChanged(USB_ClassInfo_CDC_Device_t* const C
     clock_time_t delay = clock_time()-previous_change;
     currentDTRState    = (CDCInterfaceInfo->State.ControlLineStates.HostToDevice & CDC_CONTROL_LINE_OUT_DTR);
     jennic_reset_event = currentDTRState && (delay < SWITCH_TIMEOUT);
-    previous_change    = clock_time(); /* returns the usb frame clock in ms */
+    previous_change    = clock_time();
   }
 }
 

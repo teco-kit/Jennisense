@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -84,8 +84,20 @@
 		 *  addresses are zero-indexed. This converts a natural MIDI channel number into the logical channel address.
 		 *
 		 *  \param[in] channel  MIDI channel number to address.
+		 *
+		 *  \return Constructed MIDI channel ID.
 		 */
 		#define MIDI_CHANNEL(channel)        ((channel) - 1)
+		
+		/** Constructs a MIDI event ID from a given MIDI command and a virtual MIDI cable index. This can then be
+		 *  used to create and decode \ref MIDI_EventPacket_t MIDI event packets.
+		 *
+		 *  \param[in] virtualcable  Index of the virtual MIDI cable the event relates to
+		 *  \param[in] command       MIDI command to send through the virtual MIDI cable
+		 *
+		 *  \return Constructed MIDI event ID.
+		 */
+		#define MIDI_EVENT(virtualcable, command) ((virtualcable << 4) | (command >> 4))
 
 	/* Enums: */
 		/** Enum for the possible MIDI jack types in a MIDI device jack descriptor. */
@@ -290,8 +302,7 @@
 		 */
 		typedef struct
 		{
-			unsigned Command     : 4; /**< Upper nibble of the MIDI command being sent or received in the event packet. */
-			unsigned CableNumber : 4; /**< Virtual cable number of the event being sent or received in the given MIDI interface. */
+			uint8_t Event; /**< MIDI event type, constructed with the \ref MIDI_EVENT() macro. */
 
 			uint8_t  Data1; /**< First byte of data in the MIDI event. */
 			uint8_t  Data2; /**< Second byte of data in the MIDI event. */

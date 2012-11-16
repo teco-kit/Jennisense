@@ -1,6 +1,6 @@
 #
 #             LUFA Library
-#     Copyright (C) Dean Camera, 2011.
+#     Copyright (C) Dean Camera, 2012.
 #
 #  dean [at] fourwalledcubicle [dot] com
 #           www.lufa-lib.org
@@ -13,54 +13,34 @@
 # custom LUFA library build options are reflected in the compiled
 # code.
 
-all:
-	$(MAKE) -C AudioInput clean
-	$(MAKE) -C AudioInput all
+PROJECT_DIRECTORIES := $(shell ls -d */)
 
-	$(MAKE) -C AudioOutput clean
-	$(MAKE) -C AudioOutput all
+# This makefile is potentially infinitely recursive if something really bad
+# happens when determining the set of project directories - hard-abort if
+# more than 10 levels deep to avoid angry emails.
+ifeq ($(MAKELEVEL), 10)
+   $(error EMERGENCY ABORT: INFINITE RECURSION DETECTED)
+endif
 
-	$(MAKE) -C DualVirtualSerial clean
-	$(MAKE) -C DualVirtualSerial all
+# Need to special-case building without a per-project object directory
+ifeq ($(OBJDIR),)
+   # If no target specified, force "clean all" and disallow parallel build   
+   ifeq ($(MAKECMDGOALS),)
+      MAKECMDGOALS := clean all
+      .NOTPARALLEL:
+   endif
 
-	$(MAKE) -C GenericHID clean
-	$(MAKE) -C GenericHID all
+   # If one of the targets is to build, force "clean" beforehand and disallow parallel build   
+   ifneq ($(findstring all, $(MAKECMDGOALS)),)
+      MAKECMDGOALS := clean $(MAKECMDGOALS)
+      .NOTPARALLEL:
+   endif
+endif
 
-	$(MAKE) -C Joystick clean
-	$(MAKE) -C Joystick all
+%: $(PROJECT_DIRECTORIES)
+	@echo . > /dev/null
 
-	$(MAKE) -C Keyboard clean
-	$(MAKE) -C Keyboard all
-
-	$(MAKE) -C KeyboardMouse clean
-	$(MAKE) -C KeyboardMouse all
-
-	$(MAKE) -C MassStorage clean
-	$(MAKE) -C MassStorage all
-
-	$(MAKE) -C MIDI clean
-	$(MAKE) -C MIDI all
-
-	$(MAKE) -C Mouse clean
-	$(MAKE) -C Mouse all
-
-	$(MAKE) -C RNDISEthernet clean
-	$(MAKE) -C RNDISEthernet all
-
-	$(MAKE) -C VirtualSerial clean
-	$(MAKE) -C VirtualSerial all
-
-%:
-	$(MAKE) -C AudioInput $@
-	$(MAKE) -C AudioOutput $@
-	$(MAKE) -C DualVirtualSerial $@
-	$(MAKE) -C GenericHID $@
-	$(MAKE) -C Joystick $@
-	$(MAKE) -C Keyboard $@
-	$(MAKE) -C KeyboardMouse $@
-	$(MAKE) -C MassStorage $@
-	$(MAKE) -C MIDI $@
-	$(MAKE) -C Mouse $@
-	$(MAKE) -C RNDISEthernet $@
-	$(MAKE) -C VirtualSerial $@
-
+$(PROJECT_DIRECTORIES):
+	@$(MAKE) -C $@ $(MAKECMDGOALS)
+    
+.PHONY: $(PROJECT_DIRECTORIES)

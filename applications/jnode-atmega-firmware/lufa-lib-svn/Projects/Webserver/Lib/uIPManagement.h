@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -43,29 +43,13 @@
 		#include <uip_arp.h>
 		#include <uip-split.h>
 		#include <timer.h>
+		
+		#include "Config/AppConfig.h"
 
-		#include "Lib/DHCPClientApp.h"
-		#include "Lib/DHCPServerApp.h"
-		#include "Lib/HTTPServerApp.h"
-		#include "Lib/TELNETServerApp.h"
-
-	/* Macros: */
-		/** IP address that the webserver should use once connected to a RNDIS device (when DHCP is disabled). */
-		#define DEVICE_IP_ADDRESS         (uint8_t[]){10, 0, 0, 2}
-
-		/** Netmask that the webserver should once connected to a RNDIS device (when DHCP is disabled). */
-		#define DEVICE_NETMASK            (uint8_t[]){255, 255, 255, 0}
-
-		/** IP address of the default gateway the webserver should use when routing outside the local subnet
-		 *  (when DHCP is disabled).
-		 */
-		#define DEVICE_GATEWAY            (uint8_t[]){10, 0, 0, 1}
-
-		/** Ethernet MAC address of the virtual webserver. When in device RNDIS mode, the virtual webserver requires
-		 *  a unique MAC address that it can use when sending packets to the RNDIS adapter, which contains a seperate
-		 *  MAC address as set in the RNDIS class driver configuration structure.
-		 */
-		#define SERVER_MAC_ADDRESS        (uint8_t[]){1, 0, 1, 0, 1, 0}
+		#include "DHCPClientApp.h"
+		#include "DHCPServerApp.h"
+		#include "HTTPServerApp.h"
+		#include "TELNETServerApp.h"
 
 	/* External Variables: */
 		extern struct uip_eth_addr MACAddress;

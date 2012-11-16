@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -71,7 +71,7 @@ static uint16_t LastTransferLength = 0;
 static uint8_t NextResponseBuffer[64];
 
 /** Indicates the length of the next response to send */
-static uint8_t NextReponseLen;
+static uint8_t NextResponseLen;
 
 /** Main program entry point. This routine contains the overall program flow, including initial
  *  setup of all components and the main program loop.
@@ -81,7 +81,7 @@ int main(void)
 	SetupHardware();
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{
@@ -129,12 +129,9 @@ void EVENT_USB_Device_ConfigurationChanged(void)
 	bool ConfigSuccess = true;
 
 	/* Setup TMC In, Out and Notification Endpoints */
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(TMC_NOTIFICATION_EPNUM, EP_TYPE_INTERRUPT, ENDPOINT_DIR_IN,
-	                                            TMC_IO_EPSIZE, ENDPOINT_BANK_SINGLE);
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(TMC_IN_EPNUM,  EP_TYPE_BULK, ENDPOINT_DIR_IN,
-	                                            TMC_IO_EPSIZE, ENDPOINT_BANK_SINGLE);
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(TMC_OUT_EPNUM, EP_TYPE_BULK, ENDPOINT_DIR_OUT,
-	                                            TMC_IO_EPSIZE, ENDPOINT_BANK_SINGLE);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(TMC_NOTIFICATION_EPADDR, EP_TYPE_INTERRUPT, TMC_IO_EPSIZE, 1);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(TMC_IN_EPADDR,  EP_TYPE_BULK, TMC_IO_EPSIZE, 1);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(TMC_OUT_EPADDR, EP_TYPE_BULK, TMC_IO_EPSIZE, 1);
 
 	/* Indicate endpoint configuration success or failure */
 	LEDs_SetAllLEDs(ConfigSuccess ? LEDMASK_USB_READY : LEDMASK_USB_ERROR);
@@ -329,16 +326,16 @@ void ProcessSentMessage(uint8_t* const Data, const uint8_t Length)
 	if (strncmp((char*)Data, "*IDN?", 5) == 0)
 	  strcpy((char*)NextResponseBuffer, "LUFA TMC DEMO");
 
-	NextReponseLen = strlen((char*)NextResponseBuffer);
+	NextResponseLen = strlen((char*)NextResponseBuffer);
 }
 
 uint8_t GetNextMessage(uint8_t* const Data)
 {
 	  strcpy((char*)NextResponseBuffer, "LUFA TMC DEMO");
 
-	NextReponseLen = strlen((char*)NextResponseBuffer);
+	NextResponseLen = strlen((char*)NextResponseBuffer);
 // ---
-	uint8_t DataLen = MIN(NextReponseLen, 64);
+	uint8_t DataLen = MIN(NextResponseLen, 64);
 
 	strlcpy((char*)Data, (char*)NextResponseBuffer, DataLen);
 
@@ -418,7 +415,7 @@ bool ReadTMCHeader(TMC_MessageHeader_t* const MessageHeader)
 	uint8_t  ErrorCode;
 
 	/* Select the Data Out endpoint */
-	Endpoint_SelectEndpoint(TMC_OUT_EPNUM);
+	Endpoint_SelectEndpoint(TMC_OUT_EPADDR);
 
 	/* Abort if no command has been sent from the host */
 	if (!(Endpoint_IsOUTReceived()))
@@ -450,7 +447,7 @@ bool WriteTMCHeader(TMC_MessageHeader_t* const MessageHeader)
 	MessageHeader->InverseTag = ~CurrentTransferTag;
 
 	/* Select the Data In endpoint */
-	Endpoint_SelectEndpoint(TMC_IN_EPNUM);
+	Endpoint_SelectEndpoint(TMC_IN_EPADDR);
 
 	/* Send the command header to the host */
 	BytesTransferred = 0;

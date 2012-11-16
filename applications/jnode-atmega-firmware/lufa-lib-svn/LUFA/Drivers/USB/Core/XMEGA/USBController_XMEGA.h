@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -69,8 +69,7 @@
 			} ATTR_PACKED USB_EndpointTable_t;
 
 		/* External Variables: */
-			extern USB_EndpointTable_t USB_EndpointTable;
-
+			extern uint8_t USB_EndpointTable[];
 	#endif
 
 	/* Includes: */
@@ -95,7 +94,7 @@
 			#error F_USB is not defined. You must define F_USB to the frequency of the unprescaled USB controller clock in your project makefile.
 		#endif
 
-		#if (F_USB % 6000000)
+		#if ((F_USB % 6000000) || (F_USB < 6000000))
 			#error Invalid F_USB specified. F_USB must be a multiple of 6MHz for USB Low Speed operation, and a multiple of 48MHz for Full Speed operation.
 		#endif
 
@@ -176,11 +175,13 @@
 			 *  Calling this function when the USB interface is already initialized will cause a complete USB
 			 *  interface reset and re-enumeration.
 			 *
-			 *  \param[in] Mode     This is a mask indicating what mode the USB interface is to be initialized to, a value
+			 *  \param[in] Mode     Mask indicating what mode the USB interface is to be initialized to, a value
 			 *                      from the \ref USB_Modes_t enum.
+			 *                      \note This parameter does not exist on devices with only one supported USB
+			 *                            mode (device or host).
 			 *
 			 *  \param[in] Options  Mask indicating the options which should be used when initializing the USB
-			 *                      interface to control the USB interface's behaviour. This should be comprised of
+			 *                      interface to control the USB interface's behavior. This should be comprised of
 			 *                      a \c USB_OPT_REG_* mask to control the regulator, a \c USB_OPT_*_PLL mask to control the
 			 *                      PLL, and a \c USB_DEVICE_OPT_* mask (when the device mode is enabled) to set the device
 			 *                      mode speed.
@@ -192,7 +193,7 @@
 			 *        function prototype.
 			 *        \n\n
 			 *
-			 *  \note To reduce the FLASH requirements of the library if only fixed settings are are required,
+			 *  \note To reduce the FLASH requirements of the library if only fixed settings are required,
 			 *        the options may be set statically in the same manner as the mode (see the Mode parameter of
 			 *        this function). To statically set the USB options, pass in the \c USE_STATIC_OPTIONS token,
 			 *        defined to the appropriate options masks. When the options are statically set, this
@@ -232,13 +233,12 @@
 			void USB_ResetInterface(void);
 
 		/* Global Variables: */
-			#if (!defined(USB_HOST_ONLY) && !defined(USB_DEVICE_ONLY)) || defined(__DOXYGEN__)
+			#if defined(USB_CAN_BE_BOTH) || defined(__DOXYGEN__)
 				/** Indicates the mode that the USB interface is currently initialized to, a value from the
 				 *  \ref USB_Modes_t enum.
 				 *
-				 *  \note This variable should be treated as read-only in the user application, and never manually
-				 *        changed in value.
-				 *        \n\n
+				 *  \attention This variable should be treated as read-only in the user application, and never manually
+				 *             changed in value.
 				 *
 				 *  \note When the controller is initialized into UID auto-detection mode, this variable will hold the
 				 *        currently selected USB mode (i.e. \ref USB_MODE_Device or \ref USB_MODE_Host). If the controller
@@ -248,7 +248,9 @@
 				 *        USB interface is not initialized.
 				 */
 				extern volatile uint8_t USB_CurrentMode;
-			#elif defined(USB_DEVICE_ONLY)
+			#elif defined(USB_CAN_BE_HOST)
+				#define USB_CurrentMode USB_MODE_Host
+			#elif defined(USB_CAN_BE_DEVICE)
 				#define USB_CurrentMode USB_MODE_Device
 			#endif
 
@@ -256,8 +258,8 @@
 				/** Indicates the current USB options that the USB interface was initialized with when \ref USB_Init()
 				 *  was called. This value will be one of the \c USB_MODE_* masks defined elsewhere in this module.
 				 *
-				 *  \note This variable should be treated as read-only in the user application, and never manually
-				 *        changed in value.
+				 *  \attention This variable should be treated as read-only in the user application, and never manually
+				 *             changed in value.
 				 */
 				extern volatile uint8_t USB_Options;
 			#elif defined(USE_STATIC_OPTIONS)

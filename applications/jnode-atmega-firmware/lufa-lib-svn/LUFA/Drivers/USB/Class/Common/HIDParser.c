@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -53,7 +53,7 @@ uint8_t USB_ProcessHIDReport(const uint8_t* ReportData,
 	while (ReportSize)
 	{
 		uint8_t  HIDReportItem  = *ReportData;
-		uint32_t ReportItemData = 0;
+		uint32_t ReportItemData;
 
 		ReportData++;
 		ReportSize--;
@@ -61,19 +61,26 @@ uint8_t USB_ProcessHIDReport(const uint8_t* ReportData,
 		switch (HIDReportItem & HID_RI_DATA_SIZE_MASK)
 		{
 			case HID_RI_DATA_BITS_32:
-				ReportItemData  = le32_to_cpu(*((uint32_t*)ReportData));
+				ReportItemData  = (((uint32_t)ReportData[3] << 24) | ((uint32_t)ReportData[2] << 16) |
+			                       ((uint16_t)ReportData[1] << 8)  | ReportData[0]);
 				ReportSize     -= 4;
 				ReportData     += 4;
 				break;
+
 			case HID_RI_DATA_BITS_16:
-				ReportItemData  = le16_to_cpu(*((uint16_t*)ReportData));
+				ReportItemData  = (((uint16_t)ReportData[1] << 8) | (ReportData[0]));
 				ReportSize     -= 2;
 				ReportData     += 2;
 				break;
+
 			case HID_RI_DATA_BITS_8:
-				ReportItemData  = *((uint8_t*)ReportData);
+				ReportItemData  = ReportData[0];
 				ReportSize     -= 1;
 				ReportData     += 1;
+				break;
+
+			default:
+				ReportItemData  = 0;
 				break;
 		}
 
@@ -267,6 +274,9 @@ uint8_t USB_ProcessHIDReport(const uint8_t* ReportData,
 					  ParserData->TotalReportItems++;
 				}
 
+				break;
+			
+			default:
 				break;
 		}
 

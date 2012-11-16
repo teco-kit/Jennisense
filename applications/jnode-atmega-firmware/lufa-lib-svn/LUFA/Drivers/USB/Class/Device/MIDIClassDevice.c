@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -41,38 +41,14 @@ bool MIDI_Device_ConfigureEndpoints(USB_ClassInfo_MIDI_Device_t* const MIDIInter
 {
 	memset(&MIDIInterfaceInfo->State, 0x00, sizeof(MIDIInterfaceInfo->State));
 
-	for (uint8_t EndpointNum = 1; EndpointNum < ENDPOINT_TOTAL_ENDPOINTS; EndpointNum++)
-	{
-		uint16_t Size;
-		uint8_t  Type;
-		uint8_t  Direction;
-		bool     DoubleBanked;
+	MIDIInterfaceInfo->Config.DataINEndpoint.Type  = EP_TYPE_BULK;
+	MIDIInterfaceInfo->Config.DataOUTEndpoint.Type = EP_TYPE_BULK;
 
-		if (EndpointNum == MIDIInterfaceInfo->Config.DataINEndpointNumber)
-		{
-			Size         = MIDIInterfaceInfo->Config.DataINEndpointSize;
-			Direction    = ENDPOINT_DIR_IN;
-			Type         = EP_TYPE_BULK;
-			DoubleBanked = MIDIInterfaceInfo->Config.DataINEndpointDoubleBank;
-		}
-		else if (EndpointNum == MIDIInterfaceInfo->Config.DataOUTEndpointNumber)
-		{
-			Size         = MIDIInterfaceInfo->Config.DataOUTEndpointSize;
-			Direction    = ENDPOINT_DIR_OUT;
-			Type         = EP_TYPE_BULK;
-			DoubleBanked = MIDIInterfaceInfo->Config.DataOUTEndpointDoubleBank;
-		}
-		else
-		{
-			continue;
-		}
+	if (!(Endpoint_ConfigureEndpointTable(&MIDIInterfaceInfo->Config.DataINEndpoint, 1)))
+	  return false;
 
-		if (!(Endpoint_ConfigureEndpoint(EndpointNum, Type, Direction, Size,
-		                                 DoubleBanked ? ENDPOINT_BANK_DOUBLE : ENDPOINT_BANK_SINGLE)))
-		{
-			return false;
-		}
-	}
+	if (!(Endpoint_ConfigureEndpointTable(&MIDIInterfaceInfo->Config.DataOUTEndpoint, 1)))
+	  return false;
 
 	return true;
 }
@@ -83,7 +59,10 @@ void MIDI_Device_USBTask(USB_ClassInfo_MIDI_Device_t* const MIDIInterfaceInfo)
 	  return;
 
 	#if !defined(NO_CLASS_DRIVER_AUTOFLUSH)
-	MIDI_Device_Flush(MIDIInterfaceInfo);
+	Endpoint_SelectEndpoint(MIDIInterfaceInfo->Config.DataINEndpoint.Address);
+	
+	if (Endpoint_IsINReady())
+	  MIDI_Device_Flush(MIDIInterfaceInfo);
 	#endif
 }
 
@@ -95,7 +74,7 @@ uint8_t MIDI_Device_SendEventPacket(USB_ClassInfo_MIDI_Device_t* const MIDIInter
 
 	uint8_t ErrorCode;
 
-	Endpoint_SelectEndpoint(MIDIInterfaceInfo->Config.DataINEndpointNumber);
+	Endpoint_SelectEndpoint(MIDIInterfaceInfo->Config.DataINEndpoint.Address);
 
 	if ((ErrorCode = Endpoint_Write_Stream_LE(Event, sizeof(MIDI_EventPacket_t), NULL)) != ENDPOINT_RWSTREAM_NoError)
 	  return ErrorCode;
@@ -113,7 +92,7 @@ uint8_t MIDI_Device_Flush(USB_ClassInfo_MIDI_Device_t* const MIDIInterfaceInfo)
 
 	uint8_t ErrorCode;
 
-	Endpoint_SelectEndpoint(MIDIInterfaceInfo->Config.DataINEndpointNumber);
+	Endpoint_SelectEndpoint(MIDIInterfaceInfo->Config.DataINEndpoint.Address);
 
 	if (Endpoint_BytesInEndpoint())
 	{
@@ -132,7 +111,7 @@ bool MIDI_Device_ReceiveEventPacket(USB_ClassInfo_MIDI_Device_t* const MIDIInter
 	if (USB_DeviceState != DEVICE_STATE_Configured)
 	  return false;
 
-	Endpoint_SelectEndpoint(MIDIInterfaceInfo->Config.DataOUTEndpointNumber);
+	Endpoint_SelectEndpoint(MIDIInterfaceInfo->Config.DataOUTEndpoint.Address);
 
 	if (!(Endpoint_IsReadWriteAllowed()))
 	  return false;

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -69,8 +69,12 @@ void CDC_Device_ProcessControlRequest(USB_ClassInfo_CDC_Device_t* const CDCInter
 			{
 				Endpoint_ClearSETUP();
 
-				while (!(Endpoint_IsOUTReceived()));
-
+				while (!(Endpoint_IsOUTReceived()))
+				{
+					if (USB_DeviceState == DEVICE_STATE_Unattached)
+					  return;
+				}
+				
 				CDCInterfaceInfo->State.LineEncoding.BaudRateBPS = Endpoint_Read_32_LE();
 				CDCInterfaceInfo->State.LineEncoding.CharFormat  = Endpoint_Read_8();
 				CDCInterfaceInfo->State.LineEncoding.ParityType  = Endpoint_Read_8();
@@ -112,45 +116,18 @@ bool CDC_Device_ConfigureEndpoints(USB_ClassInfo_CDC_Device_t* const CDCInterfac
 {
 	memset(&CDCInterfaceInfo->State, 0x00, sizeof(CDCInterfaceInfo->State));
 
-	for (uint8_t EndpointNum = 1; EndpointNum < ENDPOINT_TOTAL_ENDPOINTS; EndpointNum++)
-	{
-		uint16_t Size;
-		uint8_t  Type;
-		uint8_t  Direction;
-		bool     DoubleBanked;
+	CDCInterfaceInfo->Config.DataINEndpoint.Type       = EP_TYPE_BULK;
+	CDCInterfaceInfo->Config.DataOUTEndpoint.Type      = EP_TYPE_BULK;
+	CDCInterfaceInfo->Config.NotificationEndpoint.Type = EP_TYPE_INTERRUPT;
 
-		if (EndpointNum == CDCInterfaceInfo->Config.DataINEndpointNumber)
-		{
-			Size         = CDCInterfaceInfo->Config.DataINEndpointSize;
-			Direction    = ENDPOINT_DIR_IN;
-			Type         = EP_TYPE_BULK;
-			DoubleBanked = CDCInterfaceInfo->Config.DataINEndpointDoubleBank;
-		}
-		else if (EndpointNum == CDCInterfaceInfo->Config.DataOUTEndpointNumber)
-		{
-			Size         = CDCInterfaceInfo->Config.DataOUTEndpointSize;
-			Direction    = ENDPOINT_DIR_OUT;
-			Type         = EP_TYPE_BULK;
-			DoubleBanked = CDCInterfaceInfo->Config.DataOUTEndpointDoubleBank;
-		}
-		else if (EndpointNum == CDCInterfaceInfo->Config.NotificationEndpointNumber)
-		{
-			Size         = CDCInterfaceInfo->Config.NotificationEndpointSize;
-			Direction    = ENDPOINT_DIR_IN;
-			Type         = EP_TYPE_INTERRUPT;
-			DoubleBanked = CDCInterfaceInfo->Config.NotificationEndpointDoubleBank;
-		}
-		else
-		{
-			continue;
-		}
+	if (!(Endpoint_ConfigureEndpointTable(&CDCInterfaceInfo->Config.DataINEndpoint, 1)))
+	  return false;
 
-		if (!(Endpoint_ConfigureEndpoint(EndpointNum, Type, Direction, Size,
-		                                 DoubleBanked ? ENDPOINT_BANK_DOUBLE : ENDPOINT_BANK_SINGLE)))
-		{
-			return false;
-		}
-	}
+	if (!(Endpoint_ConfigureEndpointTable(&CDCInterfaceInfo->Config.DataOUTEndpoint, 1)))
+	  return false;
+
+	if (!(Endpoint_ConfigureEndpointTable(&CDCInterfaceInfo->Config.NotificationEndpoint, 1)))
+	  return false;
 
 	return true;
 }
@@ -161,7 +138,10 @@ void CDC_Device_USBTask(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo)
 	  return;
 
 	#if !defined(NO_CLASS_DRIVER_AUTOFLUSH)
-	CDC_Device_Flush(CDCInterfaceInfo);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpoint.Address);
+	
+	if (Endpoint_IsINReady())
+	  CDC_Device_Flush(CDCInterfaceInfo);
 	#endif
 }
 
@@ -171,7 +151,7 @@ uint8_t CDC_Device_SendString(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo
 	if ((USB_DeviceState != DEVICE_STATE_Configured) || !(CDCInterfaceInfo->State.LineEncoding.BaudRateBPS))
 	  return ENDPOINT_RWSTREAM_DeviceDisconnected;
 
-	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpointNumber);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpoint.Address);
 	return Endpoint_Write_Stream_LE(String, strlen(String), NULL);
 }
 
@@ -182,7 +162,7 @@ uint8_t CDC_Device_SendData(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo,
 	if ((USB_DeviceState != DEVICE_STATE_Configured) || !(CDCInterfaceInfo->State.LineEncoding.BaudRateBPS))
 	  return ENDPOINT_RWSTREAM_DeviceDisconnected;
 
-	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpointNumber);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpoint.Address);
 	return Endpoint_Write_Stream_LE(Buffer, Length, NULL);
 }
 
@@ -192,7 +172,7 @@ uint8_t CDC_Device_SendByte(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo,
 	if ((USB_DeviceState != DEVICE_STATE_Configured) || !(CDCInterfaceInfo->State.LineEncoding.BaudRateBPS))
 	  return ENDPOINT_RWSTREAM_DeviceDisconnected;
 
-	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpointNumber);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpoint.Address);
 
 	if (!(Endpoint_IsReadWriteAllowed()))
 	{
@@ -215,7 +195,7 @@ uint8_t CDC_Device_Flush(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInfo)
 
 	uint8_t ErrorCode;
 
-	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpointNumber);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataINEndpoint.Address);
 
 	if (!(Endpoint_BytesInEndpoint()))
 	  return ENDPOINT_READYWAIT_NoError;
@@ -240,7 +220,7 @@ uint16_t CDC_Device_BytesReceived(USB_ClassInfo_CDC_Device_t* const CDCInterface
 	if ((USB_DeviceState != DEVICE_STATE_Configured) || !(CDCInterfaceInfo->State.LineEncoding.BaudRateBPS))
 	  return 0;
 
-	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataOUTEndpointNumber);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataOUTEndpoint.Address);
 
 	if (Endpoint_IsOUTReceived())
 	{
@@ -267,7 +247,7 @@ int16_t CDC_Device_ReceiveByte(USB_ClassInfo_CDC_Device_t* const CDCInterfaceInf
 
 	int16_t ReceivedByte = -1;
 
-	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataOUTEndpointNumber);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.DataOUTEndpoint.Address);
 
 	if (Endpoint_IsOUTReceived())
 	{
@@ -286,7 +266,7 @@ void CDC_Device_SendControlLineStateChange(USB_ClassInfo_CDC_Device_t* const CDC
 	if ((USB_DeviceState != DEVICE_STATE_Configured) || !(CDCInterfaceInfo->State.LineEncoding.BaudRateBPS))
 	  return;
 
-	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.NotificationEndpointNumber);
+	Endpoint_SelectEndpoint(CDCInterfaceInfo->Config.NotificationEndpoint.Address);
 
 	USB_Request_Header_t Notification = (USB_Request_Header_t)
 		{
@@ -352,6 +332,7 @@ static int CDC_Device_getchar_Blocking(FILE* Stream)
 }
 #endif
 
+// cppcheck-suppress unusedFunction
 void CDC_Device_Event_Stub(void)
 {
 

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -27,6 +27,9 @@
   arising out of or in connection with the use or performance of
   this software.
 */
+
+#include "../../../../Common/Common.h"
+#if (ARCH == ARCH_XMEGA)
 
 #define  __INCLUDE_FROM_USB_DRIVER
 #include "../USBMode.h"
@@ -39,26 +42,42 @@
 uint8_t USB_Device_ControlEndpointSize = ENDPOINT_CONTROLEP_DEFAULT_SIZE;
 #endif
 
-Endpoint_FIFOPair_t           USB_Endpoint_FIFOs[ENDPOINT_DETAILS_MAXEP];
+Endpoint_FIFOPair_t       USB_Endpoint_FIFOs[ENDPOINT_TOTAL_ENDPOINTS];
 
-volatile uint8_t              USB_Endpoint_SelectedEndpoint;
-volatile USB_EP_t*            USB_Endpoint_SelectedHandle;
+volatile uint8_t          USB_Endpoint_SelectedEndpoint;
+volatile USB_EP_t*        USB_Endpoint_SelectedHandle;
 volatile Endpoint_FIFO_t* USB_Endpoint_SelectedFIFO;
 
-bool Endpoint_ConfigureEndpoint_PRV(const uint8_t Number,
-                                    const uint8_t Direction,
+bool Endpoint_ConfigureEndpointTable(const USB_Endpoint_Table_t* const Table,
+                                     const uint8_t Entries)
+{
+	for (uint8_t i = 0; i < Entries; i++)
+	{
+		if (!(Table[i].Address))
+		  continue;
+	
+		if (!(Endpoint_ConfigureEndpoint(Table[i].Address, Table[i].Type, Table[i].Size, Table[i].Banks)))
+		{
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+bool Endpoint_ConfigureEndpoint_PRV(const uint8_t Address,
                                     const uint8_t Config,
                                     const uint8_t Size)
 {
-	Endpoint_SelectEndpoint(Number | Direction);
+	Endpoint_SelectEndpoint(Address);
 
 	USB_Endpoint_SelectedHandle->CTRL    = 0;
-	USB_Endpoint_SelectedHandle->STATUS  = (Direction == ENDPOINT_DIR_IN) ? USB_EP_BUSNACK0_bm : 0;
+	USB_Endpoint_SelectedHandle->STATUS  = (Address & ENDPOINT_DIR_IN) ? USB_EP_BUSNACK0_bm : 0;
 	USB_Endpoint_SelectedHandle->CTRL    = Config;
 	USB_Endpoint_SelectedHandle->CNT     = 0;
 	USB_Endpoint_SelectedHandle->DATAPTR = (intptr_t)USB_Endpoint_SelectedFIFO->Data;
 
-	USB_Endpoint_SelectedFIFO->Length    = (Direction == ENDPOINT_DIR_IN) ? Size : 0;
+	USB_Endpoint_SelectedFIFO->Length    = (Address & ENDPOINT_DIR_IN) ? Size : 0;
 	USB_Endpoint_SelectedFIFO->Position  = 0;
 
 	return true;
@@ -66,8 +85,11 @@ bool Endpoint_ConfigureEndpoint_PRV(const uint8_t Number,
 
 void Endpoint_ClearEndpoints(void)
 {
-	for (uint8_t EPNum = 0; EPNum < (ENDPOINT_TOTAL_ENDPOINTS * 2); EPNum++)
-	  ((USB_EP_t*)&USB_EndpointTable)[EPNum].CTRL = 0;
+	for (uint8_t EPNum = 0; EPNum < ENDPOINT_TOTAL_ENDPOINTS; EPNum++)
+	{
+		((USB_EndpointTable_t*)USB.EPPTR)->Endpoints[EPNum].IN.CTRL  = 0;
+		((USB_EndpointTable_t*)USB.EPPTR)->Endpoints[EPNum].OUT.CTRL = 0;
+	}
 }
 
 void Endpoint_ClearStatusStage(void)
@@ -138,6 +160,8 @@ uint8_t Endpoint_WaitUntilReady(void)
 		}
 	}
 }
+#endif
+
 #endif
 
 #endif

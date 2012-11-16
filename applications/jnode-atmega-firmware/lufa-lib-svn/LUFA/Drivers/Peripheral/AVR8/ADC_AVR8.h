@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -55,14 +55,14 @@
  *  \code
  *      // Initialize the ADC driver before first use
  *      ADC_Init(ADC_FREE_RUNNING | ADC_PRESCALE_32);
- *
+ *      
  *      // Must setup the ADC channel to read beforehand
  *      ADC_SetupChannel(1);
- *
+ *      
  *      // Perform a single conversion of the ADC channel 1
  *      ADC_GetChannelReading(ADC_REFERENCE_AVCC | ADC_RIGHT_ADJUSTED | ADC_CHANNEL1);
  *      printf("Conversion Result: %d\r\n", ADC_GetResult());
- *
+ *      
  *      // Start reading ADC channel 1 in free running (continuous conversion) mode
  *      ADC_StartReading(ADC_REFERENCE_AVCC | ADC_RIGHT_ADJUSTED | ADC_CHANNEL1);
  *      for (;;)
@@ -248,13 +248,13 @@
 				#define ADC_INT_TEMP_SENS           ((1 << 8) | (0x07 << MUX0))
 			#endif
 
-			/** MUX mask define for the internal 1.1V bandgap channel of the ADC. See \ref ADC_StartReading() and \ref ADC_GetChannelReading(). */
+			/** MUX mask define for the internal 1.1V band-gap channel of the ADC. See \ref ADC_StartReading() and \ref ADC_GetChannelReading(). */
 			#define ADC_1100MV_BANDGAP              (0x1E << MUX0)
 
 			/** Retrieves the ADC MUX mask for the given ADC channel number.
 			 *
-			 *  \note This macro will only work correctly on channel numbers that are compile-time
-			 *        constants defined by the preprocessor.
+			 *  \attention This macro will only work correctly on channel numbers that are compile-time
+			 *             constants defined by the preprocessor.
 			 *
 			 *  \param[in] Channel  Index of the ADC channel whose MUX mask is to be retrieved.
 			 */
@@ -268,9 +268,8 @@
 			 *
 			 *  \note This must only be called for ADC channels with are connected to a physical port
 			 *        pin of the AVR, denoted by its special alternative function ADCx.
-			 *        \n\n
 			 *
-			 *  \note The channel number must be specified as an integer, and <b>not</b> a \c ADC_CHANNEL* mask.
+			 *  \warning The channel number must be specified as an integer, and <b>not</b> a \c ADC_CHANNEL* mask.
 			 *
 			 *  \param[in] ChannelIndex  ADC channel number to set up for conversions.
 			 */
@@ -311,9 +310,8 @@
 			 *
 			 *  \note This must only be called for ADC channels with are connected to a physical port
 			 *        pin of the AVR, denoted by its special alternative function ADCx.
-			 *        \n\n
 			 *
-			 *  \note The channel number must be specified as an integer, and <b>not</b> a \c ADC_CHANNEL* mask.
+			 *  \warning The channel number must be specified as an integer, and <b>not</b> a \c ADC_CHANNEL* mask.
 			 *
 			 *  \param[in] ChannelIndex  ADC channel number to set up for conversions.
 			 */

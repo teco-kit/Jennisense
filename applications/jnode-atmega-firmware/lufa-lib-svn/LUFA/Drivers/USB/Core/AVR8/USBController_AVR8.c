@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -28,11 +28,14 @@
   this software.
 */
 
+#include "../../../../Common/Common.h"
+#if (ARCH == ARCH_AVR8)
+
 #define  __INCLUDE_FROM_USB_DRIVER
 #define  __INCLUDE_FROM_USB_CONTROLLER_C
 #include "../USBController.h"
 
-#if (!defined(USB_HOST_ONLY) && !defined(USB_DEVICE_ONLY))
+#if defined(USB_CAN_BE_BOTH)
 volatile uint8_t USB_CurrentMode = USB_MODE_None;
 #endif
 
@@ -58,6 +61,13 @@ void USB_Init(
 {
 	#if !defined(USE_STATIC_OPTIONS)
 	USB_Options = Options;
+	#endif
+
+	#if defined(USB_SERIES_4_AVR) || defined(USB_SERIES_6_AVR) || defined(USB_SERIES_7_AVR)
+	/* Workaround for AVR8 bootloaders that fail to turn off the OTG pad before running
+	 * the loaded application. This causes VBUS detection to fail unless we first force
+	 * it off to reset it. */
+	USB_OTGPAD_Off();
 	#endif
 
 	if (!(USB_Options & USB_OPT_REG_DISABLED))
@@ -229,8 +239,7 @@ static void USB_Init_Device(void)
 	#endif
 
 	Endpoint_ConfigureEndpoint(ENDPOINT_CONTROLEP, EP_TYPE_CONTROL,
-							   ENDPOINT_DIR_OUT, USB_Device_ControlEndpointSize,
-							   ENDPOINT_BANK_SINGLE);
+							   USB_Device_ControlEndpointSize, 1);
 
 	USB_INT_Clear(USB_INT_SUSPI);
 	USB_INT_Enable(USB_INT_SUSPI);
@@ -260,3 +269,4 @@ static void USB_Init_Host(void)
 }
 #endif
 
+#endif

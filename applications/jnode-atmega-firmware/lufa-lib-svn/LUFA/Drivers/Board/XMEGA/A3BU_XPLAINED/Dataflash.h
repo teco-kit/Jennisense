@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -29,28 +29,34 @@
 */
 
 /** \file
- *  \brief Board specific Dataflash driver header for the Atmel XMEGA A3BU Xplained.
- *  \copydetails Group_Dataflash_A3BU_XPLAINED
+ *  \brief Board specific Dataflash driver header for the Atmel XMEGA B1 Xplained.
+ *  \copydetails Group_Dataflash_B1_XPLAINED
  *
  *  \note This file should not be included directly. It is automatically included as needed by the dataflash driver
  *        dispatch header located in LUFA/Drivers/Board/Dataflash.h.
  */
 
 /** \ingroup Group_Dataflash
- *  \defgroup Group_Dataflash_A3BU_XPLAINED A3BU_XPLAINED
- *  \brief Board specific Dataflash driver header for the Atmel XMEGA A3BU Xplained.
+ *  \defgroup Group_Dataflash_B1_XPLAINED B1_XPLAINED
+ *  \brief Board specific Dataflash driver header for the Atmel XMEGA B1 Xplained.
  *
- *  Board specific Dataflash driver header for the Atmel XMEGA A3BU Xplained board.
+ *  Board specific Dataflash driver header for the Atmel XMEGA B1 Xplained board.
+ *
+ *  <table>
+ *    <tr><th>Name</th><th>Info</th><th>Select Pin</th><th>SPI Port</th></tr>
+ *    <tr><td>DATAFLASH_CHIP1</td><td>AT45DB642D (8MB)</td><td>PORTF.4</td><td>USARTD0 (In SPI Mode)</td></tr>
+ *  </table>
  *
  *  @{
  */
 
-#ifndef __DATAFLASH_A3BU_XPLAINED_H__
-#define __DATAFLASH_A3BU_XPLAINED_H__
+#ifndef __DATAFLASH_B1_XPLAINED_H__
+#define __DATAFLASH_B1_XPLAINED_H__
 
 	/* Includes: */
 		#include "../../../../Common/Common.h"
 		#include "../../../Misc/AT45DB642D.h"
+		#include "../../../Peripheral/SerialSPI.h"
 
 	/* Preprocessor Checks: */
 		#if !defined(__INCLUDE_FROM_DATAFLASH_H)
@@ -60,7 +66,7 @@
 	/* Private Interface - For use in library only: */
 	#if !defined(__DOXYGEN__)
 		/* Macros: */
-			#define DATAFLASH_CHIPCS_MASK                (1 << 4)
+			#define DATAFLASH_CHIPCS_MASK                DATAFLASH_CHIP1
 			#define DATAFLASH_CHIPCS_PORT                PORTF
 	#endif
 
@@ -70,10 +76,10 @@
 			#define DATAFLASH_TOTALCHIPS                 1
 
 			/** Mask for no dataflash chip selected. */
-			#define DATAFLASH_NO_CHIP                    DATAFLASH_CHIPCS_MASK
+			#define DATAFLASH_NO_CHIP                    0
 
 			/** Mask for the first dataflash chip selected. */
-			#define DATAFLASH_CHIP1                      0
+			#define DATAFLASH_CHIP1                      (1 << 4)
 
 			/** Internal main memory page size for the board's dataflash ICs. */
 			#define DATAFLASH_PAGE_SIZE                  1024
@@ -87,31 +93,32 @@
 			 */
 			static inline void Dataflash_Init(void)
 			{
-				DATAFLASH_CHIPCS_PORT.DIRSET = DATAFLASH_CHIPCS_MASK;
-				DATAFLASH_CHIPCS_PORT.OUTSET = DATAFLASH_CHIPCS_MASK;
+				DATAFLASH_CHIPCS_PORT.DIRSET   = DATAFLASH_CHIPCS_MASK;
+				
+				PORTCFG.MPCMASK                = DATAFLASH_CHIPCS_MASK;
+				DATAFLASH_CHIPCS_PORT.PIN0CTRL = PORT_INVEN_bm;	
 			}
 
 			/** Sends a byte to the currently selected dataflash IC, and returns a byte from the dataflash.
 			 *
-			 *  \param[in] Byte of data to send to the dataflash
+			 *  \param[in] Byte  Byte of data to send to the dataflash
 			 *
 			 *  \return Last response byte from the dataflash
 			 */
 			static inline uint8_t Dataflash_TransferByte(const uint8_t Byte) ATTR_ALWAYS_INLINE;
 			static inline uint8_t Dataflash_TransferByte(const uint8_t Byte)
 			{
-				// TODO
-				return 0;
+				return SerialSPI_TransferByte(&USARTD0, Byte);
 			}
 
 			/** Sends a byte to the currently selected dataflash IC, and ignores the next byte from the dataflash.
 			 *
-			 *  \param[in] Byte of data to send to the dataflash
+			 *  \param[in] Byte  Byte of data to send to the dataflash
 			 */
 			static inline void Dataflash_SendByte(const uint8_t Byte) ATTR_ALWAYS_INLINE;
 			static inline void Dataflash_SendByte(const uint8_t Byte)
 			{
-				// TODO
+				SerialSPI_SendByte(&USARTD0, Byte);
 			}
 
 			/** Sends a dummy byte to the currently selected dataflash IC, and returns the next byte from the dataflash.
@@ -121,14 +128,13 @@
 			static inline uint8_t Dataflash_ReceiveByte(void) ATTR_ALWAYS_INLINE ATTR_WARN_UNUSED_RESULT;
 			static inline uint8_t Dataflash_ReceiveByte(void)
 			{
-				// TODO
-				return 0;
+				return SerialSPI_ReceiveByte(&USARTD0);
 			}
 
 			/** Determines the currently selected dataflash chip.
 			 *
 			 *  \return Mask of the currently selected Dataflash chip, either \ref DATAFLASH_NO_CHIP if no chip is selected
-			 *  or a DATAFLASH_CHIPn mask (where n is the chip number).
+			 *          or a DATAFLASH_CHIPn mask (where n is the chip number).
 			 */
 			static inline uint8_t Dataflash_GetSelectedChip(void) ATTR_ALWAYS_INLINE ATTR_WARN_UNUSED_RESULT;
 			static inline uint8_t Dataflash_GetSelectedChip(void)
@@ -138,13 +144,14 @@
 
 			/** Selects the given dataflash chip.
 			 *
-			 *  \param[in]  ChipMask  Mask of the Dataflash IC to select, in the form of DATAFLASH_CHIPn mask (where n is
+			 *  \param[in]  ChipMask  Mask of the Dataflash IC to select, in the form of a \c DATAFLASH_CHIPn mask (where n is
 			 *              the chip number).
 			 */
 			static inline void Dataflash_SelectChip(const uint8_t ChipMask) ATTR_ALWAYS_INLINE;
 			static inline void Dataflash_SelectChip(const uint8_t ChipMask)
 			{
-				DATAFLASH_CHIPCS_PORT.OUT = ((DATAFLASH_CHIPCS_PORT.OUT & ~DATAFLASH_CHIPCS_MASK) | ChipMask);
+				DATAFLASH_CHIPCS_PORT.OUTCLR = DATAFLASH_CHIPCS_MASK;
+				DATAFLASH_CHIPCS_PORT.OUTSET = ChipMask;
 			}
 
 			/** Deselects the current dataflash chip, so that no dataflash is selected. */
@@ -170,10 +177,7 @@
 				if (PageAddress >= (DATAFLASH_PAGES * DATAFLASH_TOTALCHIPS))
 				  return;
 
-				if (PageAddress & 0x01)
-				  Dataflash_SelectChip(DATAFLASH_CHIP2);
-				else
-				  Dataflash_SelectChip(DATAFLASH_CHIP1);
+				Dataflash_SelectChip(DATAFLASH_CHIP1);
 			}
 
 			/** Toggles the select line of the currently selected dataflash IC, so that it is ready to receive
@@ -207,8 +211,6 @@
 			static inline void Dataflash_SendAddressBytes(uint16_t PageAddress,
 			                                              const uint16_t BufferByte)
 			{
-				PageAddress >>= 1;
-
 				Dataflash_SendByte(PageAddress >> 5);
 				Dataflash_SendByte((PageAddress << 3) | (BufferByte >> 8));
 				Dataflash_SendByte(BufferByte);

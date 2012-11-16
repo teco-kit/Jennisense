@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -44,11 +44,16 @@ USB_ClassInfo_MIDI_Host_t Keyboard_MIDI_Interface =
 	{
 		.Config =
 			{
-				.DataINPipeNumber       = 1,
-				.DataINPipeDoubleBank   = false,
-
-				.DataOUTPipeNumber      = 2,
-				.DataOUTPipeDoubleBank  = false,
+				.DataINPipe             =
+					{
+						.Address        = (PIPE_DIR_IN  | 1),
+						.Banks          = 1,
+					},
+				.DataOUTPipe            =
+					{
+						.Address        = (PIPE_DIR_OUT | 2),
+						.Banks          = 1,
+					},
 			},
 	};
 
@@ -63,7 +68,7 @@ int main(void)
 	puts_P(PSTR(ESC_FG_CYAN "MIDI Host Demo running.\r\n" ESC_FG_WHITE));
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{
@@ -96,7 +101,7 @@ void SetupHardware(void)
 }
 
 /** Task to manage an enumerated USB MIDI device once connected, to display received
- *  note events from the host and send note changes in response to tbe board's joystick.
+ *  note events from the host and send note changes in response to the board's joystick.
  */
 void JoystickHost_Task(void)
 {
@@ -106,8 +111,8 @@ void JoystickHost_Task(void)
 	MIDI_EventPacket_t MIDIEvent;
 	while (MIDI_Host_ReceiveEventPacket(&Keyboard_MIDI_Interface, &MIDIEvent))
 	{
-		bool NoteOnEvent  = ((MIDIEvent.Command & 0x0F) == (MIDI_COMMAND_NOTE_ON  >> 4));
-		bool NoteOffEvent = ((MIDIEvent.Command & 0x0F) == (MIDI_COMMAND_NOTE_OFF >> 4));
+		bool NoteOnEvent  = (MIDIEvent.Event == MIDI_EVENT(0, MIDI_COMMAND_NOTE_ON));
+		bool NoteOffEvent = (MIDIEvent.Event == MIDI_EVENT(0, MIDI_COMMAND_NOTE_OFF));
 
 		/* Display note events from the host */
 		if (NoteOnEvent || NoteOffEvent)
@@ -168,8 +173,7 @@ void CheckJoystickMovement(void)
 	{
 		MIDI_EventPacket_t MIDIEvent = (MIDI_EventPacket_t)
 			{
-				.CableNumber = 0,
-				.Command     = (MIDICommand >> 4),
+				.Event       = MIDI_EVENT(0, MIDICommand),
 
 				.Data1       = MIDICommand | Channel,
 				.Data2       = MIDIPitch,

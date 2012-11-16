@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -65,23 +65,23 @@
  *      // Create the buffer structure and its underlying storage array
  *      RingBuffer_t Buffer;
  *      uint8_t      BufferData[128];
- *
+ *      
  *      // Initialize the buffer with the created storage array
  *      RingBuffer_InitBuffer(&Buffer, BufferData, sizeof(BufferData));
- *
+ *      
  *      // Insert some data into the buffer
  *      RingBuffer_Insert(Buffer, 'H');
  *      RingBuffer_Insert(Buffer, 'E');
  *      RingBuffer_Insert(Buffer, 'L');
  *      RingBuffer_Insert(Buffer, 'L');
  *      RingBuffer_Insert(Buffer, 'O');
- *
+ *      
  *      // Cache the number of stored bytes in the buffer
  *      uint16_t BufferCount = RingBuffer_GetCount(&Buffer);
- *
+ *      
  *      // Printer stored data length
  *      printf("Buffer Length: %d, Buffer Data: \r\n", BufferCount);
- *
+ *      
  *      // Print contents of the buffer one character at a time
  *      while (BufferCount--)
  *        putc(RingBuffer_Remove(&Buffer));
@@ -126,9 +126,12 @@
 		 *  \param[out] DataPtr  Pointer to a global array that will hold the data stored into the ring buffer.
 		 *  \param[out] Size     Maximum number of bytes that can be stored in the underlying data array.
 		 */
-		static inline void RingBuffer_InitBuffer(RingBuffer_t* Buffer, uint8_t* const DataPtr, const uint16_t Size)
-		                                         ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
-		static inline void RingBuffer_InitBuffer(RingBuffer_t* Buffer, uint8_t* const DataPtr, const uint16_t Size)
+		static inline void RingBuffer_InitBuffer(RingBuffer_t* Buffer,
+		                                         uint8_t* const DataPtr,
+		                                         const uint16_t Size) ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
+		static inline void RingBuffer_InitBuffer(RingBuffer_t* Buffer,
+		                                         uint8_t* const DataPtr,
+		                                         const uint16_t Size)
 		{
 			GCC_FORCE_POINTER_ACCESS(Buffer);
 
@@ -225,9 +228,9 @@
 
 		/** Inserts an element into the ring buffer.
 		 *
-		 *  \note Only one execution thread (main program thread or an ISR) may insert into a single buffer
-		 *        otherwise data corruption may occur. Insertion and removal may occur from different execution
-		 *        threads.
+		 *  \warning Only one execution thread (main program thread or an ISR) may insert into a single buffer
+		 *           otherwise data corruption may occur. Insertion and removal may occur from different execution
+		 *           threads.
 		 *
 		 *  \param[in,out] Buffer  Pointer to a ring buffer structure to insert into.
 		 *  \param[in]     Data    Data element to insert into the buffer.
@@ -253,9 +256,9 @@
 
 		/** Removes an element from the ring buffer.
 		 *
-		 *  \note Only one execution thread (main program thread or an ISR) may remove from a single buffer
-		 *        otherwise data corruption may occur. Insertion and removal may occur from different execution
-		 *        threads.
+		 *  \warning Only one execution thread (main program thread or an ISR) may remove from a single buffer
+		 *           otherwise data corruption may occur. Insertion and removal may occur from different execution
+		 *           threads.
 		 *
 		 *  \param[in,out] Buffer  Pointer to a ring buffer structure to retrieve from.
 		 *

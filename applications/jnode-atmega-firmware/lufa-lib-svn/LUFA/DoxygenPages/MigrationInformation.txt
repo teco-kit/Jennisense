@@ -10,7 +10,58 @@
  *  to the next version released. It does not indicate all new additions to the library in each version change, only
  *  areas relevant to making older projects compatible with the API changes of each new release.
  *
- *  \section Sec_MigrationXXXXXX Migrating from 111009 to XXXXXX
+ *  \section Sec_MigrationXXXXXX Migrating from 120730 to XXXXXX
+ *  <b>Device Mode</b>
+ *    - The \ref HID_KEYBOARD_LED_KANA macro was previously misspelled as \c HID_KEYBOARD_LED_KATANA, and had an incorrect value. User applications requiring this
+ *      constant should use the new name, and remove any workarounds for the previously incorrect macro definition.
+ *    - The \c HID_KEYBOARD_SC_EQUAL_SIGN macro has been renamed to \ref HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN, and the previous definition of
+ *      \c HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN has been renamed \ref HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN_AS400 to conform to the definitions in the HID specification.
+ *
+ *  <b>Host Mode</b>
+ *    - The \ref HID_KEYBOARD_LED_KANA macro was previously misspelled as \c HID_KEYBOARD_LED_KATANA, and had an incorrect value. User applications requiring this
+ *      constant should use the new name, and remove any workarounds for the previously incorrect macro definition.
+ *    - The \c HID_KEYBOARD_SC_EQUAL_SIGN macro has been renamed to \ref HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN, and the previous definition of
+ *      \c HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN has been renamed \ref HID_KEYBOARD_SC_KEYPAD_EQUAL_SIGN_AS400 to conform to the definitions in the HID specification.
+ *
+ *  \section Sec_Migration120730 Migrating from 120219 to 120730
+ *  <b>Device Mode</b>
+ *    - The device mode Audio Class driver now requires an additional configuration parameter, the Audio Control interface index. Existing applications should
+ *      be adjusted to specify the additional configuration parameter.
+ *    - The HID_DESCRIPTOR_JOYSTICK() macro no longer takes a variable number of axis as a parameter, due to OS incompatibilities; this macro now uses a fixed
+ *      3 axis of data. User applications should update their calls to this macro and their report structures to suit a fixed 3-axis joystick report. If a user
+ *      application requires more than 3 axis' of data, a custom report descriptor will need to be constructed by hand.
+ *    - The \ref Endpoint_ConfigureEndpoint() function no longer takes in masks for the banks and direction; the number of banks is now an integer argument, and
+ *      the direction is obtained from the full endpoint address within the device. Applications calling Endpoint_ConfigureEndpoint() should update their API
+ *      call to use a full endpoint address (including ENDPOINT_DIR_IN or ENDPOINT_DIR_OUT direction in the MSB of the endpoint address) and an integer number
+ *      of banks.
+ *    - All endpoint functions now operate on full endpoint addresses within the device, rather than a directionless endpoint index. Applications should update
+ *      their API calls to use full endpoint addresses when required within the device.
+ *    - All device mode class drivers have been updated to use a new unified endpoint description structure for all endpoints; existing applications will need
+ *      to update their class driver struct instantiation to match the new scheme (see \ref USB_Endpoint_Table_t).
+ *    - The \c ENDPOINT_BANKS_SUPPORTED() and \c ENDPOINT_MAX_ENDPOINT_SIZE() macros have been removed, as these do not function correctly with the new addressing
+ *      scheme for the endpoint APIs. Please refer to the target device's datasheet for the maximum bank size of each endpoint.
+ *    - The MIDI class driver \ref MIDI_EventPacket_t event packet no longer contains seperate \c CableIndex and \c Command entries; these have been combined
+ *      into a single \c Event element which can be contructed using the new macro \ref MIDI_EVENT(). Existing applications should use the new macro and structure
+ *      element name.
+ *
+ *  <b>Host Mode</b>
+ *    - The Android Accessory Host class driver property strings are now a array of \c char* rather than a struct of named pointers. Existing applications
+ *      should use C99 Designated Initializers with the property string indexes located in \ref AOA_Strings_t instead.
+ *    - The \ref Pipe_ConfigurePipe() function no longer takes in masks for the banks and token; the number of banks is now an integer argument, and the token
+ *      is now inferred from the full pipe address within the device, and the pipe type. Applications calling Pipe_ConfigurePipe() should update their API
+ *      call to use a full pipe address (including PIPE_DIR_IN or PIPE_DIR_OUT direction in the MSB of the pipe address) and an integer number of banks.
+ *    - All pipe functions now operate on full pipe addresses within the device, rather than a directionless pipe index. Applications should update their API
+ *      calls to use full pipe addresses when required within the device.
+ *    - All host mode class drivers have been updated to use a new unified pipe description structure for all pipes; existing applications will need to update
+ *      their class driver struct instantiation to match the new scheme (see \ref USB_Pipe_Table_t).
+ *    - The MIDI class driver \ref MIDI_EventPacket_t event packet no longer contains seperate \c CableIndex and \c Command entries; these have been combined
+ *      into a single \c Event element which can be contructed using the new macro \ref MIDI_EVENT(). Existing applications should use the new macro and structure
+ *      element name.
+ *    - The library "LUFA/Drivers/USB/Core/ConfigDescriptor.c" source file has been renamed "LUFA/Drivers/USB/Core/ConfigDescriptors.c" as this was clashing with
+ *      files in some low level host mode demo applications, preventing parallel project builds. If you are referencing the project source files directly instead
+ *      of using the makefile module names, you will need to adjust your project makefile.
+ *
+ *  \section Sec_Migration120219 Migrating from 111009 to 120219
  *  <b>USB Core</b>
  *    - The HID_KEYBOARD_MODIFER_* macros in the HID class driver have been corrected to HID_KEYBOARD_MODIFIER_* (note the spelling of "modifier").
  *      Existing applications should switch over to the correctly spelled macro names.
@@ -21,6 +72,11 @@
  *    - The USB_CONFIG_ATTR_BUSPOWERED constant has been renamed to USB_CONFIG_ATTR_RESERVED, as this was misnamed. All devices must set this bit in
  *      the Configuration descriptor's attributes field. As all devices are assumed to be bus-powered unless stated otherwise with the
  *      USB_CONFIG_ATTR_SELFPOWERED flag a replacement constant for bus powered devices is not provided.
+ *
+ *  <b>Device Mode</b>
+ *    - The device mode Audio class driver now requires a new user application callback, \ref CALLBACK_Audio_Device_GetSetInterfaceProperty().
+ *      Existing applications must implement this new callback, however if no audio entities are defined in the audio device's descriptors,
+ *      this function may be hard-coded to always return false for previous behaviour to be retained.
  *
  *  \section Sec_Migration111009 Migrating from 110528 to 111009
  *  <b>Non-USB Library Components</b>
@@ -113,7 +169,7 @@
  *      eliminate any casting of descriptor pointers to a non \c const pointer.
  *    - The names of the class specific descriptor type defines in the USB Class drivers have changed - refer to the driver documentation
  *      for each class driver for the new class specific descriptor type names.
- *    - The \c ENDPOINT_DOUBLEBANK_SUPPORTED() macro is has been renamed \ref ENDPOINT_BANKS_SUPPORTED() and now returns the total number of
+ *    - The \c ENDPOINT_DOUBLEBANK_SUPPORTED() macro is has been renamed \c ENDPOINT_BANKS_SUPPORTED() and now returns the total number of
  *      banks supported by the given endpoint. Existing code should switch to the new naming scheme, and test that the return value of the
  *      macro is equal to or greater than 2 to regain the previous functionality.
  *    - The \c EVENT_USB_Device_UnhandledControlRequest() event is now named \ref EVENT_USB_Device_ControlRequest() and fires before (not after)

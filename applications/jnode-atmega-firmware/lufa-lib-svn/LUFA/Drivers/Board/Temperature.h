@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -56,7 +56,7 @@
  *      // Initialize the ADC and board temperature sensor drivers before first use
  *      ADC_Init(ADC_FREE_RUNNING | ADC_PRESCALE_128);
  *      Temperature_Init();
- *
+ *      
  *      // Display converted temperature in degrees Celsius
  *      printf("Current Temperature: %d Degrees\r\n", Temperature_GetTemperature());
  *  \endcode
@@ -69,15 +69,21 @@
 
 	/* Includes: */
 		#include "../../Common/Common.h"
-		#include "../Peripheral/ADC.h"
 
-		#if (BOARD == BOARD_NONE)
-			#error The Board Temperature Sensor driver cannot be used if the makefile BOARD option is not set.
-		#elif ((BOARD != BOARD_USBKEY) && (BOARD != BOARD_STK525) && \
-		       (BOARD != BOARD_STK526) && (BOARD != BOARD_USER) &&   \
-			   (BOARD != BOARD_EVK527))
+	/* Preprocessor Checks: */
+		#if ((BOARD == BOARD_USBKEY) || (BOARD == BOARD_STK525) || \
+		     (BOARD == BOARD_STK526) || (BOARD == BOARD_EVK527))
+			#define TEMPERATURE_SENSOR_DRIVER_COMPATIBLE
+		#endif
+		
+		#if !defined(__INCLUDE_FROM_TEMPERATURE_C) && !defined(TEMPERATURE_SENSOR_DRIVER_COMPATIBLE)
 			#error The selected board does not contain a compatible temperature sensor.
 		#endif
+
+	#if defined(TEMPERATURE_SENSOR_DRIVER_COMPATIBLE)
+
+	/* Includes: */
+		#include "../Peripheral/ADC.h"
 
 	/* Enable C linkage for C++ Compilers: */
 		#if defined(__cplusplus)
@@ -133,6 +139,8 @@
 			}
 		#endif
 
+	#endif
+	
 #endif
 
 /** @} */

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -101,62 +101,26 @@ uint8_t RNDIS_Host_ConfigurePipes(USB_ClassInfo_RNDIS_Host_t* const RNDISInterfa
 		}
 	}
 
-	for (uint8_t PipeNum = 1; PipeNum < PIPE_TOTAL_PIPES; PipeNum++)
-	{
-		uint16_t Size;
-		uint8_t  Type;
-		uint8_t  Token;
-		uint8_t  EndpointAddress;
-		uint8_t  InterruptPeriod;
-		bool     DoubleBanked;
+	RNDISInterfaceInfo->Config.DataINPipe.Size  = le16_to_cpu(DataINEndpoint->EndpointSize);
+	RNDISInterfaceInfo->Config.DataINPipe.EndpointAddress = DataINEndpoint->EndpointAddress;
+	RNDISInterfaceInfo->Config.DataINPipe.Type  = EP_TYPE_BULK;
+	
+	RNDISInterfaceInfo->Config.DataOUTPipe.Size = le16_to_cpu(DataOUTEndpoint->EndpointSize);
+	RNDISInterfaceInfo->Config.DataOUTPipe.EndpointAddress = DataOUTEndpoint->EndpointAddress;
+	RNDISInterfaceInfo->Config.DataOUTPipe.Type = EP_TYPE_BULK;
+	
+	RNDISInterfaceInfo->Config.NotificationPipe.Size = le16_to_cpu(NotificationEndpoint->EndpointSize);
+	RNDISInterfaceInfo->Config.NotificationPipe.EndpointAddress = NotificationEndpoint->EndpointAddress;
+	RNDISInterfaceInfo->Config.NotificationPipe.Type = EP_TYPE_INTERRUPT;
 
-		if (PipeNum == RNDISInterfaceInfo->Config.DataINPipeNumber)
-		{
-			Size            = le16_to_cpu(DataINEndpoint->EndpointSize);
-			EndpointAddress = DataINEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_IN;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = RNDISInterfaceInfo->Config.DataINPipeDoubleBank;
-			InterruptPeriod = 0;
+	if (!(Pipe_ConfigurePipeTable(&RNDISInterfaceInfo->Config.DataINPipe, 1)))
+	  return false;
+	
+	if (!(Pipe_ConfigurePipeTable(&RNDISInterfaceInfo->Config.DataOUTPipe, 1)))
+	  return false;
 
-			RNDISInterfaceInfo->State.DataINPipeSize = DataINEndpoint->EndpointSize;
-		}
-		else if (PipeNum == RNDISInterfaceInfo->Config.DataOUTPipeNumber)
-		{
-			Size            = le16_to_cpu(DataOUTEndpoint->EndpointSize);
-			EndpointAddress = DataOUTEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_OUT;
-			Type            = EP_TYPE_BULK;
-			DoubleBanked    = RNDISInterfaceInfo->Config.DataOUTPipeDoubleBank;
-			InterruptPeriod = 0;
-
-			RNDISInterfaceInfo->State.DataOUTPipeSize = DataOUTEndpoint->EndpointSize;
-		}
-		else if (PipeNum == RNDISInterfaceInfo->Config.NotificationPipeNumber)
-		{
-			Size            = le16_to_cpu(NotificationEndpoint->EndpointSize);
-			EndpointAddress = NotificationEndpoint->EndpointAddress;
-			Token           = PIPE_TOKEN_IN;
-			Type            = EP_TYPE_INTERRUPT;
-			DoubleBanked    = RNDISInterfaceInfo->Config.NotificationPipeDoubleBank;
-			InterruptPeriod = NotificationEndpoint->PollingIntervalMS;
-
-			RNDISInterfaceInfo->State.NotificationPipeSize = NotificationEndpoint->EndpointSize;
-		}
-		else
-		{
-			continue;
-		}
-
-		if (!(Pipe_ConfigurePipe(PipeNum, Type, Token, EndpointAddress, Size,
-		                         DoubleBanked ? PIPE_BANK_DOUBLE : PIPE_BANK_SINGLE)))
-		{
-			return CDC_ENUMERROR_PipeConfigurationFailed;
-		}
-
-		if (InterruptPeriod)
-		  Pipe_SetInterruptPeriod(InterruptPeriod);
-	}
+	if (!(Pipe_ConfigurePipeTable(&RNDISInterfaceInfo->Config.NotificationPipe, 1)))
+	  return false;
 
 	RNDISInterfaceInfo->State.ControlInterfaceNumber = RNDISControlInterface->InterfaceNumber;
 	RNDISInterfaceInfo->State.IsActive = true;
@@ -351,7 +315,7 @@ uint8_t RNDIS_Host_SetRNDISProperty(USB_ClassInfo_RNDIS_Host_t* const RNDISInter
 	memcpy(&SetMessageData.ContiguousBuffer, Buffer, Length);
 
 	if ((ErrorCode = RNDIS_SendEncapsulatedCommand(RNDISInterfaceInfo, &SetMessageData,
-	                                               SetMessageData.SetMessage.MessageLength)) != HOST_SENDCONTROL_Successful)
+	                                               (sizeof(RNDIS_Set_Message_t) + Length))) != HOST_SENDCONTROL_Successful)
 	{
 		return ErrorCode;
 	}
@@ -419,7 +383,7 @@ bool RNDIS_Host_IsPacketReceived(USB_ClassInfo_RNDIS_Host_t* const RNDISInterfac
 	if ((USB_HostState != HOST_STATE_Configured) || !(RNDISInterfaceInfo->State.IsActive))
 	  return false;
 
-	Pipe_SelectPipe(RNDISInterfaceInfo->Config.DataINPipeNumber);
+	Pipe_SelectPipe(RNDISInterfaceInfo->Config.DataINPipe.Address);
 
 	Pipe_Unfreeze();
 	PacketWaiting = Pipe_IsINReceived();
@@ -437,7 +401,7 @@ uint8_t RNDIS_Host_ReadPacket(USB_ClassInfo_RNDIS_Host_t* const RNDISInterfaceIn
 	if ((USB_HostState != HOST_STATE_Configured) || !(RNDISInterfaceInfo->State.IsActive))
 	  return PIPE_READYWAIT_DeviceDisconnected;
 
-	Pipe_SelectPipe(RNDISInterfaceInfo->Config.DataINPipeNumber);
+	Pipe_SelectPipe(RNDISInterfaceInfo->Config.DataINPipe.Address);
 	Pipe_Unfreeze();
 
 	if (!(Pipe_IsReadWriteAllowed()))
@@ -460,7 +424,7 @@ uint8_t RNDIS_Host_ReadPacket(USB_ClassInfo_RNDIS_Host_t* const RNDISInterfaceIn
 
 	*PacketLength = (uint16_t)le32_to_cpu(DeviceMessage.DataLength);
 
-	Pipe_Discard_Stream(DeviceMessage.DataOffset -
+	Pipe_Discard_Stream(le32_to_cpu(DeviceMessage.DataOffset) -
 	                    (sizeof(RNDIS_Packet_Message_t) - sizeof(RNDIS_Message_Header_t)),
 	                    NULL);
 
@@ -491,7 +455,7 @@ uint8_t RNDIS_Host_SendPacket(USB_ClassInfo_RNDIS_Host_t* const RNDISInterfaceIn
 	DeviceMessage.DataOffset    = CPU_TO_LE32(sizeof(RNDIS_Packet_Message_t) - sizeof(RNDIS_Message_Header_t));
 	DeviceMessage.DataLength    = cpu_to_le32(PacketLength);
 
-	Pipe_SelectPipe(RNDISInterfaceInfo->Config.DataOUTPipeNumber);
+	Pipe_SelectPipe(RNDISInterfaceInfo->Config.DataOUTPipe.Address);
 	Pipe_Unfreeze();
 
 	if ((ErrorCode = Pipe_Write_Stream_LE(&DeviceMessage, sizeof(RNDIS_Packet_Message_t),

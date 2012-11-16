@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -29,7 +29,7 @@
 */
 
 /** \file
- *  \brief Board specific Buttons driver header for the Paranoid Studio USB2AX.
+ *  \brief Board specific Buttons driver header for the Xevelabs USB2AX.
  *  \copydetails Group_Buttons_USB2AX
  *
  *  \note This file should not be included directly. It is automatically included as needed by the Buttons driver
@@ -37,19 +37,31 @@
  */
 
 /** \ingroup Group_Buttons
+ *  \defgroup Group_Buttons_USB2AX_V31 USB2AX_V31
+ *  \brief Board specific Button driver header for the Xevelabs USB2AX revision 3.1.
+ *
+ *  See \ref Group_Buttons_USB2AX for more details.
+ */
+ 
+/** \ingroup Group_Buttons
  *  \defgroup Group_Buttons_USB2AX_V3 USB2AX_V3
- *  \brief Board specific Button driver header for the Paranoid Studio USB2AX revision 3.
+ *  \brief Board specific Button driver header for the Xevelabs USB2AX revision 3.
  *
  *  See \ref Group_Buttons_USB2AX for more details.
  */
 
 /** \ingroup Group_Buttons
  *  \defgroup Group_Buttons_USB2AX USB2AX
- *  \brief Board specific Buttons driver header for the Paranoid Studio USB2AX.
+ *  \brief Board specific Buttons driver header for the Xevelabs USB2AX revisions 1 and 2.
  *
- *  \note For version 3 USB2AX boards, compile with <code>BOARD = USB2AX_V3</code>.
+ *  \note For version 3 USB2AX boards, compile with <code>BOARD = USB2AX_V3</code> and for version 3.1, with <code>BOARD = USB2AX_V31</code>. 
  *
  *  Board specific Buttons driver header for the Paranoid Studio USB2AX (http://paranoidstudio.assembla.com/wiki/show/paranoidstudio/USB2AX).
+ *
+ *  <table>
+ *    <tr><th>Name</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>BUTTONS_BUTTON1</td><td>HWB Button</td><td>Low</td><td>PORTD.7</td></tr>
+ *  </table>
  *
  *  @{
  */
@@ -81,6 +93,12 @@
 			{
 				DDRD  &= ~BUTTONS_BUTTON1;
 				PORTD |=  BUTTONS_BUTTON1;
+			}
+
+			static inline void Buttons_Disable(void)
+			{
+				DDRD  &= ~BUTTONS_BUTTON1;
+				PORTD &= ~BUTTONS_BUTTON1;
 			}
 
 			static inline uint8_t Buttons_GetStatus(void) ATTR_WARN_UNUSED_RESULT;

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -583,8 +583,8 @@
 		 *  about the number of channels, the sample resolution, acceptable sample frequencies and encoding method used
 		 *  in the device's audio streams. See the USB Audio specification for more details.
 		 *
-		 *  \note This descriptor <b>must</b> be followed by one or more \ref USB_Audio_SampleFreq_t elements containing
-		 *        the continuous or discrete sample frequencies.
+		 *  \attention This descriptor <b>must</b> be followed by one or more \ref USB_Audio_SampleFreq_t elements containing
+		 *             the continuous or discrete sample frequencies.
 		 *
 		 *  \see \ref USB_Audio_StdDescriptor_Format_t for the version of this type with standard element names.
 		 *
@@ -630,8 +630,8 @@
 		 *  about the number of channels, the sample resolution, acceptable sample frequencies and encoding method used
 		 *  in the device's audio streams. See the USB Audio specification for more details.
 		 *
-		 *  \note This descriptor <b>must</b> be followed by one or more 24-bit integer elements containing the continuous
-		 *        or discrete sample frequencies.
+		 *  \attention This descriptor <b>must</b> be followed by one or more 24-bit integer elements containing the continuous
+		 *             or discrete sample frequencies.
 		 *
 		 *  \see \ref USB_Audio_Descriptor_Format_t for the version of this type with non-standard LUFA specific
 		 *       element names.

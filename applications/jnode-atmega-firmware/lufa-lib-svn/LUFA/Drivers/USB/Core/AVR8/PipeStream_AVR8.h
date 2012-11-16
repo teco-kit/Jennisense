@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
               
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this 
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the 
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -85,7 +85,7 @@
 			 *  <b>Single Stream Transfer Example:</b>
 			 *  \code
 			 *  uint8_t ErrorCode;
-			 *
+			 *  
 			 *  if ((ErrorCode = Pipe_Discard_Stream(512, NULL)) != PIPE_RWSTREAM_NoError)
 			 *  {
 			 *       // Stream failed to complete - check ErrorCode here
@@ -96,13 +96,13 @@
 			 *  \code
 			 *  uint8_t  ErrorCode;
 			 *  uint16_t BytesProcessed;
-			 *
+			 *  
 			 *  BytesProcessed = 0;
 			 *  while ((ErrorCode = Pipe_Discard_Stream(512, &BytesProcessed)) == PIPE_RWSTREAM_IncompleteTransfer)
 			 *  {
 			 *      // Stream not yet complete - do other actions here, abort if required
 			 *  }
-			 *
+			 *  
 			 *  if (ErrorCode != PIPE_RWSTREAM_NoError)
 			 *  {
 			 *      // Stream failed to complete - check ErrorCode here
@@ -137,7 +137,7 @@
 			 *  <b>Single Stream Transfer Example:</b>
 			 *  \code
 			 *  uint8_t ErrorCode;
-			 *
+			 *  
 			 *  if ((ErrorCode = Pipe_Null_Stream(512, NULL)) != PIPE_RWSTREAM_NoError)
 			 *  {
 			 *       // Stream failed to complete - check ErrorCode here
@@ -148,13 +148,13 @@
 			 *  \code
 			 *  uint8_t  ErrorCode;
 			 *  uint16_t BytesProcessed;
-			 *
+			 *  
 			 *  BytesProcessed = 0;
 			 *  while ((ErrorCode = Pipe_Null_Stream(512, &BytesProcessed)) == PIPE_RWSTREAM_IncompleteTransfer)
 			 *  {
 			 *      // Stream not yet complete - do other actions here, abort if required
 			 *  }
-			 *
+			 *  
 			 *  if (ErrorCode != PIPE_RWSTREAM_NoError)
 			 *  {
 			 *      // Stream failed to complete - check ErrorCode here
@@ -198,7 +198,7 @@
 			 *  \code
 			 *  uint8_t DataStream[512];
 			 *  uint8_t ErrorCode;
-			 *
+			 *  
 			 *  if ((ErrorCode = Pipe_Write_Stream_LE(DataStream, sizeof(DataStream),
 			 *                                        NULL)) != PIPE_RWSTREAM_NoError)
 			 *  {
@@ -211,14 +211,14 @@
 			 *  uint8_t  DataStream[512];
 			 *  uint8_t  ErrorCode;
 			 *  uint16_t BytesProcessed;
-			 *
+			 *  
 			 *  BytesProcessed = 0;
 			 *  while ((ErrorCode = Pipe_Write_Stream_LE(DataStream, sizeof(DataStream),
 			 *                                           &BytesProcessed)) == PIPE_RWSTREAM_IncompleteTransfer)
 			 *  {
 			 *      // Stream not yet complete - do other actions here, abort if required
 			 *  }
-			 *
+			 *  
 			 *  if (ErrorCode != PIPE_RWSTREAM_NoError)
 			 *  {
 			 *      // Stream failed to complete - check ErrorCode here
@@ -279,7 +279,7 @@
 			 *  \code
 			 *  uint8_t DataStream[512];
 			 *  uint8_t ErrorCode;
-			 *
+			 *  
 			 *  if ((ErrorCode = Pipe_Read_Stream_LE(DataStream, sizeof(DataStream),
 			 *                                       NULL)) != PIPE_RWSTREAM_NoError)
 			 *  {
@@ -292,14 +292,14 @@
 			 *  uint8_t  DataStream[512];
 			 *  uint8_t  ErrorCode;
 			 *  uint16_t BytesProcessed;
-			 *
+			 *  
 			 *  BytesProcessed = 0;
 			 *  while ((ErrorCode = Pipe_Read_Stream_LE(DataStream, sizeof(DataStream),
 			 *                                          &BytesProcessed)) == PIPE_RWSTREAM_IncompleteTransfer)
 			 *  {
 			 *      // Stream not yet complete - do other actions here, abort if required
 			 *  }
-			 *
+			 *  
 			 *  if (ErrorCode != PIPE_RWSTREAM_NoError)
 			 *  {
 			 *      // Stream failed to complete - check ErrorCode here

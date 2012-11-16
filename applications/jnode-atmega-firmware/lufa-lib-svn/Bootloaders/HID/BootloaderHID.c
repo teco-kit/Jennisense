@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -41,6 +41,30 @@
  */
 static bool RunBootloader = true;
 
+/** Magic lock for forced application start. If the HWBE fuse is programmed and BOOTRST is unprogrammed, the bootloader
+ *  will start if the /HWB line of the AVR is held low and the system is reset. However, if the /HWB line is still held
+ *  low when the application attempts to start via a watchdog reset, the bootloader will re-start. If set to the value
+ *  \ref MAGIC_BOOT_KEY the special init function \ref Application_Jump_Check() will force the application to start.
+ */
+uint16_t MagicBootKey ATTR_NO_INIT;
+
+
+/** Special startup routine to check if the bootloader was started via a watchdog reset, and if the magic application
+ *  start key has been loaded into \ref MagicBootKey. If the bootloader started via the watchdog and the key is valid,
+ *  this will force the user application to start via a software jump.
+ */
+void Application_Jump_Check(void)
+{
+	/* If the reset source was the bootloader and the key is correct, clear it and jump to the application */
+	if ((MCUSR & (1 << WDRF)) && (MagicBootKey == MAGIC_BOOT_KEY))
+	{
+		MagicBootKey = 0;
+		
+		// cppcheck-suppress constStatement
+		((void (*)(void))0x0000)();
+	}
+}
+
 /** Main program entry point. This routine configures the hardware required by the bootloader, then continuously
  *  runs the bootloader processing routine until instructed to soft-exit.
  */
@@ -50,13 +74,16 @@ int main(void)
 	SetupHardware();
 
 	/* Enable global interrupts so that the USB stack can function */
-	sei();
+	GlobalInterruptEnable();
 
 	while (RunBootloader)
 	  USB_USBTask();
 
 	/* Disconnect from the host - USB interface will be reset later along with the AVR */
 	USB_Detach();
+
+	/* Unlock the forced application start mode of the bootloader if it is restarted */
+	MagicBootKey = MAGIC_BOOT_KEY;
 
 	/* Enable the watchdog and force a timeout to reset the AVR */
 	wdt_enable(WDTO_250MS);
@@ -85,9 +112,7 @@ static void SetupHardware(void)
 void EVENT_USB_Device_ConfigurationChanged(void)
 {
 	/* Setup HID Report Endpoint */
-	Endpoint_ConfigureEndpoint(HID_IN_EPNUM, EP_TYPE_INTERRUPT,
-		                       ENDPOINT_DIR_IN, HID_IN_EPSIZE,
-	                           ENDPOINT_BANK_SINGLE);
+	Endpoint_ConfigureEndpoint(HID_IN_EPADDR, EP_TYPE_INTERRUPT, HID_IN_EPSIZE, 1);
 }
 
 /** Event handler for the USB_ControlRequest event. This is used to catch and process control requests sent to

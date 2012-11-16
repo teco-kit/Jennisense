@@ -1,24 +1,24 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
-      www.fourwalledcubicle.com
+           www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
-  Permission to use, copy, modify, and distribute this software
-  and its documentation for any purpose and without fee is hereby
-  granted, provided that the above copyright notice appear in all
-  copies and that both that the copyright notice and this
+  Permission to use, copy, modify, distribute, and sell this
+  software and its documentation for any purpose is hereby granted
+  without fee, provided that the above copyright notice appear in
+  all copies and that both that the copyright notice and this
   permission notice and warranty disclaimer appear in supporting
   documentation, and that the name of the author not be used in
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -41,6 +41,12 @@
  *  \brief Board specific LED driver header for the Atmel XMEGA A3BU Xplained.
  *
  *  Board specific LED driver header for the Atmel XMEGA A3BU Xplained.
+ *
+ *  <table>
+ *    <tr><th>Name</th><th>Color</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>LEDS_LED1</td><td>Yellow</td><td>LED0 LED</td><td>Low</td><td>PORTR.0</td></tr>
+ *    <tr><td>LEDS_LED2</td><td>Yellow</td><td>LED1 LED</td><td>Low</td><td>PORTR.1</td></tr>
+ *  </table>
  *
  *  @{
  */
@@ -79,18 +85,30 @@
 		#if !defined(__DOXYGEN__)
 			static inline void LEDs_Init(void)
 			{
-				PORTR_DIRSET = LEDS_ALL_LEDS;
-				PORTR_OUTSET = LEDS_ALL_LEDS;
+				PORTR.DIRSET    = LEDS_ALL_LEDS;
+				PORTR.OUTCLR    = LEDS_ALL_LEDS;
+				
+				PORTCFG.MPCMASK = LEDS_ALL_LEDS;
+				PORTR.PIN0CTRL  = PORT_INVEN_bm;				
+			}
+
+			static inline void LEDs_Disable(void)
+			{
+				PORTR.DIRCLR    = LEDS_ALL_LEDS;
+				PORTR.OUTCLR    = LEDS_ALL_LEDS;
+
+				PORTCFG.MPCMASK = 0;
+				PORTR.PIN0CTRL  = LEDS_ALL_LEDS;
 			}
 
 			static inline void LEDs_TurnOnLEDs(const uint8_t LEDMask)
 			{
-				PORTR_OUTCLR = LEDMask;
+				PORTR_OUTSET = LEDMask;
 			}
 
 			static inline void LEDs_TurnOffLEDs(const uint8_t LEDMask)
 			{
-				PORTR_OUTSET = LEDMask;
+				PORTR_OUTCLR = LEDMask;
 			}
 
 			static inline void LEDs_SetAllLEDs(const uint8_t LEDMask)

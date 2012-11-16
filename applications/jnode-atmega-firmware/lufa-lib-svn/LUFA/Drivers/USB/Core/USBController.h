@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -79,6 +79,24 @@
 		 *  the index of the address within a device to obtain the full endpoint address.
 		 */
 		#define ENDPOINT_DIR_IN                    0x80
+		//@}
+
+		/** \name Pipe Direction Masks */
+		//@{
+		/** Pipe direction mask, for masking against pipe addresses to retrieve the pipe's
+		 *  direction for comparing with the \c PIPE_DIR_* masks.
+		 */
+		#define PIPE_DIR_MASK                      0x80
+
+		/** Endpoint address direction mask for an OUT direction (Host to Device) endpoint. This may be ORed with
+		 *  the index of the address within a device to obtain the full endpoint address.
+		 */
+		#define PIPE_DIR_OUT                       0x00
+
+		/** Endpoint address direction mask for an IN direction (Device to Host) endpoint. This may be ORed with
+		 *  the index of the address within a device to obtain the full endpoint address.
+		 */
+		#define PIPE_DIR_IN                        0x80
 		//@}
 
 		/** \name Endpoint/Pipe Type Masks */

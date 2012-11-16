@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -50,6 +50,18 @@
  *  \note For version 2 Teensy boards, compile with <code>BOARD = TEENSY2</code>.
  *
  *  Board specific LED driver header for the PJRC Teensy boards (http://www.pjrc.com/teensy/index.html).
+ *
+ *  <b>TEENSY</b>:
+ *  <table>
+ *    <tr><th>Name</th><th>Color</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>LEDS_LED1</td><td>Green</td><td>General Indicator</td><td>High</td><td>PORTD.6</td></tr>
+ *  </table>
+ *
+ *  <b>TEENSY2</b>:
+ *  <table>
+ *    <tr><th>Name</th><th>Color</th><th>Info</th><th>Active Level</th><th>Port Pin</th></tr>
+ *    <tr><td>LEDS_LED1</td><td>Green</td><td>General Indicator</td><td>Low</td><td>PORTD.6</td></tr>
+ *  </table>
  *
  *  @{
  */
@@ -94,6 +106,12 @@
 				#endif
 			}
 
+			static inline void LEDs_Disable(void)
+			{
+				DDRD  &= ~LEDS_ALL_LEDS;
+				PORTD &= ~LEDS_ALL_LEDS;
+			}
+
 			static inline void LEDs_TurnOnLEDs(const uint8_t LEDMask)
 			{
 				#if (BOARD == BOARD_TEENSY2)
@@ -133,7 +151,7 @@
 
 			static inline void LEDs_ToggleLEDs(const uint8_t LEDMask)
 			{
-				PORTD ^= LEDMask;
+				PIND  = LEDMask;
 			}
 
 			static inline uint8_t LEDs_GetLEDs(void) ATTR_WARN_UNUSED_RESULT;

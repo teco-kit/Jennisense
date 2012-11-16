@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -42,23 +42,23 @@
 		#include <LUFA/Drivers/USB/USB.h>
 
 	/* Macros: */
-		/** Endpoint number of the first CDC interface's device-to-host data IN endpoint. */
-		#define CDC1_TX_EPNUM                  1
+		/** Endpoint address of the first CDC interface's device-to-host data IN endpoint. */
+		#define CDC1_TX_EPADDR                 (ENDPOINT_DIR_IN  | 1)
 
-		/** Endpoint number of the first CDC interface's host-to-device data OUT endpoint. */
-		#define CDC1_RX_EPNUM                  2
+		/** Endpoint address of the first CDC interface's host-to-device data OUT endpoint. */
+		#define CDC1_RX_EPADDR                 (ENDPOINT_DIR_OUT | 2)
 
-		/** Endpoint number of the first CDC interface's device-to-host notification IN endpoint. */
-		#define CDC1_NOTIFICATION_EPNUM        3
+		/** Endpoint address of the first CDC interface's device-to-host notification IN endpoint. */
+		#define CDC1_NOTIFICATION_EPADDR       (ENDPOINT_DIR_IN  | 3)
 
-		/** Endpoint number of the second CDC interface's device-to-host data IN endpoint. */
-		#define CDC2_TX_EPNUM                  4
+		/** Endpoint address of the second CDC interface's device-to-host data IN endpoint. */
+		#define CDC2_TX_EPADDR                 (ENDPOINT_DIR_IN  | 4)
 
-		/** Endpoint number of the second CDC interface's host-to-device data OUT endpoint. */
-		#define CDC2_RX_EPNUM                  5
+		/** Endpoint address of the second CDC interface's host-to-device data OUT endpoint. */
+		#define CDC2_RX_EPADDR                 (ENDPOINT_DIR_OUT | 5)
 
-		/** Endpoint number of the second CDC interface's device-to-host notification IN endpoint. */
-		#define CDC2_NOTIFICATION_EPNUM        6
+		/** Endpoint address of the second CDC interface's device-to-host notification IN endpoint. */
+		#define CDC2_NOTIFICATION_EPADDR       (ENDPOINT_DIR_IN  | 6)
 
 		/** Size in bytes of the CDC device-to-host notification IN endpoints. */
 		#define CDC_NOTIFICATION_EPSIZE        8

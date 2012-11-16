@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -45,7 +45,8 @@
 
 		#include "XPROGProtocol.h"
 		#include "XPROGTarget.h"
-
+		#include "Config/AppConfig.h"
+		
 	/* Preprocessor Checks: */
 		#if ((BOARD == BOARD_XPLAIN) || (BOARD == BOARD_XPLAIN_REV1))
 			#undef ENABLE_ISP_PROTOCOL
@@ -56,7 +57,7 @@
 		#endif
 
 	/* Defines: */
-		#define XMEGA_CRC_LENGTH                     3
+		#define XMEGA_CRC_LENGTH_BYTES               3
 
 		#define XMEGA_NVM_REG_ADDR0                  0x00
 		#define XMEGA_NVM_REG_ADDR1                  0x01
@@ -70,6 +71,8 @@
 		#define XMEGA_NVM_REG_INTCTRL                0x0D
 		#define XMEGA_NVM_REG_STATUS                 0x0F
 		#define XMEGA_NVM_REG_LOCKBITS               0x10
+		
+		#define XMEGA_NVM_BIT_CTRLA_CMDEX            (1 << 0)
 
 		#define XMEGA_NVM_CMD_NOOP                   0x00
 		#define XMEGA_NVM_CMD_CHIPERASE              0x40

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -44,8 +44,8 @@
 		#include <stdlib.h>
 
 		#include "Descriptors.h"
+		#include "Config/AppConfig.h"
 
-		#include <LUFA/Version.h>
 		#include <LUFA/Drivers/Board/LEDs.h>
 		#include <LUFA/Drivers/USB/USB.h>
 
@@ -70,5 +70,17 @@
 		void EVENT_USB_Device_ConfigurationChanged(void);
 		void EVENT_USB_Device_ControlRequest(void);
 
+		bool CALLBACK_Audio_Device_GetSetEndpointProperty(USB_ClassInfo_Audio_Device_t* const AudioInterfaceInfo,
+		                                                  const uint8_t EndpointProperty,
+		                                                  const uint8_t EndpointAddress,
+		                                                  const uint8_t EndpointControl,
+		                                                  uint16_t* const DataLength,
+		                                                  uint8_t* Data) ATTR_NON_NULL_PTR_ARG(1);
+		bool CALLBACK_Audio_Device_GetSetInterfaceProperty(USB_ClassInfo_Audio_Device_t* const AudioInterfaceInfo,
+		                                                   const uint8_t Property,
+		                                                   const uint8_t EntityAddress,
+		                                                   const uint16_t Parameter,
+		                                                   uint16_t* const DataLength,
+		                                                   uint8_t* Data);		
 #endif
 

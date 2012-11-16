@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -44,21 +44,28 @@ bool MustLoadExtendedAddress;
 
 
 /** ISR to manage timeouts whilst processing a V2Protocol command */
-ISR(WDT_vect, ISR_BLOCK)
+ISR(TIMER0_COMPA_vect, ISR_NOBLOCK)
 {
-	TimeoutExpired = true;
-	wdt_disable();
+	if (TimeoutTicksRemaining)
+	  TimeoutTicksRemaining--;
+	else
+	  TCCR0B = 0;
 }
 
 /** Initializes the hardware and software associated with the V2 protocol command handling. */
 void V2Protocol_Init(void)
 {
-	#if defined(ADC)
+	#if defined(ADC) && !defined(NO_VTARGET_DETECT)
 	/* Initialize the ADC converter for VTARGET level detection on supported AVR models */
 	ADC_Init(ADC_FREE_RUNNING | ADC_PRESCALE_128);
 	ADC_SetupChannel(VTARGET_ADC_CHANNEL);
 	ADC_StartReading(VTARGET_REF_MASK | ADC_RIGHT_ADJUSTED | VTARGET_ADC_CHANNEL_MASK);
 	#endif
+
+	/* Timeout timer initialization (~10ms period) */
+	OCR0A  = (((F_CPU / 1024) / 100) - 1);
+	TCCR0A = (1 << WGM01);
+	TIMSK0 = (1 << OCIE0A);
 
 	V2Params_LoadNonVolatileParamValues();
 
@@ -75,10 +82,9 @@ void V2Protocol_ProcessCommand(void)
 {
 	uint8_t V2Command = Endpoint_Read_8();
 
-	/* Start the watchdog with timeout interrupt enabled to manage the timeout */
-	TimeoutExpired = false;
-	wdt_enable(WDTO_1S);
-	WDTCSR |= (1 << WDIE);
+	/* Reset timeout counter duration and start the timer */
+	TimeoutTicksRemaining = COMMAND_TIMEOUT_TICKS;
+	TCCR0B = ((1 << CS02) | (1 << CS00));	
 
 	switch (V2Command)
 	{
@@ -140,11 +146,11 @@ void V2Protocol_ProcessCommand(void)
 			break;
 	}
 
-	/* Disable the timeout management watchdog timer */
-	wdt_disable();
+	/* Disable the timeout management timer */
+	TCCR0B = 0;
 
 	Endpoint_WaitUntilReady();
-	Endpoint_SelectEndpoint(AVRISP_DATA_OUT_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_OUT_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_OUT);
 }
 
@@ -163,7 +169,7 @@ static void V2Protocol_UnknownCommand(const uint8_t V2Command)
 	}
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	Endpoint_Write_8(V2Command);
@@ -175,7 +181,7 @@ static void V2Protocol_UnknownCommand(const uint8_t V2Command)
 static void V2Protocol_SignOn(void)
 {
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	Endpoint_Write_8(CMD_SIGN_ON);
@@ -191,7 +197,7 @@ static void V2Protocol_SignOn(void)
 static void V2Protocol_ResetProtection(void)
 {
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	Endpoint_Write_8(CMD_RESET_PROTECTION);
@@ -214,7 +220,7 @@ static void V2Protocol_GetSetParam(const uint8_t V2Command)
 	  ParamValue = Endpoint_Read_8();
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	Endpoint_Write_8(V2Command);
@@ -248,7 +254,7 @@ static void V2Protocol_LoadAddress(void)
 	Endpoint_Read_Stream_BE(&CurrentAddress, sizeof(CurrentAddress), NULL);
 
 	Endpoint_ClearOUT();
-	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPNUM);
+	Endpoint_SelectEndpoint(AVRISP_DATA_IN_EPADDR);
 	Endpoint_SetEndpointDirection(ENDPOINT_DIR_IN);
 
 	if (CurrentAddress & (1UL << 31))

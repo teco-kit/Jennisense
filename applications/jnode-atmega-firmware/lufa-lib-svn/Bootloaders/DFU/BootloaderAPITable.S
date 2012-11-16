@@ -7,7 +7,7 @@
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -28,16 +28,64 @@
   this software.
 */
 
-; Bootloader API Jump Table
-.section .apitable, "ax"
-.org 0
+; Trampolines to actual API implementations if the target address is outside the
+; range of a rjmp instruction (can happen with large bootloader sections)
+.section .apitable_trampolines, "ax"
+.global BootloaderAPI_Trampolines
+BootloaderAPI_Trampolines:
 
+	BootloaderAPI_ErasePage_Trampoline:
+		jmp BootloaderAPI_ErasePage
+	BootloaderAPI_WritePage_Trampoline:
+		jmp BootloaderAPI_WritePage
+	BootloaderAPI_FillWord_Trampoline:
+		jmp BootloaderAPI_FillWord
+	BootloaderAPI_ReadSignature_Trampoline:
+		jmp BootloaderAPI_ReadSignature
+	BootloaderAPI_ReadFuse_Trampoline:
+		jmp BootloaderAPI_ReadFuse
+	BootloaderAPI_ReadLock_Trampoline:
+		jmp BootloaderAPI_ReadLock
+	BootloaderAPI_WriteLock_Trampoline:
+		jmp BootloaderAPI_WriteLock
+	BootloaderAPU_UNUSED1:
+		ret
+	BootloaderAPU_UNUSED2:
+		ret
+	BootloaderAPU_UNUSED3:
+		ret
+	BootloaderAPU_UNUSED4:
+		ret
+	BootloaderAPU_UNUSED5:
+		ret
+
+
+
+; API function jump table
+.section .apitable_jumptable, "ax"
 .global BootloaderAPI_JumpTable
 BootloaderAPI_JumpTable:
-	jmp BootloaderAPI_ErasePage
-	jmp BootloaderAPI_WritePage
-	jmp BootloaderAPI_FillWord
-	jmp BootloaderAPI_ReadSignature
-	jmp BootloaderAPI_ReadFuse
-	jmp BootloaderAPI_ReadLock
-	jmp BootloaderAPI_WriteLock
+
+	rjmp BootloaderAPI_ErasePage_Trampoline
+	rjmp BootloaderAPI_WritePage_Trampoline
+	rjmp BootloaderAPI_FillWord_Trampoline
+	rjmp BootloaderAPI_ReadSignature_Trampoline
+	rjmp BootloaderAPI_ReadFuse_Trampoline
+	rjmp BootloaderAPI_ReadLock_Trampoline
+	rjmp BootloaderAPI_WriteLock_Trampoline
+	rjmp BootloaderAPU_UNUSED1 ; UNUSED ENTRY 1
+	rjmp BootloaderAPU_UNUSED2 ; UNUSED ENTRY 2
+	rjmp BootloaderAPU_UNUSED3 ; UNUSED ENTRY 3
+	rjmp BootloaderAPU_UNUSED4 ; UNUSED ENTRY 4
+	rjmp BootloaderAPU_UNUSED5 ; UNUSED ENTRY 5
+
+
+
+; Bootloader table signatures and information
+.section .apitable_signatures, "ax"
+.global BootloaderAPI_Signatures
+BootloaderAPI_Signatures:
+
+	.long BOOT_START_ADDR ; Start address of the bootloader
+	.word 0xDF10 ; Signature for the DFU class bootloader, V1
+	.word 0xDCFB ; Signature for a LUFA class bootloader

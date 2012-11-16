@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -45,32 +45,32 @@ volatile uint8_t     USB_DeviceState;
 
 void USB_USBTask(void)
 {
-	#if defined(USB_HOST_ONLY)
-		USB_HostTask();
-	#elif defined(USB_DEVICE_ONLY)
-		USB_DeviceTask();
-	#else
+	#if defined(USB_CAN_BE_BOTH)
 		if (USB_CurrentMode == USB_MODE_Device)
 		  USB_DeviceTask();
 		else if (USB_CurrentMode == USB_MODE_Host)
 		  USB_HostTask();
+	#elif defined(USB_CAN_BE_HOST)
+		USB_HostTask();
+	#elif defined(USB_CAN_BE_DEVICE)
+		USB_DeviceTask();
 	#endif
 }
 
 #if defined(USB_CAN_BE_DEVICE)
 static void USB_DeviceTask(void)
 {
-	if (USB_DeviceState != DEVICE_STATE_Unattached)
-	{
-		uint8_t PrevEndpoint = Endpoint_GetCurrentEndpoint();
+	if (USB_DeviceState == DEVICE_STATE_Unattached)
+	  return;
 
-		Endpoint_SelectEndpoint(ENDPOINT_CONTROLEP);
+	uint8_t PrevEndpoint = Endpoint_GetCurrentEndpoint();
 
-		if (Endpoint_IsSETUPReceived())
-		  USB_Device_ProcessControlRequest();
+	Endpoint_SelectEndpoint(ENDPOINT_CONTROLEP);
 
-		Endpoint_SelectEndpoint(PrevEndpoint);
-	}
+	if (Endpoint_IsSETUPReceived())
+	  USB_Device_ProcessControlRequest();
+
+	Endpoint_SelectEndpoint(PrevEndpoint);
 }
 #endif
 

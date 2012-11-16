@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -39,8 +39,9 @@
 	/* Includes: */
 		#include <avr/io.h>
 
-		#include "TempDataLogger.h"
-		#include "Descriptors.h"
+		#include "../TempDataLogger.h"
+		#include "../Descriptors.h"
+		#include "Config/AppConfig.h"
 
 		#include <LUFA/Common/Common.h>
 		#include <LUFA/Drivers/USB/USB.h>
@@ -52,7 +53,7 @@
 		#endif
 
 	/* Defines: */
-		/** Total number of bytes of the storage medium, comprised of one or more dataflash ICs. */
+		/** Total number of bytes of the storage medium, comprised of one or more Dataflash ICs. */
 		#define VIRTUAL_MEMORY_BYTES                ((uint32_t)DATAFLASH_PAGES * DATAFLASH_PAGE_SIZE * DATAFLASH_TOTALCHIPS)
 
 		/** Block size of the device. This is kept at 512 to remain compatible with the OS despite the underlying

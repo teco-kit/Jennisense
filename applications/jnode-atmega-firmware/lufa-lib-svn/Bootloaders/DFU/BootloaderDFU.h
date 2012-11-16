@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -49,23 +49,20 @@
 
 		#include "Descriptors.h"
 		#include "BootloaderAPI.h"
+		#include "Config/AppConfig.h"
 
 		#include <LUFA/Drivers/USB/USB.h>
 		#include <LUFA/Drivers/Board/LEDs.h>
 
 	/* Macros: */
-		/** Configuration define. Define this token to true to case the bootloader to reject all memory commands
-		 *  until a memory erase has been performed. When used in conjunction with the lockbits of the AVR, this
-		 *  can protect the AVR's firmware from being dumped from a secured AVR. When false, memory operations are
-		 *  allowed at any time.
-		 */
-		#define SECURE_MODE              false
-
 		/** Major bootloader version number. */
 		#define BOOTLOADER_VERSION_MINOR 2
 
 		/** Minor bootloader version number. */
 		#define BOOTLOADER_VERSION_REV   0
+		
+		/** Magic bootloader key to unlock forced application start mode. */
+		#define MAGIC_BOOT_KEY            0xDC42
 
 		/** Complete bootloader version number expressed as a packed byte, constructed from the
 		 *  two individual bootloader version macros.
@@ -148,7 +145,7 @@
 		/** Type define for a structure containing a complete DFU command issued by the host. */
 		typedef struct
 		{
-			uint8_t  Command; /**< Single byte command to perform, one of the COMMAND_* macro values */
+			uint8_t  Command; /**< Single byte command to perform, one of the \c COMMAND_* macro values */
 			uint8_t  Data[5]; /**< Command parameters */
 			uint16_t DataSize; /**< Size of the command parameters */
 		} DFU_Command_t;
@@ -206,6 +203,8 @@
 			static void ProcessWriteCommand(void);
 			static void ProcessReadCommand(void);
 		#endif
+		
+		void Application_Jump_Check(void) ATTR_INIT_SECTION(3);
 
 #endif
 

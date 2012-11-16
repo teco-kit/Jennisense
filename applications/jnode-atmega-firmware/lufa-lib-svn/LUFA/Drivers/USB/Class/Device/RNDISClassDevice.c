@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -115,45 +115,18 @@ bool RNDIS_Device_ConfigureEndpoints(USB_ClassInfo_RNDIS_Device_t* const RNDISIn
 {
 	memset(&RNDISInterfaceInfo->State, 0x00, sizeof(RNDISInterfaceInfo->State));
 
-	for (uint8_t EndpointNum = 1; EndpointNum < ENDPOINT_TOTAL_ENDPOINTS; EndpointNum++)
-	{
-		uint16_t Size;
-		uint8_t  Type;
-		uint8_t  Direction;
-		bool     DoubleBanked;
+	RNDISInterfaceInfo->Config.DataINEndpoint.Type       = EP_TYPE_BULK;
+	RNDISInterfaceInfo->Config.DataOUTEndpoint.Type      = EP_TYPE_BULK;
+	RNDISInterfaceInfo->Config.NotificationEndpoint.Type = EP_TYPE_INTERRUPT;
 
-		if (EndpointNum == RNDISInterfaceInfo->Config.DataINEndpointNumber)
-		{
-			Size         = RNDISInterfaceInfo->Config.DataINEndpointSize;
-			Direction    = ENDPOINT_DIR_IN;
-			Type         = EP_TYPE_BULK;
-			DoubleBanked = RNDISInterfaceInfo->Config.DataINEndpointDoubleBank;
-		}
-		else if (EndpointNum == RNDISInterfaceInfo->Config.DataOUTEndpointNumber)
-		{
-			Size         = RNDISInterfaceInfo->Config.DataOUTEndpointSize;
-			Direction    = ENDPOINT_DIR_OUT;
-			Type         = EP_TYPE_BULK;
-			DoubleBanked = RNDISInterfaceInfo->Config.DataOUTEndpointDoubleBank;
-		}
-		else if (EndpointNum == RNDISInterfaceInfo->Config.NotificationEndpointNumber)
-		{
-			Size         = RNDISInterfaceInfo->Config.NotificationEndpointSize;
-			Direction    = ENDPOINT_DIR_IN;
-			Type         = EP_TYPE_INTERRUPT;
-			DoubleBanked = RNDISInterfaceInfo->Config.NotificationEndpointDoubleBank;
-		}
-		else
-		{
-			continue;
-		}
+	if (!(Endpoint_ConfigureEndpointTable(&RNDISInterfaceInfo->Config.DataINEndpoint, 1)))
+	  return false;
 
-		if (!(Endpoint_ConfigureEndpoint(EndpointNum, Type, Direction, Size,
-		                                 DoubleBanked ? ENDPOINT_BANK_DOUBLE : ENDPOINT_BANK_SINGLE)))
-		{
-			return false;
-		}
-	}
+	if (!(Endpoint_ConfigureEndpointTable(&RNDISInterfaceInfo->Config.DataOUTEndpoint, 1)))
+	  return false;
+
+	if (!(Endpoint_ConfigureEndpointTable(&RNDISInterfaceInfo->Config.NotificationEndpoint, 1)))
+	  return false;
 
 	return true;
 }
@@ -163,7 +136,7 @@ void RNDIS_Device_USBTask(USB_ClassInfo_RNDIS_Device_t* const RNDISInterfaceInfo
 	if (USB_DeviceState != DEVICE_STATE_Configured)
 	  return;
 
-	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.NotificationEndpointNumber);
+	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.NotificationEndpoint.Address);
 
 	if (Endpoint_IsINReady() && RNDISInterfaceInfo->State.ResponseReady)
 	{
@@ -433,8 +406,7 @@ static bool RNDIS_Device_ProcessNDISSet(USB_ClassInfo_RNDIS_Device_t* const RNDI
 	{
 		case OID_GEN_CURRENT_PACKET_FILTER:
 			RNDISInterfaceInfo->State.CurrPacketFilter = le32_to_cpu(*((uint32_t*)SetData));
-			RNDISInterfaceInfo->State.CurrRNDISState   = le32_to_cpu((RNDISInterfaceInfo->State.CurrPacketFilter) ?
-			                                                         RNDIS_Data_Initialized : RNDIS_Data_Initialized);
+			RNDISInterfaceInfo->State.CurrRNDISState   = (RNDISInterfaceInfo->State.CurrPacketFilter) ? RNDIS_Data_Initialized : RNDIS_Initialized;
 
 			return true;
 		case OID_802_3_MULTICAST_LIST:
@@ -454,7 +426,7 @@ bool RNDIS_Device_IsPacketReceived(USB_ClassInfo_RNDIS_Device_t* const RNDISInte
 		return false;
 	}
 
-	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.DataOUTEndpointNumber);
+	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.DataOUTEndpoint.Address);
 	return Endpoint_IsOUTReceived();
 }
 
@@ -468,7 +440,7 @@ uint8_t RNDIS_Device_ReadPacket(USB_ClassInfo_RNDIS_Device_t* const RNDISInterfa
 		return ENDPOINT_RWSTREAM_DeviceDisconnected;
 	}
 
-	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.DataOUTEndpointNumber);
+	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.DataOUTEndpoint.Address);
 
 	*PacketLength = 0;
 
@@ -505,7 +477,7 @@ uint8_t RNDIS_Device_SendPacket(USB_ClassInfo_RNDIS_Device_t* const RNDISInterfa
 		return ENDPOINT_RWSTREAM_DeviceDisconnected;
 	}
 
-	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.DataINEndpointNumber);
+	Endpoint_SelectEndpoint(RNDISInterfaceInfo->Config.DataINEndpoint.Address);
 
 	if ((ErrorCode = Endpoint_WaitUntilReady()) != ENDPOINT_READYWAIT_NoError)
 	  return ErrorCode;

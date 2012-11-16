@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -38,6 +38,8 @@
 
 	/* Includes: */
 		#include <LUFA/Drivers/USB/USB.h>
+
+		#include "Config/AppConfig.h"
 
 	/* Macros: */
 		#if defined(__AVR_AT90USB1287__)
@@ -92,14 +94,14 @@
 			#error The selected AVR part is not currently supported by this bootloader.
 		#endif
 
-		/** Endpoint number for the CDC control interface event notification endpoint. */
-		#define CDC_NOTIFICATION_EPNUM         2
+		/** Endpoint address for the CDC control interface event notification endpoint. */
+		#define CDC_NOTIFICATION_EPADDR        (ENDPOINT_DIR_IN | 2)
 
-		/** Endpoint number for the CDC data interface TX (data IN) endpoint. */
-		#define CDC_TX_EPNUM                   3
+		/** Endpoint address for the CDC data interface TX (data IN) endpoint. */
+		#define CDC_TX_EPADDR                  (ENDPOINT_DIR_IN | 3)
 
-		/** Endpoint number for the CDC data interface RX (data OUT) endpoint. */
-		#define CDC_RX_EPNUM                   4
+		/** Endpoint address for the CDC data interface RX (data OUT) endpoint. */
+		#define CDC_RX_EPADDR                  (ENDPOINT_DIR_OUT | 4)
 
 		/** Size of the CDC data interface TX and RX data endpoint banks, in bytes. */
 		#define CDC_TXRX_EPSIZE                16

@@ -96,22 +96,28 @@
  *   - RZUSBSTICK
  *   - STK525
  *   - STK526
- *   - XPLAIN (Excluding the blue XPLAINED family boards)
+ *   - XPLAIN (Original green board, <i>not</i> the newer blue XPLAINED family boards)
  *
  *  \section Sec_AVR8Support_ThirdParty Supported Third Party Models
  *  Currently supported third-party boards (see \ref Group_BoardTypes for makefile \c BOARD constant names):
  *   - Adafruit U4 Breakout Board
  *   - Arduino Uno
+ *   - Arduino Leonardo
+ *   - Bitwizard Multio and Big-Multio
  *   - Busware BUI
  *   - Busware CUL V3
- *   - Fletchtronics Bumble-B (using officially recommended peripheral layout)
+ *   - Busware TUL
+ *   - DorkbotPDX Duce
+ *   - Fletchtronics Bumble-B (using manufacturer recommended peripheral layout)
  *   - Kernel Concepts USBFOO
  *   - Linnix UDIP
  *   - MattairTech JM-DB-U2
  *   - Maximus USB
+ *   - Micropendous Boards (Micropendous-32U2, Micropendous-1, Micropendous-2)
  *   - Microsin AVR-USB162
  *   - Minimus USB
- *   - Olimex AVR-USB-162
+ *   - Olimex AVR-USB-162, AVR-USB-32U4 and AVR-USB-T32U4 Boards
+ *   - Olimex AVR-ISP-MK2
  *   - Paranoid Studio's US2AX (V1, V2 and V3 hardware revisions)
  *   - PJRC Teensy (1.x and 2.x versions)
  *   - Sparkfun U2 Breakout Board
@@ -123,7 +129,8 @@
  
 /**
  *  \page Page_UC3Support Atmel 32-Bit UC3 AVR (UC3)
- *  Note: <i>The AVR32 UC3 device support is currently <b>experimental</b>, and is included for preview purposes only.</i>
+ *
+ *  \warning The AVR32 UC3 device support is currently <b>experimental</b>, and is included for preview purposes only.
  *
  *  \section Sec_UC3Support_Devices Supported Microcontroller Models
  *
@@ -283,6 +290,7 @@
  *   - EVK1100
  *   - EVK1101
  *   - EVK1104
+ *   - UC3-A3 Xplained
  *
  *  \section Sec_UC3Support_ThirdParty Supported Third Party Models
  *
@@ -292,7 +300,8 @@
  
 /**
  *  \page Page_XMEGASupport Atmel USB XMEGA AVR (XMEGA)
- *  Note: <i>The XMEGA device support is currently <b>experimental</b> (incomplete and/or non-functional), and is included for preview purposes only.</i>
+ *
+ *  \warning The XMEGA device support is currently <b>experimental</b> (incomplete and/or non-functional), and is included for preview purposes only.
  *
  *  \section Sec_XMEGASupport_Devices Supported Microcontroller Models
  *
@@ -311,6 +320,16 @@
  *  </tr>
  *  <tr>
  *   <td>ATXMEGA32A4U</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA64A4U</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA128A4U</td>
  *   <td bgcolor="#00EE00">Yes</td>
  *   <td bgcolor="#EE0000">No</td>
  *  </tr>
@@ -364,11 +383,47 @@
  *   <td bgcolor="#00EE00">Yes</td>
  *   <td bgcolor="#EE0000">No</td>
  *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA64C3</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA128C3</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA192C3</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA256C3</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA384C3</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA16C4</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
+ *  <tr>
+ *   <td>ATXMEGA32C4</td>
+ *   <td bgcolor="#00EE00">Yes</td>
+ *   <td bgcolor="#EE0000">No</td>
+ *  </tr>
  *  </table>
  *
  *  \section Sec_XMEGASupport_Boards Supported Atmel Boards
  *  Currently supported Atmel XMEGA boards (see \ref Group_BoardTypes):
  *   - XMEGA A3BU Xplained
+ *   - XMEGA B1 Xplained
  *
  *  \section Sec_XMEGASupport_ThirdParty Supported Third Party Models
  *  Currently supported third-party boards (see \ref Group_BoardTypes for makefile \c BOARD constant names):

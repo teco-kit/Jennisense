@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -87,6 +87,18 @@
 		#endif
 
 	/* Public Interface - May be used in end-application: */
+		/* Type Defines: */
+			/** Type define for a endpoint table entry, used to configure endpoints in groups via
+			 *  \ref Endpoint_ConfigureEndpointTable().
+			 */
+			typedef struct
+			{
+				uint8_t  Address; /**< Address of the endpoint to configure, or zero if the table entry is to be unused. */
+				uint16_t Size; /**< Size of the endpoint bank, in bytes. */
+				uint8_t  Type; /**< Type of the endpoint, a \c EP_TYPE_* mask. */
+				uint8_t  Banks; /**< Number of hardware banks to use for the endpoint. */
+			} USB_Endpoint_Table_t;
+	
 		/* Macros: */
 			/** Endpoint number mask, for masking against endpoint addresses to retrieve the endpoint's
 			 *  numerical address in the device.

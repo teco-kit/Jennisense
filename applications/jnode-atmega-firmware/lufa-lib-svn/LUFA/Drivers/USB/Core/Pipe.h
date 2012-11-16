@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -97,6 +97,19 @@
 		#endif
 
 	/* Public Interface - May be used in end-application: */
+		/* Type Defines: */
+			/** Type define for a pipe table entry, used to configure pipes in groups via
+			 *  \ref Pipe_ConfigurePipeTable().
+			 */
+			typedef struct
+			{
+				uint8_t  Address; /**< Address of the pipe to configure, or zero if the table entry is to be unused. */
+				uint16_t Size; /**< Size of the pipe bank, in bytes. */
+				uint8_t  EndpointAddress; /**< Address of the endpoint in the connected device. */
+				uint8_t  Type; /**< Type of the endpoint, a \c EP_TYPE_* mask. */
+				uint8_t  Banks; /**< Number of hardware banks to use for the pipe. */
+			} USB_Pipe_Table_t;
+
 		/* Macros: */
 			/** Pipe address for the default control pipe, which always resides in address 0. This is
 			 *  defined for convenience to give more readable code when used with the pipe macros.
@@ -112,11 +125,6 @@
 			 *  numerical address in the attached device.
 			 */
 			#define PIPE_EPNUM_MASK                 0x0F
-
-			/** Endpoint direction mask, for masking against endpoint addresses to retrieve the endpoint's
-			 *  direction for comparing with the \c ENDPOINT_DIR_* masks.
-			 */
-			#define PIPE_EPDIR_MASK                 0x80
 
 	/* Architecture Includes: */
 		#if (ARCH == ARCH_AVR8)

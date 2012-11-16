@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -28,11 +28,14 @@
   this software.
 */
 
+#include "../../../../Common/Common.h"
+#if (ARCH == ARCH_UC3)
+
 #define  __INCLUDE_FROM_USB_DRIVER
 #define  __INCLUDE_FROM_USB_CONTROLLER_C
 #include "../USBController.h"
 
-#if (!defined(USB_HOST_ONLY) && !defined(USB_DEVICE_ONLY))
+#if defined(USB_CAN_BE_BOTH)
 volatile uint8_t USB_CurrentMode = USB_MODE_None;
 #endif
 
@@ -109,7 +112,7 @@ void USB_ResetInterface(void)
 	AVR32_PM.GCCTRL[AVR32_PM_GCLK_USBB].pllsel = !(USB_Options & USB_OPT_GCLK_SRC_OSC);
 	AVR32_PM.GCCTRL[AVR32_PM_GCLK_USBB].oscsel = !(USB_Options & USB_OPT_GCLK_CHANNEL_0);
 	AVR32_PM.GCCTRL[AVR32_PM_GCLK_USBB].diven  = (F_USB != USB_CLOCK_REQUIRED_FREQ);
-	AVR32_PM.GCCTRL[AVR32_PM_GCLK_USBB].div    = (F_USB == USB_CLOCK_REQUIRED_FREQ) ? 0 : (uint32_t)(((F_USB / USB_CLOCK_REQUIRED_FREQ) - 1) / 2);
+	AVR32_PM.GCCTRL[AVR32_PM_GCLK_USBB].div    = (F_USB == USB_CLOCK_REQUIRED_FREQ) ? 0 : (uint32_t)((F_USB / USB_CLOCK_REQUIRED_FREQ / 2) - 1);
 	AVR32_PM.GCCTRL[AVR32_PM_GCLK_USBB].cen    = true;
 
 	USB_INT_DisableAllInterrupts();
@@ -134,6 +137,10 @@ void USB_ResetInterface(void)
 	}
 	else if (USB_CurrentMode == USB_MODE_Host)
 	{
+		#if defined(INVERTED_VBUS_ENABLE_LINE)
+		AVR32_USBB.USBCON.vbuspo = true;
+		#endif
+		
 		#if defined(USB_CAN_BE_HOST)
 		AVR32_USBB.USBCON.uimod = false;
 
@@ -184,8 +191,7 @@ static void USB_Init_Device(void)
 	USB_INT_Enable(USB_INT_VBUSTI);
 
 	Endpoint_ConfigureEndpoint(ENDPOINT_CONTROLEP, EP_TYPE_CONTROL,
-							   ENDPOINT_DIR_OUT, USB_Device_ControlEndpointSize,
-							   ENDPOINT_BANK_SINGLE);
+							   USB_Device_ControlEndpointSize, 1);
 
 	USB_INT_Clear(USB_INT_SUSPI);
 	USB_INT_Enable(USB_INT_SUSPI);
@@ -213,3 +219,4 @@ static void USB_Init_Host(void)
 }
 #endif
 
+#endif

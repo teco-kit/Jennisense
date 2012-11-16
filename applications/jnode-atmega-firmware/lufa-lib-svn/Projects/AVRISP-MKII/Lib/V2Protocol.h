@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -43,12 +43,13 @@
 
 		#include <LUFA/Drivers/USB/USB.h>
 
-		#include "../Descriptors.h"
+		#include "../AVRISPDescriptors.h"
 		#include "V2ProtocolConstants.h"
 		#include "V2ProtocolParams.h"
 		#include "ISP/ISPProtocol.h"
 		#include "XPROG/XPROGProtocol.h"
-
+		#include "Config/AppConfig.h"
+		
 	/* Preprocessor Checks: */
 		#if ((BOARD == BOARD_XPLAIN) || (BOARD == BOARD_XPLAIN_REV1))
 			#undef ENABLE_ISP_PROTOCOL
@@ -78,8 +79,8 @@
 		/** Timeout period for each issued command from the host before it is aborted (in 10ms ticks). */
 		#define COMMAND_TIMEOUT_TICKS      100
 
-		/** Command timeout expiration flag, GPIOR for speed. */
-		#define TimeoutExpired             GPIOR1
+		/** Command timeout ticks remaining counter, GPIOR for speed. */
+		#define TimeoutTicksRemaining      GPIOR1
 
 		/** MUX mask for the VTARGET ADC channel number. */
 		#define VTARGET_ADC_CHANNEL_MASK   ADC_GET_CHANNEL_MASK(VTARGET_ADC_CHANNEL)

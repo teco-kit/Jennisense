@@ -10,9 +10,9 @@
  *
  *  The following list indicates what microcontrollers are compatible with this demo.
  *
- *  - Series 7 USB AVRs (AT90USBxxx7)
- *  - Series 6 USB AVRs (AT90USBxxx6)
- *  - Series 4 USB AVRs (ATMEGAxxU4)
+ *  \li Series 7 USB AVRs (AT90USBxxx7)
+ *  \li Series 6 USB AVRs (AT90USBxxx6)
+ *  \li Series 4 USB AVRs (ATMEGAxxU4)
  *
  *  \section Sec_Info USB Information:
  *
@@ -38,7 +38,7 @@
  *        USBIF Audio 1.0 Data Formats Specification</td>
  *   </tr>
  *   <tr>
- *    <td><b>Usable Speeds:</b></td>
+ *    <td><b>Supported USB Speeds:</b></td>
  *    <td>Full Speed Mode</td>
  *   </tr>
  *  </table>
@@ -73,13 +73,13 @@
  *   </tr>
  *   <tr>
  *    <td>USE_TEST_TONE</td>
- *    <td>Makefile LUFA_OPTS</td>
+ *    <td>AppConfig.h</td>
  *    <td>When defined, this alters the demo to produce a square wave test tone when the first board button is pressed
  *        instead of sampling the board microphone.</td>
  *   </tr>
  *   <tr>
  *    <td>MICROPHONE_BIASED_TO_HALF_RAIL</td>
- *    <td>Makefile LUFA_OPTS</td>
+ *    <td>AppConfig.h</td>
  *    <td>When defined, this alters the demo so that the half VCC bias of the microphone input is subtracted.</td>
  *   </tr>
  *  </table>

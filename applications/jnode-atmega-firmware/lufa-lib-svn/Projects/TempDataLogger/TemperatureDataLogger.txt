@@ -10,9 +10,9 @@
  *
  *  The following list indicates what microcontrollers are compatible with this demo.
  *
- *  - Series 7 USB AVRs (AT90USBxxx7)
- *  - Series 6 USB AVRs (AT90USBxxx6)
- *  - Series 4 USB AVRs (ATMEGAxxU4) - <i>those with >16KB of FLASH memory only</i>
+ *  \li Series 7 USB AVRs (AT90USBxxx7)
+ *  \li Series 6 USB AVRs (AT90USBxxx6)
+ *  \li Series 4 USB AVRs (ATMEGAxxU4) - <i>those with >16KB of FLASH memory only</i>
  *
  *  \section Sec_Info USB Information:
  *
@@ -42,7 +42,7 @@
  *        USBIF HID Specification, USBIF HID Usage Tables</td>
  *   </tr>
  *   <tr>
- *    <td><b>Usable Speeds:</b></td>
+ *    <td><b>Supported USB Speeds:</b></td>
  *    <td>Full Speed Mode</td>
  *   </tr>
  *  </table>
@@ -77,7 +77,7 @@
  *   </tr>
  *   <tr>
  *    <td>DUMMY_RTC</td>
- *    <td>Makefile LUFA_OPTS</td>
+ *    <td>AppConfig.h</td>
  *    <td>When a DS1307 RTC chip is not fitted, this token can be defined to make the demo assume a 1/1/1 01:01:01 date/time
  *        stamp at all times, effectively transforming the project into a basic data logger with no specified sample times.</td>
  *   </tr>

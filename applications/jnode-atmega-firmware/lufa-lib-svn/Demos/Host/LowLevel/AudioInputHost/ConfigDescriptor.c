@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -130,8 +130,7 @@ uint8_t ProcessConfigurationDescriptor(void)
 	StreamingEndpointAddress     = DataINEndpoint->EndpointAddress;
 
 	/* Configure the Audio data IN pipe */
-	Pipe_ConfigurePipe(AUDIO_DATA_IN_PIPE, EP_TYPE_ISOCHRONOUS, PIPE_TOKEN_IN,
-	                   DataINEndpoint->EndpointAddress, DataINEndpoint->EndpointSize, PIPE_BANK_DOUBLE);
+	Pipe_ConfigurePipe(AUDIO_DATA_IN_PIPE, EP_TYPE_ISOCHRONOUS, DataINEndpoint->EndpointAddress, DataINEndpoint->EndpointSize, 2);
 
 	/* Valid data found, return success */
 	return SuccessfulConfigRead;

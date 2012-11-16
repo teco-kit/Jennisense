@@ -1,6 +1,6 @@
 #
 #             LUFA Library
-#     Copyright (C) Dean Camera, 2011.
+#     Copyright (C) Dean Camera, 2012.
 #
 #  dean [at] fourwalledcubicle [dot] com
 #           www.lufa-lib.org
@@ -13,58 +13,35 @@
 # custom LUFA library build options are reflected in the compiled
 # code.
 
-all:
-	$(MAKE) -C AVRISP-MKII clean
-	$(MAKE) -C AVRISP-MKII all
+PROJECT_DIRECTORIES := $(shell ls -d */)
 
-	$(MAKE) -C Benito clean
-	$(MAKE) -C Benito all
+# This makefile is potentially infinitely recursive if something really bad
+# happens when determining the set of project directories - hard-abort if
+# more than 10 levels deep to avoid angry emails.
+ifeq ($(MAKELEVEL), 10)
+   $(error EMERGENCY ABORT: INFINITE RECURSION DETECTED)
+endif
 
-	$(MAKE) -C HIDReportViewer clean
-	$(MAKE) -C HIDReportViewer all
+# Need to special-case building without a per-project object directory
+ifeq ($(OBJDIR),)
+   # If no target specified, force "clean all" and disallow parallel build   
+   ifeq ($(MAKECMDGOALS),)
+      MAKECMDGOALS := clean all
+      .NOTPARALLEL:
+   endif
 
-	$(MAKE) -C LEDNotifier clean
-	$(MAKE) -C LEDNotifier all
+   # If one of the targets is to build, force "clean" beforehand and disallow parallel build   
+   ifneq ($(findstring all, $(MAKECMDGOALS)),)
+      MAKECMDGOALS := clean $(MAKECMDGOALS)
+      .NOTPARALLEL:
+   endif
+endif
 
-	$(MAKE) -C Magstripe clean
-	$(MAKE) -C Magstripe all
+%: $(PROJECT_DIRECTORIES)
+	@echo . > /dev/null
 
-	$(MAKE) -C MediaController clean
-	$(MAKE) -C MediaController all
-
-	$(MAKE) -C MIDIToneGenerator clean
-	$(MAKE) -C MIDIToneGenerator all
-
-	$(MAKE) -C MissileLauncher clean
-	$(MAKE) -C MissileLauncher all
-
-	$(MAKE) -C RelayBoard clean
-	$(MAKE) -C RelayBoard all
-
-	$(MAKE) -C TempDataLogger clean
-	$(MAKE) -C TempDataLogger all
-
-	$(MAKE) -C USBtoSerial clean
-	$(MAKE) -C USBtoSerial all
-
-	$(MAKE) -C Webserver clean
-	$(MAKE) -C Webserver all
-
-	$(MAKE) -C XPLAINBridge clean
-	$(MAKE) -C XPLAINBridge all
-
-%:
-	$(MAKE) -C AVRISP-MKII $@
-	$(MAKE) -C Benito $@
-	$(MAKE) -C HIDReportViewer $@	
-	$(MAKE) -C LEDNotifier $@
-	$(MAKE) -C Magstripe $@
-	$(MAKE) -C MediaController $@
-	$(MAKE) -C MIDIToneGenerator $@	
-	$(MAKE) -C MissileLauncher $@
-	$(MAKE) -C RelayBoard $@
-	$(MAKE) -C TempDataLogger $@
-	$(MAKE) -C USBtoSerial $@
-	$(MAKE) -C Webserver $@
-	$(MAKE) -C XPLAINBridge $@
+$(PROJECT_DIRECTORIES):
+	@$(MAKE) -C $@ $(MAKECMDGOALS)
+    
+.PHONY: $(PROJECT_DIRECTORIES)
 

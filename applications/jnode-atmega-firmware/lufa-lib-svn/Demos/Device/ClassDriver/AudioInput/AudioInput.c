@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -44,10 +44,14 @@ USB_ClassInfo_Audio_Device_t Microphone_Audio_Interface =
 	{
 		.Config =
 			{
+				.ControlInterfaceNumber   = 0,
 				.StreamingInterfaceNumber = 1,
-
-				.DataINEndpointNumber     = AUDIO_STREAM_EPNUM,
-				.DataINEndpointSize       = AUDIO_STREAM_EPSIZE,
+				.DataINEndpoint           =
+					{
+						.Address          = AUDIO_STREAM_EPADDR,
+						.Size             = AUDIO_STREAM_EPSIZE,
+						.Banks            = 2,
+					},
 			},
 	};
 
@@ -63,7 +67,7 @@ int main(void)
 	SetupHardware();
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{
@@ -90,7 +94,7 @@ void SetupHardware(void)
 	USB_Init();
 
 	/* Start the ADC conversion in free running mode */
-	ADC_StartReading(ADC_REFERENCE_AVCC | ADC_RIGHT_ADJUSTED | MIC_IN_ADC_MUX_MASK);
+	ADC_StartReading(ADC_REFERENCE_AVCC | ADC_RIGHT_ADJUSTED | ADC_GET_CHANNEL_MASK(MIC_IN_ADC_CHANNEL));
 }
 
 /** ISR to handle the reloading of the data endpoint with the next sample. */
@@ -171,7 +175,7 @@ void EVENT_USB_Device_ControlRequest(void)
  *
  *  When the DataLength parameter is NULL, this callback should only indicate whether the specified operation is valid for
  *  the given endpoint index, and should return as fast as possible. When non-NULL, this value may be altered for GET operations
- *  to indicate the size of the retreived data.
+ *  to indicate the size of the retrieved data.
  *
  *  \note The length of the retrieved data stored into the Data buffer on GET operations should not exceed the initial value
  *        of the \c DataLength parameter.
@@ -186,7 +190,7 @@ void EVENT_USB_Device_ControlRequest(void)
  *  \param[in,out] Data                Pointer to a location where the parameter data is stored for SET operations, or where
  *                                     the retrieved data is to be stored for GET operations.
  *
- *  \return Boolean true if the property get/set was successful, false otherwise
+ *  \return Boolean \c true if the property get/set was successful, \c false otherwise
  */
 bool CALLBACK_Audio_Device_GetSetEndpointProperty(USB_ClassInfo_Audio_Device_t* const AudioInterfaceInfo,
                                                   const uint8_t EndpointProperty,
@@ -196,7 +200,7 @@ bool CALLBACK_Audio_Device_GetSetEndpointProperty(USB_ClassInfo_Audio_Device_t* 
                                                   uint8_t* Data)
 {
 	/* Check the requested endpoint to see if a supported endpoint is being manipulated */
-	if (EndpointAddress == (ENDPOINT_DIR_IN | Microphone_Audio_Interface.Config.DataINEndpointNumber))
+	if (EndpointAddress == Microphone_Audio_Interface.Config.DataINEndpoint.Address)
 	{
 		/* Check the requested control to see if a supported control is being manipulated */
 		if (EndpointControl == AUDIO_EPCONTROL_SamplingFreq)
@@ -234,3 +238,35 @@ bool CALLBACK_Audio_Device_GetSetEndpointProperty(USB_ClassInfo_Audio_Device_t* 
 	return false;
 }
 
+/** Audio class driver callback for the setting and retrieval of streaming interface properties. This callback must be implemented
+ *  in the user application to handle property manipulations on streaming audio interfaces.
+ *
+ *  When the DataLength parameter is NULL, this callback should only indicate whether the specified operation is valid for
+ *  the given entity and should return as fast as possible. When non-NULL, this value may be altered for GET operations
+ *  to indicate the size of the retrieved data.
+ *
+ *  \note The length of the retrieved data stored into the Data buffer on GET operations should not exceed the initial value
+ *        of the \c DataLength parameter.
+ *
+ *  \param[in,out] AudioInterfaceInfo  Pointer to a structure containing an Audio Class configuration and state.
+ *  \param[in]     Property            Property of the interface to get or set, a value from Audio_ClassRequests_t.
+ *  \param[in]     EntityAddress       Address of the audio entity whose property is being referenced.
+ *  \param[in]     Parameter           Parameter of the entity to get or set, specific to each type of entity (see USB Audio specification).
+ *  \param[in,out] DataLength          For SET operations, the length of the parameter data to set. For GET operations, the maximum
+ *                                     length of the retrieved data. When NULL, the function should return whether the given property
+ *                                     and parameter is valid for the requested endpoint without reading or modifying the Data buffer.
+ *  \param[in,out] Data                Pointer to a location where the parameter data is stored for SET operations, or where
+ *                                     the retrieved data is to be stored for GET operations.
+ *
+ *  \return Boolean \c true if the property GET/SET was successful, \c false otherwise
+ */
+bool CALLBACK_Audio_Device_GetSetInterfaceProperty(USB_ClassInfo_Audio_Device_t* const AudioInterfaceInfo,
+                                                   const uint8_t Property,
+                                                   const uint8_t EntityAddress,
+                                                   const uint16_t Parameter,
+                                                   uint16_t* const DataLength,
+                                                   uint8_t* Data) 
+{
+	/* No audio interface entities in the device descriptor, thus no properties to get or set. */
+	return false;
+}

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -79,16 +79,11 @@
 			 */
 			typedef struct
 			{
-				const struct
+				struct
 				{
-					uint8_t  DataINPipeNumber; /**< Pipe number of the CDC interface's IN data pipe. */
-					bool     DataINPipeDoubleBank; /**< Indicates if the CDC interface's IN data pipe should use double banking. */
-
-					uint8_t  DataOUTPipeNumber; /**< Pipe number of the CDC interface's OUT data pipe. */
-					bool     DataOUTPipeDoubleBank; /**< Indicates if the CDC interface's OUT data pipe should use double banking. */
-
-					uint8_t  NotificationPipeNumber; /**< Pipe number of the CDC interface's IN notification endpoint, if used. */
-					bool     NotificationPipeDoubleBank; /**< Indicates if the CDC interface's notification pipe should use double banking. */
+					USB_Pipe_Table_t DataINPipe; /**< Data IN Pipe configuration table. */
+					USB_Pipe_Table_t DataOUTPipe; /**< Data OUT Pipe configuration table. */
+					USB_Pipe_Table_t NotificationPipe; /**< Notification IN Pipe configuration table. */
 				} Config; /**< Config data for the USB class interface within the device. All elements in this section
 				           *   <b>must</b> be set or the interface will fail to enumerate and operate correctly.
 				           */
@@ -99,10 +94,6 @@
 					                *   Configured state.
 					                */
 					uint8_t  ControlInterfaceNumber; /**< Interface index of the CDC-ACM control interface within the attached device. */
-
-					uint16_t DataINPipeSize; /**< Size in bytes of the CDC interface's IN data pipe. */
-					uint16_t DataOUTPipeSize;  /**< Size in bytes of the CDC interface's OUT data pipe. */
-					uint16_t NotificationPipeSize;  /**< Size in bytes of the CDC interface's IN notification pipe, if used. */
 
 					struct
 					{
@@ -280,6 +271,7 @@
 			 */
 			uint8_t CDC_Host_Flush(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo) ATTR_NON_NULL_PTR_ARG(1);
 
+			#if defined(FDEV_SETUP_STREAM) || defined(__DOXYGEN__)
 			/** Creates a standard character stream for the given CDC Device instance so that it can be used with all the regular
 			 *  functions in the standard \c <stdio.h> library that accept a \c FILE stream as a destination (e.g. \c fprintf). The created
 			 *  stream is bidirectional and can be used for both input and output functions.
@@ -289,7 +281,7 @@
 			 *  be used when the read data is processed byte-per-bye (via \c getc()) or when the user application will implement its own
 			 *  line buffering.
 			 *
-			 *  \note The created stream can be given as stdout if desired to direct the standard output from all \c <stdio.h> functions
+			 *  \note The created stream can be given as \c stdout if desired to direct the standard output from all \c <stdio.h> functions
 			 *        to the given CDC interface.
 			 *        \n\n
 			 *
@@ -311,11 +303,12 @@
 			 */
 			void CDC_Host_CreateBlockingStream(USB_ClassInfo_CDC_Host_t* const CDCInterfaceInfo,
 			                                   FILE* const Stream);
-
+			#endif
+			
 			/** CDC class driver event for a control line state change on a CDC host interface. This event fires each time the device notifies
 			 *  the host of a control line state change (containing the virtual serial control line states, such as DCD) and may be hooked in the
 			 *  user program by declaring a handler function with the same name and parameters listed here. The new control line states
-			 *  are available in the ControlLineStates.DeviceToHost value inside the CDC host interface structure passed as a parameter, set as
+			 *  are available in the \c ControlLineStates.DeviceToHost value inside the CDC host interface structure passed as a parameter, set as
 			 *  a mask of \c CDC_CONTROL_LINE_IN_* masks.
 			 *
 			 *  \param[in,out] CDCInterfaceInfo  Pointer to a structure containing a CDC Class host configuration and state.

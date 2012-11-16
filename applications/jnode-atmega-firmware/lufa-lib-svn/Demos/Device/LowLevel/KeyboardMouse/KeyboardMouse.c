@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
   Copyright 2010  Denver Gingerich (denver [at] ossguy [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
@@ -19,7 +19,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -52,7 +52,7 @@ int main(void)
 	SetupHardware();
 
 	LEDs_SetAllLEDs(LEDMASK_USB_NOTREADY);
-	sei();
+	GlobalInterruptEnable();
 
 	for (;;)
 	{
@@ -104,14 +104,11 @@ void EVENT_USB_Device_ConfigurationChanged(void)
 	bool ConfigSuccess = true;
 
 	/* Setup Keyboard HID Report Endpoints */
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(KEYBOARD_IN_EPNUM, EP_TYPE_INTERRUPT, ENDPOINT_DIR_IN,
-	                                            HID_EPSIZE, ENDPOINT_BANK_SINGLE);
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(KEYBOARD_OUT_EPNUM, EP_TYPE_INTERRUPT, ENDPOINT_DIR_OUT,
-	                                            HID_EPSIZE, ENDPOINT_BANK_SINGLE);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(KEYBOARD_IN_EPADDR, EP_TYPE_INTERRUPT, HID_EPSIZE, 1);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(KEYBOARD_OUT_EPADDR, EP_TYPE_INTERRUPT, HID_EPSIZE, 1);
 
 	/* Setup Mouse HID Report Endpoint */
-	ConfigSuccess &= Endpoint_ConfigureEndpoint(MOUSE_IN_EPNUM, EP_TYPE_INTERRUPT, ENDPOINT_DIR_IN,
-	                                            HID_EPSIZE, ENDPOINT_BANK_SINGLE);
+	ConfigSuccess &= Endpoint_ConfigureEndpoint(MOUSE_IN_EPADDR, EP_TYPE_INTERRUPT, HID_EPSIZE, 1);
 
 	/* Indicate endpoint configuration success or failure */
 	LEDs_SetAllLEDs(ConfigSuccess ? LEDMASK_USB_READY : LEDMASK_USB_ERROR);
@@ -184,7 +181,7 @@ void EVENT_USB_Device_ControlRequest(void)
 /** Processes a given Keyboard LED report from the host, and sets the board LEDs to match. Since the Keyboard
  *  LED report can be sent through either the control endpoint (via a HID SetReport request) or the HID OUT
  *  endpoint, the processing code is placed here to avoid duplicating it and potentially having different
- *  behaviour depending on the method used to sent it.
+ *  behavior depending on the method used to sent it.
  */
 void Keyboard_ProcessLEDReport(const uint8_t LEDStatus)
 {
@@ -236,7 +233,7 @@ void Keyboard_HID_Task(void)
 	}
 
 	/* Select the Keyboard Report Endpoint */
-	Endpoint_SelectEndpoint(KEYBOARD_IN_EPNUM);
+	Endpoint_SelectEndpoint(KEYBOARD_IN_EPADDR);
 
 	/* Check if Keyboard Endpoint Ready for Read/Write */
 	if (Endpoint_IsReadWriteAllowed())
@@ -252,7 +249,7 @@ void Keyboard_HID_Task(void)
 	}
 
 	/* Select the Keyboard LED Report Endpoint */
-	Endpoint_SelectEndpoint(KEYBOARD_OUT_EPNUM);
+	Endpoint_SelectEndpoint(KEYBOARD_OUT_EPADDR);
 
 	/* Check if Keyboard LED Endpoint Ready for Read/Write */
 	if (Endpoint_IsReadWriteAllowed())
@@ -294,7 +291,7 @@ void Mouse_HID_Task(void)
 	}
 
 	/* Select the Mouse Report Endpoint */
-	Endpoint_SelectEndpoint(MOUSE_IN_EPNUM);
+	Endpoint_SelectEndpoint(MOUSE_IN_EPADDR);
 
 	/* Check if Mouse Endpoint Ready for Read/Write */
 	if (Endpoint_IsReadWriteAllowed())

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
-      www.fourwalledcubicle.com
+           www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -45,8 +45,8 @@
 		#include <stdbool.h>
 
 		#include "Descriptors.h"
+		#include "Config/AppConfig.h"
 
-		#include <LUFA/Version.h>
 		#include <LUFA/Drivers/Board/LEDs.h>
 		#include <LUFA/Drivers/Peripheral/ADC.h>
 		#include <LUFA/Drivers/USB/USB.h>
@@ -75,9 +75,6 @@
 
 		/** Lowest valid MIDI pitch index */
 		#define BASE_PITCH_INDEX           21
-
-		/** Maximum number of MIDI notes that can be played simultaneously */
-		#define MAX_SIMULTANEOUS_NOTES     3
 
 		/** Number of samples in the virtual sample table (can be expanded to lower maximum frequency, but allow for
 		 *  more simultaneous notes due to the reduced amount of processing time needed when the samples are spaced out)

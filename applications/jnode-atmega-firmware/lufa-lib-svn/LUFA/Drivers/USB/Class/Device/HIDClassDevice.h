@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -81,13 +81,11 @@
 			 */
 			typedef struct
 			{
-				const struct
+				struct
 				{
 					uint8_t  InterfaceNumber; /**< Interface number of the HID interface within the device. */
 
-					uint8_t  ReportINEndpointNumber; /**< Endpoint number of the HID interface's IN report endpoint. */
-					uint16_t ReportINEndpointSize; /**< Size in bytes of the HID interface's IN report endpoint. */
-					bool     ReportINEndpointDoubleBank; /**< Indicates if the HID interface's IN report endpoint should use double banking. */
+					USB_Endpoint_Table_t ReportINEndpoint; /**< Data IN HID report endpoint configuration table. */
 
 					void*    PrevReportINBuffer; /**< Pointer to a buffer where the previously created HID input report can be
 					                              *  stored by the driver, for comparison purposes to detect report changes that
@@ -104,8 +102,8 @@
 					uint8_t  PrevReportINBufferSize; /**< Size in bytes of the given input report buffer. This is used to create a
 					                                  *  second buffer of the same size within the driver so that subsequent reports
 					                                  *  can be compared. If the user app is to determine when reports are to be sent
-					                                  *  exclusively (i.e. \ref PrevReportINBuffer is \c NULL) this value must still be
-													  *  set to the size of the largest report the device can issue to the host.
+					                                  *  exclusively (i.e. \c PrevReportINBuffer is \c NULL) this value must still be
+					                                  *  set to the size of the largest report the device can issue to the host.
 					                                  */
 				} Config; /**< Config data for the USB class interface within the device. All elements in this section
 				           *   <b>must</b> be set or the interface will fail to enumerate and operate correctly.
@@ -113,9 +111,10 @@
 				struct
 				{
 					bool     UsingReportProtocol; /**< Indicates if the HID interface is set to Boot or Report protocol mode. */
+					uint16_t PrevFrameNum; /**< Frame number of the previous HID report packet opportunity. */
 					uint16_t IdleCount; /**< Report idle period, in milliseconds, set by the host. */
 					uint16_t IdleMSRemaining; /**< Total number of milliseconds remaining before the idle period elapsed - this
-											   *   should be decremented by the user application if non-zero each millisecond. */
+				                               *   should be decremented by the user application if non-zero each millisecond. */
 				} State; /**< State data for the USB class interface within the device. All elements in this section
 				          *   are reset to their defaults when the interface is enumerated.
 				          */

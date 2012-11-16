@@ -1,6 +1,6 @@
 #
 #             LUFA Library
-#     Copyright (C) Dean Camera, 2011.
+#     Copyright (C) Dean Camera, 2012.
 #
 #  dean [at] fourwalledcubicle [dot] com
 #           www.lufa-lib.org
@@ -13,63 +13,34 @@
 # custom LUFA library build options are reflected in the compiled
 # code.
 
-all:
-	$(MAKE) -C AndroidAccessoryHost clean
-	$(MAKE) -C AndroidAccessoryHost all
+PROJECT_DIRECTORIES := $(shell ls -d */)
 
-	$(MAKE) -C AudioInputHost clean
-	$(MAKE) -C AudioInputHost all
+# This makefile is potentially infinitely recursive if something really bad
+# happens when determining the set of project directories - hard-abort if
+# more than 10 levels deep to avoid angry emails.
+ifeq ($(MAKELEVEL), 10)
+   $(error EMERGENCY ABORT: INFINITE RECURSION DETECTED)
+endif
 
-	$(MAKE) -C AudioOutputHost clean
-	$(MAKE) -C AudioOutputHost all
+# Need to special-case building without a per-project object directory
+ifeq ($(OBJDIR),)
+   # If no target specified, force "clean all" and disallow parallel build   
+   ifeq ($(MAKECMDGOALS),)
+      MAKECMDGOALS := clean all
+      .NOTPARALLEL:
+   endif
 
-	$(MAKE) -C GenericHIDHost clean
-	$(MAKE) -C GenericHIDHost all
+   # If one of the targets is to build, force "clean" beforehand and disallow parallel build   
+   ifneq ($(findstring all, $(MAKECMDGOALS)),)
+      MAKECMDGOALS := clean $(MAKECMDGOALS)
+      .NOTPARALLEL:
+   endif
+endif
 
-	$(MAKE) -C JoystickHostWithParser clean
-	$(MAKE) -C JoystickHostWithParser all
+%: $(PROJECT_DIRECTORIES)
+	@echo . > /dev/null
 
-	$(MAKE) -C KeyboardHost clean
-	$(MAKE) -C KeyboardHost all
-
-	$(MAKE) -C MassStorageHost clean
-	$(MAKE) -C MassStorageHost all
-
-	$(MAKE) -C MIDIHost clean
-	$(MAKE) -C MIDIHost all
-
-	$(MAKE) -C MouseHost clean
-	$(MAKE) -C MouseHost all
-
-	$(MAKE) -C MouseHostWithParser clean
-	$(MAKE) -C MouseHostWithParser all
-
-	$(MAKE) -C PrinterHost clean
-	$(MAKE) -C PrinterHost all
-
-	$(MAKE) -C RNDISEthernetHost clean
-	$(MAKE) -C RNDISEthernetHost all
-
-	$(MAKE) -C StillImageHost clean
-	$(MAKE) -C StillImageHost all
-
-	$(MAKE) -C VirtualSerialHost clean
-	$(MAKE) -C VirtualSerialHost all
-
-%:
-	$(MAKE) -C AndroidAccessoryHost $@
-	$(MAKE) -C AudioInputHost $@
-	$(MAKE) -C AudioOutputHost $@
-	$(MAKE) -C GenericHIDHost $@
-	$(MAKE) -C JoystickHostWithParser $@
-	$(MAKE) -C KeyboardHost $@
-	$(MAKE) -C KeyboardHostWithParser $@
-	$(MAKE) -C MassStorageHost $@
-	$(MAKE) -C MIDIHost $@
-	$(MAKE) -C MouseHost $@
-	$(MAKE) -C MouseHostWithParser $@
-	$(MAKE) -C PrinterHost $@
-	$(MAKE) -C RNDISEthernetHost $@
-	$(MAKE) -C StillImageHost $@
-	$(MAKE) -C VirtualSerialHost $@
-
+$(PROJECT_DIRECTORIES):
+	@$(MAKE) -C $@ $(MAKECMDGOALS)
+    
+.PHONY: $(PROJECT_DIRECTORIES)

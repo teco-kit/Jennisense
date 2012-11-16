@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -92,6 +92,55 @@ static uint16_t StartAddr = 0x0000;
  */
 static uint16_t EndAddr = 0x0000;
 
+/** Magic lock for forced application start. If the HWBE fuse is programmed and BOOTRST is unprogrammed, the bootloader
+ *  will start if the /HWB line of the AVR is held low and the system is reset. However, if the /HWB line is still held
+ *  low when the application attempts to start via a watchdog reset, the bootloader will re-start. If set to the value
+ *  \ref MAGIC_BOOT_KEY the special init function \ref Application_Jump_Check() will force the application to start.
+ */
+uint16_t MagicBootKey ATTR_NO_INIT;
+
+
+/** Special startup routine to check if the bootloader was started via a watchdog reset, and if the magic application
+ *  start key has been loaded into \ref MagicBootKey. If the bootloader started via the watchdog and the key is valid,
+ *  this will force the user application to start via a software jump.
+ */
+void Application_Jump_Check(void)
+{
+	bool JumpToApplication = false;
+
+	#if ((BOARD == BOARD_XPLAIN) || (BOARD == BOARD_XPLAIN_REV1))
+		/* Disable JTAG debugging */
+		JTAG_DISABLE();
+
+		/* Enable pull-up on the JTAG TCK pin so we can use it to select the mode */
+		PORTF |= (1 << 4);
+		Delay_MS(10);
+
+		/* If the TCK pin is not jumpered to ground, start the user application instead */
+		JumpToApplication |= ((PINF & (1 << 4)) != 0);
+
+		/* Re-enable JTAG debugging */
+		JTAG_ENABLE();
+	#endif
+
+	/* If the reset source was the bootloader and the key is correct, clear it and jump to the application */
+	if ((MCUSR & (1 << WDRF)) && (MagicBootKey == MAGIC_BOOT_KEY))
+	  JumpToApplication |= true;
+
+	/* If a request has been made to jump to the user application, honor it */
+	if (JumpToApplication)
+	{
+		/* Turn off the watchdog */
+		MCUSR &= ~(1<<WDRF);
+		wdt_disable(); 
+
+		/* Clear the boot key and jump to the user application */
+		MagicBootKey = 0;
+
+		// cppcheck-suppress constStatement
+		((void (*)(void))0x0000)();
+	}
+}
 
 /** Main program entry point. This routine configures the hardware required by the bootloader, then continuously
  *  runs the bootloader processing routine until instructed to soft-exit, or hard-reset via the watchdog to start
@@ -102,28 +151,11 @@ int main(void)
 	/* Configure hardware required by the bootloader */
 	SetupHardware();
 
-	#if ((BOARD == BOARD_XPLAIN) || (BOARD == BOARD_XPLAIN_REV1))
-	/* Disable JTAG debugging */
-	MCUCR |= (1 << JTD);
-	MCUCR |= (1 << JTD);
-
-	/* Enable pull-up on the JTAG TCK pin so we can use it to select the mode */
-	PORTF |= (1 << 4);
-	Delay_MS(10);
-
-	/* If the TCK pin is not jumpered to ground, start the user application instead */
-	RunBootloader = (!(PINF & (1 << 4)));
-
-	/* Re-enable JTAG debugging */
-	MCUCR &= ~(1 << JTD);
-	MCUCR &= ~(1 << JTD);
-	#endif
-
 	/* Turn on first LED on the board to indicate that the bootloader has started */
 	LEDs_SetAllLEDs(LEDS_LED1);
 
 	/* Enable global interrupts so that the USB stack can function */
-	sei();
+	GlobalInterruptEnable();
 
 	/* Run the USB management task while the bootloader is supposed to be running */
 	while (RunBootloader || WaitForExit)
@@ -150,7 +182,7 @@ static void SetupHardware(void)
 	MCUCR = (1 << IVCE);
 	MCUCR = (1 << IVSEL);
 
-	/* Initialize the USB subsystem */
+	/* Initialize the USB and other board hardware drivers */
 	USB_Init();
 	LEDs_Init();
 
@@ -162,8 +194,13 @@ static void SetupHardware(void)
 /** Resets all configured hardware required for the bootloader back to their original states. */
 static void ResetHardware(void)
 {
-	/* Shut down the USB subsystem */
+	/* Shut down the USB and other board hardware drivers */
 	USB_Disable();
+	LEDs_Disable();
+	
+	/* Disable Bootloader active LED toggle timer */
+	TIMSK1 = 0;
+	TCCR1B = 0;
 
 	/* Relocate the interrupt vector table back to the application section */
 	MCUCR = (1 << IVCE);
@@ -640,7 +677,7 @@ static void ProcessMemReadCommand(void)
 	{
 		uint32_t CurrFlashAddress = 0;
 
-		while (CurrFlashAddress < BOOT_START_ADDR)
+		while (CurrFlashAddress < (uint32_t)BOOT_START_ADDR)
 		{
 			/* Check if the current byte is not blank */
 			#if (FLASHEND > 0xFFFF)
@@ -694,6 +731,9 @@ static void ProcessWriteCommand(void)
 		{
 			if (SentCommand.Data[1] == 0x00)                                   // Start via watchdog
 			{
+				/* Unlock the forced application start mode of the bootloader if it is restarted */
+				MagicBootKey = MAGIC_BOOT_KEY;
+
 				/* Start the watchdog to reset the AVR once the communications are finalized */
 				wdt_enable(WDTO_250MS);
 			}
@@ -709,7 +749,7 @@ static void ProcessWriteCommand(void)
 		uint32_t CurrFlashAddress = 0;
 
 		/* Clear the application section of flash */
-		while (CurrFlashAddress < BOOT_START_ADDR)
+		while (CurrFlashAddress < (uint32_t)BOOT_START_ADDR)
 		{
 			boot_page_erase(CurrFlashAddress);
 			boot_spm_busy_wait();

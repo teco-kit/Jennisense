@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -77,13 +77,10 @@
 			 */
 			typedef struct
 			{
-				const struct
+				struct
 				{
-					uint8_t  DataINPipeNumber; /**< Pipe number of the Printer interface's IN data pipe. */
-					bool     DataINPipeDoubleBank; /**< Indicates if the Printer interface's IN data pipe should use double banking. */
-
-					uint8_t  DataOUTPipeNumber; /**< Pipe number of the Printer interface's OUT data pipe. */
-					bool     DataOUTPipeDoubleBank; /**< Indicates if the Printer interface's OUT data pipe should use double banking. */
+					USB_Pipe_Table_t DataINPipe; /**< Data IN Pipe configuration table. */
+					USB_Pipe_Table_t DataOUTPipe; /**< Data OUT Pipe configuration table. */
 				} Config; /**< Config data for the USB class interface within the device. All elements in this section
 				           *   <b>must</b> be set or the interface will fail to enumerate and operate correctly.
 				           */
@@ -95,9 +92,6 @@
 					                */
 					uint8_t InterfaceNumber; /**< Interface index of the Printer interface within the attached device. */
 					uint8_t AlternateSetting; /**< Alternate setting within the Printer Interface in the attached device. */
-
-					uint16_t DataINPipeSize; /**< Size in bytes of the Printer interface's IN data pipe. */
-					uint16_t DataOUTPipeSize;  /**< Size in bytes of the Printer interface's OUT data pipe. */
 				} State; /**< State data for the USB class interface within the device. All elements in this section
 						  *   <b>may</b> be set to initial values, but may also be ignored to default to sane values when
 						  *   the interface is enumerated.
@@ -190,7 +184,7 @@
 			 *  \return A value from the \ref Pipe_Stream_RW_ErrorCodes_t enum.
 			 */
 			uint8_t PRNT_Host_SendString(USB_ClassInfo_PRNT_Host_t* const PRNTInterfaceInfo,
-			                             void* String) ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
+			                             const char* const String) ATTR_NON_NULL_PTR_ARG(1) ATTR_NON_NULL_PTR_ARG(2);
 
 			/** Sends the given raw data stream to the attached printer's input endpoint. This should contain commands that the
 			 *  printer is able to understand - for example, PCL data. Not all printers accept all printer languages; see

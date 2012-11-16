@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -43,7 +43,7 @@
  *  \section Sec_ModDescription Module Description
  *  On-chip serial USART driver for the 8-bit AVR microcontrollers.
  *
- *  \note This file should not be included directly. It is automatically included as needed by the ADC driver
+ *  \note This file should not be included directly. It is automatically included as needed by the USART driver
  *        dispatch header located in LUFA/Drivers/Peripheral/Serial.h.
  *
  *  \section Sec_ExampleUsage Example Usage
@@ -53,12 +53,15 @@
  *  \code
  *      // Initialize the serial USART driver before first use, with 9600 baud (and no double-speed mode)
  *      Serial_Init(9600, false);
- *
+ *      
  *      // Send a string through the USART
- *      Serial_TxString("Test String\r\n");
+ *      Serial_SendString("Test String\r\n");
  *
- *      // Receive a byte through the USART
- *      uint8_t DataByte = Serial_RxByte();
+ *      // Send a raw byte through the USART
+ *      Serial_SendByte(0xDC);
+ *      
+ *      // Receive a byte through the USART (or -1 if no data received)
+ *      int16_t DataByte = Serial_ReceiveByte();
  *  \endcode
  *
  *  @{
@@ -116,13 +119,13 @@
 			#define SERIAL_2X_UBBRVAL(Baud) ((((F_CPU / 8) + (Baud / 2)) / (Baud)) - 1)
 
 		/* Function Prototypes: */
-			/** Transmits a given string located in program space (FLASH) through the USART.
+			/** Transmits a given NUL terminated string located in program space (FLASH) through the USART.
 			 *
 			 *  \param[in] FlashStringPtr  Pointer to a string located in program space.
 			 */
 			void Serial_SendString_P(const char* FlashStringPtr) ATTR_NON_NULL_PTR_ARG(1);
 
-			/** Transmits a given string located in SRAM memory through the USART.
+			/** Transmits a given NUL terminated string located in SRAM memory through the USART.
 			 *
 			 *  \param[in] StringPtr  Pointer to a string located in SRAM space.
 			 */
@@ -134,6 +137,32 @@
 			 *  \param[in] Length  Length of the data to send, in bytes.
 			 */
 			void Serial_SendData(const uint8_t* Buffer, uint16_t Length) ATTR_NON_NULL_PTR_ARG(1);
+
+			/** Creates a standard character stream from the USART so that it can be used with all the regular functions
+			 *  in the avr-libc \c <stdio.h> library that accept a \c FILE stream as a destination (e.g. \c fprintf). The created
+			 *  stream is bidirectional and can be used for both input and output functions.
+			 *
+			 *  Reading data from this stream is non-blocking, i.e. in most instances, complete strings cannot be read in by a single
+			 *  fetch, as the endpoint will not be ready at some point in the transmission, aborting the transfer. However, this may
+			 *  be used when the read data is processed byte-per-bye (via \c getc()) or when the user application will implement its own
+			 *  line buffering.
+			 *
+			 *  \param[in,out] Stream  Pointer to a FILE structure where the created stream should be placed, if \c NULL, \c stdout
+			 *                         and \c stdin will be configured to use the USART.
+			 *
+			 *  \pre The USART must first be configured via a call to \ref Serial_Init() before the stream is used.
+			 */
+			void Serial_CreateStream(FILE* Stream);
+			
+			/** Identical to \ref Serial_CreateStream(), except that reads are blocking until the calling stream function terminates
+			 *  the transfer.
+			 *
+			 *  \param[in,out] Stream  Pointer to a FILE structure where the created stream should be placed, if \c NULL, \c stdout
+			 *                         and \c stdin will be configured to use the USART.
+			 *
+			 *  \pre The USART must first be configured via a call to \ref Serial_Init() before the stream is used.
+			 */
+			void Serial_CreateBlockingStream(FILE* Stream);
 
 		/* Inline Functions: */
 			/** Initializes the USART, ready for serial data transmission and reception. This initializes the interface to
@@ -166,52 +195,6 @@
 
 				DDRD  &= ~(1 << 3);
 				PORTD &= ~(1 << 2);
-			}
-
-			/** Creates a standard character stream from the USART so that it can be used with all the regular functions
-			 *  in the avr-libc \c <stdio.h> library that accept a \c FILE stream as a destination (e.g. \c fprintf). The created
-			 *  stream is bidirectional and can be used for both input and output functions.
-			 *
-			 *  Reading data from this stream is non-blocking, i.e. in most instances, complete strings cannot be read in by a single
-			 *  fetch, as the endpoint will not be ready at some point in the transmission, aborting the transfer. However, this may
-			 *  be used when the read data is processed byte-per-bye (via \c getc()) or when the user application will implement its own
-			 *  line buffering.
-			 *
-			 *  \param[in,out] Stream  Pointer to a FILE structure where the created stream should be placed, if \c NULL, \c stdout
-			 *                         and \c stdin will be configured to use the USART.
-			 *
-			 *  \pre The USART must first be configured via a call to \ref Serial_Init() before the stream is used.
-			 */
-			static inline void Serial_CreateStream(FILE* Stream)
-			{
-				if (!(Stream))
-				{
-					Stream = &USARTSerialStream;
-					stdin  = Stream;
-					stdout = Stream;
-				}
-
-				*Stream = (FILE)FDEV_SETUP_STREAM(Serial_putchar, Serial_getchar, _FDEV_SETUP_RW);
-			}
-
-			/** Identical to \ref Serial_CreateStream(), except that reads are blocking until the calling stream function terminates
-			 *  the transfer.
-			 *
-			 *  \param[in,out] Stream  Pointer to a FILE structure where the created stream should be placed, if \c NULL, \c stdout
-			 *                         and \c stdin will be configured to use the USART.
-			 *
-			 *  \pre The USART must first be configured via a call to \ref Serial_Init() before the stream is used.
-			 */
-			static inline void Serial_CreateBlockingStream(FILE* Stream)
-			{
-				if (!(Stream))
-				{
-					Stream = &USARTSerialStream;
-					stdin  = Stream;
-					stdout = Stream;
-				}
-
-				*Stream = (FILE)FDEV_SETUP_STREAM(Serial_putchar, Serial_getchar_Blocking, _FDEV_SETUP_RW);
 			}
 
 			/** Indicates whether a character has been received through the USART.

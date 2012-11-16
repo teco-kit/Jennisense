@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -85,7 +85,7 @@ bool TINYNVM_WaitWhileNVMBusBusy(void)
 		uint8_t StatusRegister = XPROGTarget_ReceiveByte();
 
 		/* We might have timed out waiting for the status register read response, check here */
-		if (TimeoutExpired)
+		if (!(TimeoutTicksRemaining))
 		  return false;
 
 		/* Check the status register read response to see if the NVM bus is enabled */
@@ -110,7 +110,7 @@ bool TINYNVM_WaitWhileNVMControllerBusy(void)
 		uint8_t StatusRegister = XPROGTarget_ReceiveByte();
 
 		/* We might have timed out waiting for the status register read response, check here */
-		if (TimeoutExpired)
+		if (!(TimeoutTicksRemaining))
 		  return false;
 
 		/* Check to see if the BUSY flag is still set */
@@ -128,9 +128,9 @@ bool TINYNVM_EnableTPI(void)
 	/* Enable TPI programming mode with the attached target */
 	XPROGTarget_EnableTargetTPI();
 
-	/* Lower direction change guard time to 0 USART bits */
+	/* Lower direction change guard time to 32 USART bits */
 	XPROGTarget_SendByte(TPI_CMD_SSTCS | TPI_CTRL_REG);
-	XPROGTarget_SendByte(0x07);
+	XPROGTarget_SendByte(0x02);
 
 	/* Enable access to the XPROG NVM bus by sending the documented NVM access key to the device */
 	XPROGTarget_SendByte(TPI_CMD_SKEY);
@@ -182,14 +182,14 @@ bool TINYNVM_ReadMemory(const uint16_t ReadAddress,
 	/* Send the address of the location to read from */
 	TINYNVM_SendPointerAddress(ReadAddress);
 
-	while (ReadSize-- && !(TimeoutExpired))
+	while (ReadSize-- && TimeoutTicksRemaining)
 	{
 		/* Read the byte of data from the target */
 		XPROGTarget_SendByte(TPI_CMD_SLD | TPI_POINTER_INDIRECT_PI);
 		*(ReadBuffer++) = XPROGTarget_ReceiveByte();
 	}
 
-	return (TimeoutExpired == false);
+	return (TimeoutTicksRemaining > 0);
 }
 
 /** Writes word addressed memory to the target's memory spaces.

@@ -1,13 +1,13 @@
 /*
              LUFA Library
-     Copyright (C) Dean Camera, 2011.
+     Copyright (C) Dean Camera, 2012.
 
   dean [at] fourwalledcubicle [dot] com
            www.lufa-lib.org
 */
 
 /*
-  Copyright 2011  Dean Camera (dean [at] fourwalledcubicle [dot] com)
+  Copyright 2012  Dean Camera (dean [at] fourwalledcubicle [dot] com)
 
   Permission to use, copy, modify, distribute, and sell this
   software and its documentation for any purpose is hereby granted
@@ -18,7 +18,7 @@
   advertising or publicity pertaining to distribution of the
   software without specific, written prior permission.
 
-  The author disclaim all warranties with regard to this
+  The author disclaims all warranties with regard to this
   software, including all implied warranties of merchantability
   and fitness.  In no event shall the author be liable for any
   special, indirect or consequential damages or any damages
@@ -41,15 +41,14 @@
 
 		#include <avr/pgmspace.h>
 
-	/* Macros: */
-		/** Endpoint number of the Audio isochronous streaming data endpoint. */
-		#define AUDIO_STREAM_EPNUM           1
+		#include "Config/AppConfig.h"
 
-		/** Endpoint size in bytes of the Audio isochronous streaming data endpoint. The Windows audio stack requires
-		 *  at least 192 bytes for correct output, thus the smaller 128 byte maximum endpoint size on some of the smaller
-		 *  USB AVR models will result in unavoidable distorted output.
-		 */
-		#define AUDIO_STREAM_EPSIZE          ENDPOINT_MAX_SIZE(AUDIO_STREAM_EPNUM)
+	/* Macros: */
+		/** Endpoint address of the Audio isochronous streaming data IN endpoint. */
+		#define AUDIO_STREAM_EPADDR           (ENDPOINT_DIR_IN | 1)
+
+		/** Endpoint size in bytes of the Audio isochronous streaming data endpoint. */
+		#define AUDIO_STREAM_EPSIZE           256
 
 	/* Type Defines: */
 		/** Type define for the device configuration descriptor structure. This must be defined in the
