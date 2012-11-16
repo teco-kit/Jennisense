@@ -104,13 +104,13 @@ int main(void)
   clock_init();
 
   /* pull jennic into normal mode and also reset sensors*/
-  DDRC |= (JEN_RESETN); //|PWR_SENSORS);
+  DDRC |= (JEN_RESETN);
   DDRB |= JEN_SPIMISO;
   _delay_ms(5);
 
   DDRB &= ~JEN_SPIMISO;
   _delay_ms(10);
-  DDRC &= ~(JEN_RESETN); //|PWR_SENSORS);
+  DDRC &= ~(JEN_RESETN);
 
   /* get off the spi-bus */
   DDRB &= ~JEN_SPIMISO;
@@ -173,14 +173,15 @@ int main(void)
       if (!jennic_in_programming_mode)
       {
         /* pull jennic into programming mode */
-        DDRC |= (JEN_RESETN); //|PWR_SENSORS);
-        DDRB |= JEN_SPIMISO;
+        DDRC  |= (JEN_RESETN);
+        DDRB  |= JEN_SPIMISO;
+        PORTC |= PWR_SENSORS; /* turn off sensors */
         _delay_ms(5);
 
         DDRC &= ~JEN_RESETN;
         _delay_ms(10);
         DDRB &= ~JEN_SPIMISO;
-        //DDRC &= ~PWR_SENSORS;
+        PORTC &= ~PWR_SENSORS;
         jennic_in_programming_mode = true;
       }
       else
@@ -188,12 +189,13 @@ int main(void)
         /* pull jennic into normal mode */
         DDRC |= (JEN_RESETN); //|PWR_SENSORS);
         DDRB |= JEN_SPIMISO;
+        PORTC |= PWR_SENSORS; /* turn off sensors */
         _delay_ms(5);
 
         DDRB &= ~JEN_SPIMISO;
         _delay_ms(10);
         DDRC &= ~JEN_RESETN;
-        //DDRC &= ~PWR_SENSORS;
+        PORTC &= ~PWR_SENSORS;
         jennic_in_programming_mode = false;
         set_default_uart();
       }
@@ -229,6 +231,9 @@ void SetupHardware(void)
   /* pull STBY low, so enough power can be provided */
   DDRF  |=  (PWR_STBY);
   PORTF &= ~(PWR_STBY);
+
+  DDRC  |= PWR_SENSORS;
+  PORTC &= ~(PWR_SENSORS);
 
   /* configure to 1M Baud 8N1 */
   set_default_uart();
