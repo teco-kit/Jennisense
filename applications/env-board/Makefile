@@ -1,0 +1,10 @@
+CONTIKI_PROJECT = main
+all: $(CONTIKI_PROJECT)
+
+UIP_CONF_IPV6=1
+DEFINES=WITH_UIP6
+
+CONTIKI = ../../contiki-jn51xx
+CFLAGS+=-DSICSLOWPAN_CONF_PANID=0xCCCC
+
+include $(CONTIKI)/Makefile.include
