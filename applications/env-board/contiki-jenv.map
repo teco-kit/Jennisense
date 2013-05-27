@@ -1,0 +1,3097 @@
+Archive member included because of file (symbol)
+
+contiki-jenv.a(process.o)     obj_jenv/contiki-main.o (_process_init)
+contiki-jenv.a(procinit.o)    obj_jenv/contiki-main.o (_procinit_init)
+contiki-jenv.a(autostart.o)   obj_jenv/contiki-main.o (_autostart_start)
+contiki-jenv.a(etimer.o)      obj_jenv/contiki-main.o (_etimer_request_poll)
+contiki-jenv.a(netstack.o)    obj_jenv/contiki-main.o (_netstack_init)
+contiki-jenv.a(uip6.o)        obj_jenv/contiki-main.o (_uip_lladdr)
+contiki-jenv.a(tcpip.o)       contiki-jenv.a(uip6.o) (_tcpip_uipcall)
+contiki-jenv.a(uip-udp-packet.)
+                              main.co (_uip_udp_packet_send)
+contiki-jenv.a(uip-split.o)   contiki-jenv.a(tcpip.o) (_uip_split_output)
+contiki-jenv.a(uip-icmp6.o)   contiki-jenv.a(uip6.o) (_uip_icmp6_echo_request_input)
+contiki-jenv.a(uip-nd6.o)     contiki-jenv.a(uip6.o) (_uip_nd6_ra_input)
+contiki-jenv.a(uip-packetqueue)
+                              contiki-jenv.a(tcpip.o) (_uip_packetqueue_buf)
+contiki-jenv.a(sicslowpan.o)  contiki-jenv.a(netstack.o) (_sicslowpan_driver)
+contiki-jenv.a(uip-ds6.o)     contiki-jenv.a(uip-nd6.o) (_uip_ds6_defrt_rm)
+contiki-jenv.a(nullradio.o)   contiki-jenv.a(netstack.o) (_nullradio_driver)
+contiki-jenv.a(ieee802.o)     obj_jenv/contiki-main.o (_ieee_get_mac)
+contiki-jenv.a(pff.o)         obj_jenv/contiki-main.o (_pf_mount)
+contiki-jenv.a(sd.o)          contiki-jenv.a(pff.o) (_disk_writep)
+contiki-jenv.a(leds.o)        main.co (_leds_toggle)
+contiki-jenv.a(sensors.o)     main.co (_sensors_find)
+contiki-jenv.a(bootloader.o)  obj_jenv/contiki-main.o (_jennic_bootloader_process)
+contiki-jenv.a(l3g4200d-sensor)
+                              obj_jenv/contiki-main.o (_l3g4200d_sensor)
+contiki-jenv.a(lsm303-sensor.o)
+                              obj_jenv/contiki-main.o (_mag_sensor)
+contiki-jenv.a(vcnl4000-sensor)
+                              obj_jenv/contiki-main.o (_lightlevel_sensor)
+contiki-jenv.a(SHT21-sensor.o)
+                              obj_jenv/contiki-main.o (_sht21_temperature_sensor)
+contiki-jenv.a(button-sensor.o)
+                              obj_jenv/contiki-main.o (_button_sensor)
+contiki-jenv.a(mpl115a-sensor.)
+                              obj_jenv/contiki-main.o (_temperature_sensor)
+contiki-jenv.a(ext_temp_sensor)
+                              obj_jenv/contiki-main.o (_ext_temp_sensor)
+contiki-jenv.a(clock.o)       contiki-jenv.a(ieee802.o) (_clock_hrtime)
+contiki-jenv.a(uart0.o)       contiki-jenv.a(ieee802.o) (_uart0_writeb)
+contiki-jenv.a(jts.o)         obj_jenv/contiki-main.o (_jts_init)
+contiki-jenv.a(i2c.o)         contiki-jenv.a(l3g4200d-sensor) (_i2c)
+contiki-jenv.a(irq.o)         contiki-jenv.a(button-sensor.o) (_irq_remove)
+contiki-jenv.a(sprintf.o)     obj_jenv/contiki-main.o (_puts)
+contiki-jenv.a(watchdog.o)    obj_jenv/contiki-main.o (_watchdog_periodic)
+contiki-jenv.a(init.o)        obj_jenv/contiki-main.o (_init_hardware_baud)
+contiki-jenv.a(rimeaddr.o)    contiki-jenv.a(sicslowpan.o) (_rimeaddr_copy)
+contiki-jenv.a(nullrdc.o)     contiki-jenv.a(netstack.o) (_nullrdc_driver)
+contiki-jenv.a(mac.o)         contiki-jenv.a(ieee802.o) (_mac_call_sent_callback)
+contiki-jenv.a(framer-nullmac.)
+                              contiki-jenv.a(nullrdc.o) (_framer_nullmac)
+contiki-jenv.a(memb.o)        contiki-jenv.a(uip-packetqueue) (_memb_alloc)
+contiki-jenv.a(timer.o)       contiki-jenv.a(etimer.o) (_timer_reset)
+contiki-jenv.a(list.o)        contiki-jenv.a(i2c.o) (_list_init)
+contiki-jenv.a(ctimer.o)      contiki-jenv.a(uip-packetqueue) (_ctimer_stop)
+contiki-jenv.a(stimer.o)      contiki-jenv.a(uip-nd6.o) (_stimer_remaining)
+contiki-jenv.a(random.o)      contiki-jenv.a(uip-ds6.o) (_random_rand)
+contiki-jenv.a(ringbuf.o)     contiki-jenv.a(uart0.o) (_ringbuf_init)
+contiki-jenv.a(packetbuf.o)   contiki-jenv.a(framer-nullmac.) (_packetbuf_hdrreduce)
+contiki-jenv.a(queuebuf.o)    contiki-jenv.a(sicslowpan.o) (_queuebuf_to_packetbuf)
+contiki-jenv.a(leds-arch.o)   contiki-jenv.a(leds.o) (_leds_arch_get)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                              contiki-jenv.a(init.o) (_bAHI_WatchdogResetEvent)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+                              ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o) (_vAHI_Timer1RegisterCallback)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+                              contiki-jenv.a(init.o) (_bAHI_BrownOutEventResetStatus)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+                              contiki-jenv.a(i2c.o) (_vAHI_SiRegisterCallback)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+                              contiki-jenv.a(sd.o) (_vAHI_SpiStartTransfer8)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                              contiki-jenv.a(irq.o) (_vAHI_AdcStartSample)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_InitPatch.o)
+                              contiki-jenv.a(init.o) (_u32AHI_Init)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+                              ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_InitPatch.o) (_vAHI_IntHandlerAudioFifo)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+                              contiki-jenv.a(bootloader.o) (_bAHI_FlashInit)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                              contiki-jenv.a(uart0.o) (_vAHI_UartSetRTSCTS)
+../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+                              contiki-jenv.a(button-sensor.o) (_vAHI_DioWakeEnable)
+../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                              contiki-jenv.a(ieee802.o) (_pvAppApiGetMacHandle)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__udivsi3.o)
+                              main.co (___udivsi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__divsi3.o)
+                              contiki-jenv.a(mpl115a-sensor.) (___divsi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__umodsi3.o)
+                              main.co (___umodsi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__modsi3.o)
+                              contiki-jenv.a(ieee802.o) (___modsi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+                              contiki-jenv.a(clock.o) (___udivdi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+                              contiki-jenv.a(SHT21-sensor.o) (___addsf3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+                              contiki-jenv.a(SHT21-sensor.o) (___subdf3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__mulsi3.o)
+                              /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o) (___mulsi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_muldi3.o)
+                              /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o) (___muldi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_lshrdi3.o)
+                              /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o) (___lshrdi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_ashldi3.o)
+                              /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o) (___ashldi3)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+                              /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o) (___clz_tab)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(isblank.o)
+                              contiki-jenv.a(sensors.o) (_isblank)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcmp.o)
+                              contiki-jenv.a(uip6.o) (_memcmp)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcpy.o)
+                              obj_jenv/contiki-main.o (_memcpy)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memmove.o)
+                              contiki-jenv.a(uip-icmp6.o) (_memmove)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memset.o)
+                              contiki-jenv.a(uip6.o) (_memset)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o)
+                              contiki-jenv.a(random.o) (_srand)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(strlen.o)
+                              contiki-jenv.a(sensors.o) (_strlen)
+/usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+                              /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o) (__impure_ptr)
+
+Allocating common symbols
+Common symbol       size              file
+
+sicslowpan_mac      0x4               contiki-jenv.a(sicslowpan.o)
+uip_aligned_buf     0x500             contiki-jenv.a(uip6.o)
+uip_udp_conns       0x122             contiki-jenv.a(uip6.o)
+uip_udp_conn        0x4               contiki-jenv.a(uip6.o)
+uip_ds6_routing_table
+                    0xc0              contiki-jenv.a(uip-ds6.o)
+uip_conn            0x4               contiki-jenv.a(uip6.o)
+sBbcIdleBugTimer    0x10              ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+tcpip_event         0x1               contiki-jenv.a(tcpip.o)
+uip_ds6_prefix_list
+                    0x51              contiki-jenv.a(uip-ds6.o)
+uip_ds6_timer_rs    0x10              contiki-jenv.a(uip-ds6.o)
+sensors_event       0x1               contiki-jenv.a(sensors.o)
+uip_ds6_nbr_cache   0xd0              contiki-jenv.a(uip-ds6.o)
+uip_len             0x2               contiki-jenv.a(uip6.o)
+uip_lladdr          0x8               contiki-jenv.a(uip6.o)
+prHigherMlmeCallback
+                    0x4               ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+uip_slen            0x2               contiki-jenv.a(uip6.o)
+uip_ds6_if          0xc5              contiki-jenv.a(uip-ds6.o)
+ba_redzone_size     0x4               /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+sensors_flags       0xb               obj_jenv/contiki-main.o
+packetbuf_attrs     0x30              contiki-jenv.a(packetbuf.o)
+uip_next_hdr        0x4               contiki-jenv.a(uip6.o)
+uip_listenports     0x4               contiki-jenv.a(uip6.o)
+pSPIflashFncTable   0x4               ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+uip_flags           0x1               contiki-jenv.a(uip6.o)
+packetbuf_addrs     0x20              contiki-jenv.a(packetbuf.o)
+ieee_event          0x1               obj_jenv/contiki-main.o
+uip_sappdata        0x4               contiki-jenv.a(uip6.o)
+uip_conns           0x60              contiki-jenv.a(uip6.o)
+uip_appdata         0x4               contiki-jenv.a(uip6.o)
+uip_ds6_timer_periodic
+                    0x10              contiki-jenv.a(uip-ds6.o)
+ba_abi_level        0x4               /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+uip_acc32           0x4               contiki-jenv.a(uip6.o)
+rimeaddr_node_addr  0x8               contiki-jenv.a(rimeaddr.o)
+frag_sender         0x8               contiki-jenv.a(sicslowpan.o)
+uip_ds6_defrt_list  0x34              contiki-jenv.a(uip-ds6.o)
+
+Discarded input sections
+
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_muldi3.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_lshrdi3.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_ashldi3.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(isblank.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcmp.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcpy.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memmove.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memset.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(strlen.o)
+ .stabstr       0x00000000        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x04000000         0x00020000
+flash            0x04000000         0x00080000
+rom              0x00000000         0x00020000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD obj_jenv/contiki-main.o
+LOAD main.co
+LOAD contiki-jenv.a
+LOAD ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a
+LOAD ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a
+LOAD /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a
+LOAD /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a
+LOAD /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a
+                0x000000c0                __exception_bus_error = 0xc0
+                0x00000124                __exception_tick_timer = 0x124
+                0x00000188                __exception_unaligned_access = 0x188
+                0x000001ec                __exception_illegal_instruction = 0x1ec
+                0x00000250                __exception_external_interrupt = 0x250
+                0x000002b4                __exception_syscall = 0x2b4
+                0x00000318                __exception_trap = 0x318
+                0x0000037c                __exception_generic = 0x37c
+                0x000003e0                __exception_stack_overflow = 0x3e0
+                0x00000444                __exception_reset = 0x444
+                0x00000a9c                _sJennicLogo = 0xa9c
+                0x0000a1cc                __stext = 0xa1cc
+                0x0000a20e                ___errno = 0xa20e
+                0x0000a25e                ___udivsi3 = 0xa25e
+                0x0000a25e                ___udivsi3 = 0xa25e
+                0x0000a266                ___umodsi3 = 0xa266
+                0x0000a266                ___umodsi3 = 0xa266
+                0x0000a26e                ___divsi3 = 0xa26e
+                0x0000a29a                ___modsi3 = 0xa29a
+                0x0000a434                _vAHI_ApConfigure = 0xa434
+                0x0000a49f                _bAHI_APRegulatorEnabled = 0xa49f
+                0x0000a4ac                _vAHI_AdcEnable = 0xa4ac
+                0x0000a5ac                _bAHI_AdcPoll = 0xa5ac
+                0x0000a604                _vAHI_DacEnable = 0xa604
+                0x0000a686                _vAHI_DacDisable = 0xa686
+                0x0000a6a3                _vAHI_DacOutput = 0xa6a3
+                0x0000a6c7                _bAHI_DacPoll = 0xa6c7
+                0x0000a89a                _vAHI_ComparatorEnable = 0xa89a
+                0x0000a8d5                _vAHI_ComparatorDisable = 0xa8d5
+                0x0000a945                _vAHI_ComparatorWakeEnable = 0xa945
+                0x0000a94b                _u8AHI_ComparatorStatus = 0xa94b
+                0x0000a95b                _u8AHI_ComparatorWakeStatus = 0xa95b
+                0x0000a96f                _bAHI_DaiPollBusy = 0xa96f
+                0x0000a97e                _vAHI_DaiReadAudioData = 0xa97e
+                0x0000a993                _vAHI_DaiWriteAudioData = 0xa993
+                0x0000a9a0                _vAHI_IntHandlerDai = 0xa9a0
+                0x0000a9be                _vAHI_DaiRegisterCallback = 0xa9be
+                0x0000a9eb                _vAHI_DaiStartTransaction = 0xa9eb
+                0x0000aa0e                _vAHI_DaiConnectToFIFO = 0xaa0e
+                0x0000aac4                _vAHI_DaiSetBitClock = 0xaac4
+                0x0000aaed                _vAHI_DaiInterruptEnable = 0xaaed
+                0x0000ab05                _vAHI_DaiEnable = 0xab05
+                0x0000ab28                _vAHI_DioSetDirection = 0xab28
+                0x0000ab3c                _vAHI_DioSetOutput = 0xab3c
+                0x0000ab64                _u32AHI_DioReadInput = 0xab64
+                0x0000aba9                _vAHI_DioSetByte = 0xaba9
+                0x0000abc3                _u8AHI_DioReadByte = 0xabc3
+                0x0000ad82                _bAHI_FifoRead = 0xad82
+                0x0000ad9f                _vAHI_FifoWrite = 0xad9f
+                0x0000adc4                _u8AHI_FifoReadTxLevel = 0xadc4
+                0x0000ae8c                _vAHI_FifoEnable = 0xae8c
+                0x0000aedf                _vAHI_FlashPowerUp = 0xaedf
+                0x0000af14                _vAHI_FlashPowerDown = 0xaf14
+                0x0000afa3                _bAHI_FullFlashRead = 0xafa3
+                0x0000aff0                _bAHI_FullFlashProgram = 0xaff0
+                0x0000b08d                _bAHI_FlashEraseSector = 0xb08d
+                0x0000b281                _vAHI_IpDisable = 0xb281
+                0x0000b3a6                _bAHI_IpTxDone = 0xb3a6
+                0x0000b3c2                _bAHI_IpRxDataAvailable = 0xb3c2
+                0x0000b3cf                _vAHI_IntHandlerSpiIp = 0xb3cf
+                0x0000b3f1                _vAHI_IpRegisterCallback = 0xb3f1
+                0x0000b44e                _bAHI_StartPulseCounter = 0xb44e
+                0x0000b475                _bAHI_Clear32BitPulseCounter = 0xb475
+                0x0000b579                _bAHI_Clear16BitPulseCounter = 0xb579
+                0x0000b5e5                _bAHI_StopPulseCounter = 0xb5e5
+                0x0000b630                _vAHI_SwReset = 0xb630
+                0x0000b648                _vAHI_SiMasterConfigure = 0xb648
+                0x0000b6bf                _vAHI_SiMasterWriteData8 = 0xb6bf
+                0x0000b6c6                _vAHI_SiSlaveWriteData8 = 0xb6c6
+                0x0000b6cd                _u8AHI_SiMasterReadData8 = 0xb6cd
+                0x0000b6d7                _u8AHI_SiSlaveReadData8 = 0xb6d7
+                0x0000b6e1                _vAHI_SiMasterWriteSlaveAddr = 0xb6e1
+                0x0000b6fa                _bAHI_SiMasterPollBusy = 0xb6fa
+                0x0000b707                _bAHI_SiMasterPollTransferInProgress = 0xb707
+                0x0000b714                _bAHI_SiMasterCheckRxNack = 0xb714
+                0x0000b721                _bAHI_SiMasterPollArbitrationLost = 0xb721
+                0x0000b816                _vAHI_SiSlaveConfigure = 0xb816
+                0x0000b714                _bAHI_SiMasterCheckRxNack = 0xb714
+                0x0000b714                _bAHI_SiCheckRxNack = 0xb714
+                0x0000b714                _bAHI_SiPollRxNack = 0xb714
+                0x0000b648                _vAHI_SiConfigure = 0xb648
+                0x0000b67d                _vAHI_SiSetCmdReg = 0xb67d
+                0x0000b6bf                _vAHI_SiWriteData8 = 0xb6bf
+                0x0000b6cd                _u8AHI_SiReadData8 = 0xb6cd
+                0x0000b6e1                _vAHI_SiWriteSlaveAddr = 0xb6e1
+                0x0000b6fa                _bAHI_SiPollBusy = 0xb6fa
+                0x0000b707                _bAHI_SiPollTransferInProgress = 0xb707
+                0x0000b721                _bAHI_SiPollArbitrationLost = 0xb721
+                0x0000b871                _vAHI_SpiConfigure = 0xb871
+                0x0000b8f7                _vAHI_SpiSetDelayReadEdge = 0xb8f7
+                0x0000b97d                _vAHI_SpiSelect = 0xb97d
+                0x0000b984                _vAHI_SpiStop = 0xb984
+                0x0000b98d                _vAHI_SpiStartTransfer32 = 0xb98d
+                0x0000b9a5                _u32AHI_SpiReadTransfer32 = 0xb9a5
+                0x0000b9ac                _vAHI_SpiStartTransfer16 = 0xb9ac
+                0x0000b9c4                _u16AHI_SpiReadTransfer16 = 0xb9c4
+                0x0000b9ce                _vAHI_SpiStartTransfer8 = 0xb9ce
+                0x0000b9e6                _u8AHI_SpiReadTransfer8 = 0xb9e6
+                0x0000b9f0                _bAHI_SpiPollBusy = 0xb9f0
+                0x0000b9fa                _vAHI_SpiWaitBusy = 0xb9fa
+                0x0000ba07                _vAHI_IntHandlerSpiMaster = 0xba07
+                0x0000ba2d                _vAHI_SpiRegisterCallback = 0xba2d
+                0x0000ba45                _vAHI_SpiSetContinuousMode = 0xba45
+                0x0000ba63                _u8AHI_PowerStatus = 0xba63
+                0x0000ba6d                _vAHI_MemoryHold = 0xba6d
+                0x0000baa9                _vAHI_ProtocolPower = 0xbaa9
+                0x0000bac0                _vAHI_CpuDoze = 0xbac0
+                0x0000bad3                _vAHI_IntHandlerSysCtrl = 0xbad3
+                0x0000bb08                _vAHI_SysCtrlRegisterCallback = 0xbb08
+                0x0000bb5d                _vAHI_AntennaDiversityOutputEnable = 0xbb5d
+                0x0000bb9a                _vAHI_WatchdogStart = 0xbb9a
+                0x0000bbad                _vAHI_WatchdogStop = 0xbbad
+                0x0000bbc4                _vAHI_WatchdogRestart = 0xbbc4
+                0x0000bc14                _u8AHI_GetSystemClkSpeed = 0xbc14
+                0x0000bc23                _bAHI_Calibrate24MhzClock = 0xbc23
+                0x0000bd85                _vAHI_PowerXTAL = 0xbd85
+                0x0000beb6                _vAHI_StopRandomNumberGenerator = 0xbeb6
+                0x0000bebf                _u16AHI_ReadRandomNumber = 0xbebf
+                0x0000bf6d                _vAHI_PowerDown = 0xbf6d
+                0x0000bfcd                _vAHI_TickTimerInit = 0xbfcd
+                0x0000bff4                _vAHI_TickTimerWrite = 0xbff4
+                0x0000bffd                _vAHI_TickTimerIntPendClr = 0xbffd
+                0x0000c012                _bAHI_TickTimerIntStatus = 0xc012
+                0x0000c021                _vAHI_TickTimerConfigure = 0xc021
+                0x0000c03c                _vAHI_TickTimerIntEnable = 0xc03c
+                0x0000c05d                _u32AHI_TickTimerRead = 0xc05d
+                0x0000c066                _vAHI_TickTimerInterval = 0xc066
+                0x0000c084                _vAHI_TickTimerISR = 0xc084
+                0x0000c0c1                _vAHI_TimerEnable = 0xc0c1
+                0x0000c168                _vAHI_TimerDisable = 0xc168
+                0x0000c18e                _vAHI_TimerClockSelect = 0xc18e
+                0x0000c1bb                _vAHI_TimerReadCaptureFreeRunning = 0xc1bb
+                0x0000c1f4                _vAHI_TimerStop = 0xc1f4
+                0x0000c216                _vAHI_TimerReadCapture = 0xc216
+                0x0000c25e                _u8AHI_TimerFired = 0xc25e
+                0x0000c30c                _vAHI_TimerStartDeltaSigma = 0xc30c
+                0x0000c343                _vAHI_TimerStartRepeat = 0xc343
+                0x0000c351                _vAHI_TimerStartSingleShot = 0xc351
+                0x0000c362                _u16AHI_TimerReadCount = 0xc362
+                0x0000c46f                _vAHI_UartEnable = 0xc46f
+                0x0000c4c6                _vAHI_UartDisable = 0xc4c6
+                0x0000c520                _vAHI_UartSetBaudDivisor = 0xc520
+                0x0000c579                _vAHI_UartSetClockDivisor = 0xc579
+                0x0000c588                _vAHI_UartSetControl = 0xc588
+                0x0000c5e2                _vAHI_UartSetInterrupt = 0xc5e2
+                0x0000c64c                _vAHI_UartReset = 0xc64c
+                0x0000c67c                _u8AHI_UartReadLineStatus = 0xc67c
+                0x0000c6a2                _u8AHI_UartReadModemStatus = 0xc6a2
+                0x0000c6c8                _u8AHI_UartReadInterruptStatus = 0xc6c8
+                0x0000c6ee                _vAHI_UartWriteData = 0xc6ee
+                0x0000c70d                _u8AHI_UartReadData = 0xc70d
+                0x0000c756                _vAHI_IntHandlerUart0 = 0xc756
+                0x0000c77f                _vAHI_IntHandlerUart1 = 0xc77f
+                0x0000c7a8                _vAHI_Uart0RegisterCallback = 0xc7a8
+                0x0000c7c0                _vAHI_Uart1RegisterCallback = 0xc7c0
+                0x0000c82f                _vAHI_WakeTimerEnable = 0xc82f
+                0x0000c88b                _vAHI_WakeTimerStart = 0xc88b
+                0x0000c944                _vAHI_WakeTimerStop = 0xc944
+                0x0000c96b                _u8AHI_WakeTimerStatus = 0xc96b
+                0x0000c975                _u8AHI_WakeTimerFiredStatus = 0xc975
+                0x0000ca2c                _bACI_isBusy = 0xca2c
+                0x0000ca44                _bACI_commandAccepted = 0xca44
+                0x0000ca5e                _vACI_CmdWaitBusy = 0xca5e
+                0x0000cb2d                _bACI_WriteKey = 0xcb2d
+                0x0000cb43                _bACI_issueReset = 0xcb43
+                0x0000cb61                _bACI_setMode = 0xcb61
+                0x0000cb8f                _bACI_ReadOutputData = 0xcb8f
+                0x0000cbc4                _bACI_WriteInputData = 0xcbc4
+                0x0000cbe7                _vACI_IntHandlerAes = 0xcbe7
+                0x0000cc0c                _vACI_SetInterruptCallback = 0xcc0c
+                0x0000cc65                _vACI_ClearInterruptStatus = 0xcc65
+                0x0000cc7f                _vACI_ClearInterruptEnable = 0xcc7f
+                0x0000cc96                _vACI_SetInterruptEnable = 0xcc96
+                0x0000ccea                _vACI_ReadInterruptEnable = 0xccea
+                0x0000ccfb                _vACI_ReadInterruptStatus = 0xccfb
+                0x0000cd0c                _bACI_ReadChecksumValidationResult = 0xcd0c
+                0x0000cd2b                _bACI_ReadChecksumData = 0xcd2b
+                0x0000cd86                _bACI_CCMstar = 0xcd86
+                0x0000d06f                _bACI_CCMstarAuthenticateData = 0xd06f
+                0x0000d0a9                _bACI_CCMstarEncodeData = 0xd0a9
+                0x0000d0ce                _bACI_ECBencodeBuffer = 0xd0ce
+                0x0000d153                _bACI_ECBencodeStripe = 0xd153
+                0x0000d16a                _bACI_IEEECTRencodeData = 0xd16a
+                0x0000d192                _pvAppApiDefGetMacHandle = 0xd192
+                0x0000d192                _pvAppApiDefGetMacHandle = 0xd192
+                0x0000d19b                _vAppApiDefMlmeRequest = 0xd19b
+                0x0000d1ce                _vAppApiDefMcpsRequest = 0xd1ce
+                0x0000d201                _vAppApiDefPowerUp = 0xd201
+                0x0000d21f                _vAppApiDefSetPrbsSeed = 0xd21f
+                0x0000d243                _vAppApiDefSetInterrupts = 0xd243
+                0x0000d28e                _pvAppApiDefGetMacAddrLocation = 0xd28e
+                0x0000d28e                _pvAppApiDefGetMacAddrLocation = 0xd28e
+                0x0000d297                _vAppApiSetMacEntryPoints = 0xd297
+                0x0000d2a6                _vAppApiGetMacEntryPoints = 0xd2a6
+                0x0000d2bb                _vAppApiEnableBeaconResponse = 0xd2bb
+                0x0000d327                _vAppApiDefSetVectors = 0xd327
+                0x0000d394                _vAppApiDefStartStack = 0xd394
+                0x0000d3e8                _u32AppApiDefInit = 0xd3e8
+                0x0000d427                _vAppApiDefSaveMacSettings = 0xd427
+                0x0000d470                _vAppApiDefRestoreMacSettings = 0xd470
+                0x0000d53d                _vAppHousekeepingTimerExpiry = 0xd53d
+                0x0000d564                _vAppHousekeepingInit = 0xd564
+                0x0000db95                _MAC_pvCtor = 0xdb95
+                0x0000de9d                _MAC_psPibGetHandle = 0xde9d
+                0x0000dea4                _MAC_vPibSetShortAddr = 0xdea4
+                0x0000deaf                _MAC_vPibSetPanId = 0xdeaf
+                0x0000dee2                _MAC_vPibSetMaxCsmaBackoffs = 0xdee2
+                0x0000df1f                _MAC_vPibSetRxOnWhenIdle = 0xdf1f
+                0x0000df2f                _MAC_vPibSetPromiscuousMode = 0xdf2f
+                0x0000e6b6                _MAC_vRegisterMlmeDcfmIndCallbacks = 0xe6b6
+                0x0000e6c2                _MAC_vRegisterMcpsDcfmIndCallbacks = 0xe6c2
+                0x0000eeb1                _MAC_vLPBRegisterCallback = 0xeeb1
+                0x0000ef0c                _MAC_vLPBSetBeaconMultiplier = 0xef0c
+                0x0000efa2                _MAC_vLPBSleep = 0xefa2
+                0x0000f04b                _MAC_vLPBAdjustWakeForNextBeacon = 0xf04b
+                0x0000f105                _MAC_bLPBProcessWake = 0xf105
+                0x0000f1b6                _MAC_vLPBCalibrateTimer = 0xf1b6
+                0x00011cfe                _u8AppApiReadMsq = 0x11cfe
+                0x000136d0                _memcpy = 0x136d0
+                0x00013748                _memcmp = 0x13748
+                0x0001376c                _memset = 0x1376c
+                0x0001377e                _vUTIL_NumToString = 0x1377e
+                0x000137a6                _vUTIL_UartText = 0x137a6
+                0x000137e6                _vUTIL_UartTextToNewLine = 0x137e6
+                0x00013802                _vUTIL_UartInit = 0x13802
+                0x0001dc21                ___muldi3 = 0x1dc21
+                0x0001dcf4                ___udivdi3 = 0x1dcf4
+                0x0001e1e8                ___mulsi3 = 0x1e1e8
+                0x040003a8                _g_pvMac = 0x40003a8
+                0x040003ac                _g_sXcv = 0x40003ac
+                0x04000b20                _g_sLP = 0x4000b20
+                0x04000b64                _aprMacVectorRamTable = 0x4000b64
+                0x0400006c                _aprLPBMacVectorRamTable = 0x400006c
+                0x04000d00                __app_ram_start = 0x4000d00
+                0x0400006c                _aprLPBMacVectorRamTable = 0x400006c
+                0x0000df00                _MAC_vSetExtAddr = 0xdf00
+                0x0000f4a4                _phy_ePibGet = 0xf4a4
+                0x0000f3fc                _phy_ePibSet = 0xf3fc
+                0x0001362e                _TSV_eStop = 0x1362e
+                0x00013498                _TSV_eOpen = 0x13498
+                0x00013562                _TSV_eStart = 0x13562
+                0x000136a4                _TSV_eClose = 0x136a4
+                0x000133c5                _vXCV_IntHandlerPhy = 0x133c5
+                0x00013346                _vXCV_IntHandlerBbc = 0x13346
+                0x0000de04                _MAC_vHandleMlmeReqRsp = 0xde04
+                0x0000dde2                _MAC_vHandleMcpsReqRsp = 0xdde2
+                0x0000a2cb                _pvHeap_Alloc = 0xa2cb
+                0x00011f29                _bTACframeInProgress = 0x11f29
+                0x0000ef5c                _MAC_u32ConvertTo16uS = 0xef5c
+                0x00013323                _XCV_vDevWriteIER = 0x13323
+                0x0001332d                _XCV_vDevRMW_IER = 0x1332d
+                0x0000e6ce                _mac_psDcfmIndGetBuf = 0xe6ce
+                0x0000e6f1                _mac_eDcfmIndPost = 0xe6f1
+                0x00012bbe                _vTSCsetUpwardSecurity = 0x12bbe
+                0x040002b0                _au16TimerSettings = 0x40002b0
+                0x04000044                _pSPIflashFncTable = 0x4000044
+                0x00009867                _u8SelectFlashChipType = 0x9867
+                0x0000981c                _u16ZSPIflashRDID = 0x981c
+                0x0001341f                _RND_u32GetRand = 0x1341f
+                0x00013454                _RND_u32GetRand256 = 0x13454
+                0x00013416                _RND_vInit = 0x13416
+                0x00000800                _minimum_heap_size = 0x800
+                0x00002000                _stack_size = 0x2000
+
+.rom_workspace.os.o.s_u32CurrentPriorityMask
+ *os.o(.bss.s_u32CurrentPriorityMask)
+
+.rom_workspace.os.o.s_psCurrentTask
+ *os.o(.bss.s_psCurrentTask)
+
+.rom_workspace.os.o.s_prvUnclaimedISR
+ *os.o(.bss.s_prvUnclaimedISR)
+
+.rom_workspace.os.o.s_u32SuspendIRQNesting
+ *os.o(.bss.s_u32SuspendIRQNesting)
+
+.rom_workspace.os.o.s_u8SuspendedIPL
+ *os.o(.bss.s_u8SuspendedIPL)
+
+.rom_workspace.os.o.s_u32PendingQueue
+ *os.o(.bss.s_u32PendingQueue)
+
+.rom_workspace.os.o.s_asTasks
+ *os.o(.bss.s_asTasks)
+
+.rom_workspace.os.o.s_u8OSLevelIPL
+ *os.o(.bss.s_u8OSLevelIPL)
+
+.rom.OS_eGetCurrentTask
+ *(.text.OS_eGetCurrentTask)
+
+.rom.OS_eGetMessageStatus
+ *(.text.OS_eGetMessageStatus)
+
+.rom.OS_eSuspendOSInterrupts
+ *(.text.OS_eSuspendOSInterrupts)
+
+.rom.OS_eResumeOSInterrupts
+ *(.text.OS_eResumeOSInterrupts)
+
+.rom.OS_eDisableAllInterrupts
+ *(.text.OS_eDisableAllInterrupts)
+
+.rom.OS_eEnableAllInterrupts
+ *(.text.OS_eEnableAllInterrupts)
+
+.rom.OS_eGetSWTimerStatus
+ *(.text.OS_eGetSWTimerStatus)
+
+.rom.os_vUnclaimedInterrupt
+ *(.text.os_vUnclaimedInterrupt)
+
+.rom.eExpireSWTimer
+ *(.text.eExpireSWTimer)
+
+.rom.OS_eEnterCriticalSection
+ *(.text.OS_eEnterCriticalSection)
+                0x04000130                _os_g_aprPatchTable = 0x4000130
+
+.rom_workspace.pdum_nwk.o.s_psFreeListHead
+ *pdum_nwk.o(.bss.s_psFreeListHead)
+
+.rom_workspace.pdum_nwk.o.s_psNPduPoolStart
+ *pdum_nwk.o(.bss.s_psNPduPoolStart)
+
+.rom_workspace.pdum_nwk.o.s_psNPduPoolEnd
+ *pdum_nwk.o(.bss.s_psNPduPoolEnd)
+
+.rom_workspace.pdum_nwk.o.s_hMutex
+ *pdum_nwk.o(.bss.s_hMutex)
+
+.rom_workspace.pdum_apl.o.s_hMutex
+ *pdum_apl.o(.bss.s_hMutex)
+
+.rom_workspace.pdum_apl.o.s_u16NumAPdus
+ *pdum_apl.o(.bss.s_u16NumAPdus)
+
+.rom_workspace.pdum_apl.o.s_asAPduPool
+ *pdum_apl.o(.bss.s_asAPduPool)
+
+.rom.PDUM_eNPduReadFooterNBO
+ *(.text.PDUM_eNPduReadFooterNBO)
+
+.rom.PDUM_eNPduReadHeaderNBO
+ *(.text.PDUM_eNPduReadHeaderNBO)
+
+.rom.PDUM_eNPduAppendDataNBO
+ *(.text.PDUM_eNPduAppendDataNBO)
+
+.rom.PDUM_eNPduAppendFooterNBO
+ *(.text.PDUM_eNPduAppendFooterNBO)
+
+.rom.PDUM_eNPduPrependHeaderNBO
+ *(.text.PDUM_eNPduPrependHeaderNBO)
+
+.rom.PDUM_eNPduAllocate
+ *(.text.PDUM_eNPduAllocate)
+
+.rom.PDUM_eNPduInitDescending
+ *(.text.PDUM_eNPduInitDescending)
+
+.rom.PDUM_eNPduInitAscending
+ *(.text.PDUM_eNPduInitAscending)
+
+.rom.PDUM_eNPduFree
+ *(.text.PDUM_eNPduFree)
+
+.rom.PDUM_eNPduClaimHeader
+ *(.text.PDUM_eNPduClaimHeader)
+
+.rom.PDUM_eNPduClaimFooter
+ *(.text.PDUM_eNPduClaimFooter)
+
+.rom.PDUM_eNPduClaimData
+ *(.text.PDUM_eNPduClaimData)
+
+.rom.PDUM_eNPduAscend
+ *(.text.PDUM_eNPduAscend)
+
+.rom.PDUM_eNPduDescend
+ *(.text.PDUM_eNPduDescend)
+
+.rom.PDUM_eNPduWriteToBuffer
+ *(.text.PDUM_eNPduWriteToBuffer)
+
+.rom.PDUM_eNPduWriteFromBuffer
+ *(.text.PDUM_eNPduWriteFromBuffer)
+
+.rom.PDUM_eNPduWriteDataToBuffer
+ *(.text.PDUM_eNPduWriteDataToBuffer)
+
+.rom.PDUM_eNPduWriteDataFromBuffer
+ *(.text.PDUM_eNPduWriteDataFromBuffer)
+
+.rom.pdum_vNPduInit
+ *(.text.pdum_vNPduInit)
+
+.rom.PDUM_pvAPduInstanceGetPayload
+ *(.text.PDUM_pvAPduInstanceGetPayload)
+
+.rom.PDUM_u16APduInstanceGetPayloadSize
+ *(.text.PDUM_u16APduInstanceGetPayloadSize)
+
+.rom.PDUM_eAPduInstanceSetPayloadSize
+ *(.text.PDUM_eAPduInstanceSetPayloadSize)
+
+.rom.PDUM_u16APduGetSize
+ *(.text.PDUM_u16APduGetSize)
+
+.rom.PDUM_u16APduInstanceWriteStrNBO
+ *(.text.PDUM_u16APduInstanceWriteStrNBO)
+
+.rom.PDUM_u16APduInstanceWriteNBO
+ *(.text.PDUM_u16APduInstanceWriteNBO)
+
+.rom.PDUM_u16APduInstanceReadNBO
+ *(.text.PDUM_u16APduInstanceReadNBO)
+
+.rom.PDUM_hAPduAllocateAPduInstance
+ *(.text.PDUM_hAPduAllocateAPduInstance)
+
+.rom.PDUM_eAPduFreeAPduInstance
+ *(.text.PDUM_eAPduFreeAPduInstance)
+
+.rom.pdum_vAPduInit
+ *(.text.pdum_vAPduInit)
+
+.rom.PDUM_u16SizeNBO
+ *(.text.PDUM_u16SizeNBO)
+
+.rom.pdum_u16WriteNBO
+ *(.text.pdum_u16WriteNBO)
+
+.rom.pdum_u16WriteStrNBO
+ *(.text.pdum_u16WriteStrNBO)
+
+.rom.pdum_u16ReadNBO
+ *(.text.pdum_u16ReadNBO)
+
+.rom.vDumpPayload
+ *(.text.vDumpPayload)
+
+.rom.PDUM_vDBGPrintNPdu
+ *(.text.PDUM_vDBGPrintNPdu)
+                0x04000084                _pdum_g_aprPatchTable = 0x4000084
+
+.rom_workspace.pwrm.o.s_bWakeTimerActive
+ *pwrm.o(.bss.s_bWakeTimerActive)
+
+.rom_workspace.pwrm.o.s_ePowerMode
+ *pwrm.o(.bss.s_ePowerMode)
+
+.rom_workspace.pwrm.o.s_psPreSleepCallbacks
+ *pwrm.o(.bss.s_psPreSleepCallbacks)
+
+.rom_workspace.pwrm.o.u32CalibrationValue
+ *pwrm.o(.bss.u32CalibrationValue)
+
+.rom_workspace.pwrm.o.psNextWake
+ *pwrm.o(.bss.psNextWake)
+
+.rom.pwrm_vRegisterPreSleepCallback
+ *(.text.pwrm_vRegisterPreSleepCallback)
+
+.rom.PWRM_vSetupDozeMonitor
+ *(.text.PWRM_vSetupDozeMonitor)
+
+.rom.PWRM_vResetDozeTimers
+ *(.text.PWRM_vResetDozeTimers)
+
+.rom.PWRM_u32GetDozeTime
+ *(.text.PWRM_u32GetDozeTime)
+
+.rom.PWRM_u32GetDozeElapsedTime
+ *(.text.PWRM_u32GetDozeElapsedTime)
+
+.rom.PWRM_vWakeInterruptCallback
+ *(.text.PWRM_vWakeInterruptCallback)
+
+.rom.PWRM_eScheduleActivity
+ *(.text.PWRM_eScheduleActivity)
+                0x04000380                pwrm_psWakeupCallbacks = 0x4000380
+
+.rom_workspace.dbg.o.vResetFn
+ *dbg.o(.bss.vResetFn)
+
+.rom_workspace.dbg.o.vPutchFn
+ *dbg.o(.bss.vPutchFn)
+
+.rom_workspace.dbg.o.vFlushFn
+ *dbg.o(.bss.vFlushFn)
+
+.rom_workspace.dbg.o.vStopFn
+ *dbg.o(.bss.vStopFn)
+
+.rom_workspace.dbg_uart.o.u8AhiUart
+ *dbg_uart.o(.bss.u8AhiUart)
+
+.rom_workspace.dbg.o.bIsNewline
+ *dbg.o(.data.bIsNewline)
+
+.rom_workspace.dbg_uart.o.u8AhiBaudRate
+ *dbg_uart.o(.data.u8AhiBaudRate)
+
+.rom.DBG_vReset
+ *(.text.DBG_vReset)
+
+.rom.vWriteUIntToBuffer
+ *(.text.vWriteUIntToBuffer)
+
+.rom.vNewLine
+ *(.text.vNewLine)
+
+.rom.dbg_vAssertImpl
+ *(.text.dbg_vAssertImpl)
+
+.rom.DBG_vUartFlush
+ *(.text.DBG_vUartFlush)
+
+.rom.DBG_vUartPutch
+ *(.text.DBG_vUartPutch)
+
+.rom.DBG_vUartInitHardware
+ *(.text.DBG_vUartInitHardware)
+                0x04000110                _dbg_g_aprPatchTable = 0x4000110
+
+.rom_workspace.zps_mac.o.s_hMacMutex
+ *zps_mac.o(.bss.s_hMacMutex)
+
+.rom_workspace.zps_mac.o.s_sDcfmIndMgr
+ *zps_mac.o(.bss.s_sDcfmIndMgr)
+
+.rom_workspace.zps_mac.o.prHandleMlmeReqRsp
+ *zps_mac.o(.data.prHandleMlmeReqRsp)
+
+.rom_workspace.zps_mac.o.prHandleMcpsReqRsp
+ *zps_mac.o(.data.prHandleMcpsReqRsp)
+
+.rom.MAC_vRegisterMcpsVsDcfmIndCallbacks
+ *(.text.MAC_vRegisterMcpsVsDcfmIndCallbacks)
+
+.rom.MAC_vHandleMlmeVsReqRsp
+ *(.text.MAC_vHandleMlmeVsReqRsp)
+
+.rom.MAC_vHandleMcpsVsReqRsp
+ *(.text.MAC_vHandleMcpsVsReqRsp)
+
+.rom.MAC_vSetMutex
+ *(.text.MAC_vSetMutex)
+                0x040001b4                _zpsmac_g_aprPatchTable = 0x40001b4
+
+.rom.u32NumberOfEmptyMasksInGroupTable
+ *(.text.u32NumberOfEmptyMasksInGroupTable)
+
+.rom.vSetAllEndpointBitmasksForGroup
+ *(.text.vSetAllEndpointBitmasksForGroup)
+
+.rom.eHandleAddEntryToGroupTable
+ *(.text.eHandleAddEntryToGroupTable)
+
+.rom.zps_vNwkLibU16ToPayload
+ *(.text.zps_vNwkLibU16ToPayload)
+
+.rom.zps_vNwkLibU32ToPayload
+ *(.text.zps_vNwkLibU32ToPayload)
+
+.rom.zps_vNwkLibU64ToPayload
+ *(.text.zps_vNwkLibU64ToPayload)
+
+.rom.zps_u16NwkLibFromPayload
+ *(.text.zps_u16NwkLibFromPayload)
+
+.rom.zps_u32NwkLibFromPayload
+ *(.text.zps_u32NwkLibFromPayload)
+
+.rom.zps_u64NwkLibFromPayload
+ *(.text.zps_u64NwkLibFromPayload)
+
+.rom.zps_vNwkSlistInit
+ *(.text.zps_vNwkSlistInit)
+
+.rom.zps_vNwkSlistAddToHead
+ *(.text.zps_vNwkSlistAddToHead)
+
+.rom.zps_vNwkSlistAddToTail
+ *(.text.zps_vNwkSlistAddToTail)
+
+.rom.zps_vNwkSlistInsertAfter
+ *(.text.zps_vNwkSlistInsertAfter)
+
+.rom.zps_psNwkSlistRemoveFromHead
+ *(.text.zps_psNwkSlistRemoveFromHead)
+
+.rom.zps_psNwkSlistRemove
+ *(.text.zps_psNwkSlistRemove)
+
+.rom.zps_vNwkSlistMakeLimboNode
+ *(.text.zps_vNwkSlistMakeLimboNode)
+
+.rom.zps_bNwkSlistIsLimboNode
+ *(.text.zps_bNwkSlistIsLimboNode)
+
+.flashheader    0x04000cd0       0x24
+                0x04000cd0                _flash_beg = <code 342> (.)
+                0x04000cd0        0x4 LONG 0xe0e0
+                0x04000cd4        0x4 LONG 0x4000d00 <code 342> (_data_beg)
+                0x04000cd8        0x4 LONG 0x11298 _data_len
+                0x04000cdc        0x4 LONG 0x1060035
+                0x04000ce0        0x4 LONG 0x0
+                0x04000ce4        0x4 LONG 0x4011fa0 <code 342> (_bss_beg)
+                0x04000ce8        0x4 LONG 0x3dcc _bss_len
+                0x04000cec        0x4 LONG 0x400194e <code 342> (_AppWarmStart)
+                0x04000cf0        0x4 LONG 0x40018e5 <code 342> (_AppColdStart)
+
+.oad            0x04000cf4        0xc
+                0x04000cf4        0x4 LONG 0xffffffff
+                0x04000cf8        0x4 LONG 0xffffffff
+                0x04000cfc        0x4 LONG 0xf0f0f0f0
+
+.mac            0x04000d00       0x20
+                0x04000d00                _enc_start = <code 342> (.)
+                0x04000d00                _data_beg = <code 342> (.)
+                0x04000d00        0x4 LONG 0xffffffff
+                0x04000d04        0x4 LONG 0xffffffff
+                0x04000d08        0x4 LONG 0xffffffff
+                0x04000d0c        0x4 LONG 0xffffffff
+                0x04000d10                _FlsLinkKey = <code 342> (.)
+                0x04000d10        0x4 LONG 0xffffffff
+                0x04000d14        0x4 LONG 0xffffffff
+                0x04000d18        0x4 LONG 0xffffffff
+                0x04000d1c        0x4 LONG 0xffffffff
+                0x00000000                _enc_offset = (_enc_start & 0xf)
+                [0x00000030]                _enc_start = (_enc_start - _flash_beg)
+
+.heap_location  0x04000d20        0x8
+                0x04000d20                _heap_location = .
+                0x04000d20        0x4 LONG 0x4015d6c <code 342> (_heap_start)
+                0x04000d24        0x4 LONG 0x401e000 <code 342> (_heap_end)
+
+.rtc_clt        0x04000d28       0x28
+                0x04000d28        0x4 LONG 0x0
+                0x04000d2c        0x4 LONG 0x0
+                0x04000d30        0x4 LONG 0x0
+                0x04000d34        0x4 LONG 0x0
+                0x04000d38        0x4 LONG 0x0
+                0x04000d3c        0x4 LONG 0x0
+                0x04000d40        0x4 LONG 0x0
+                0x04000d44        0x4 LONG 0x0
+                0x04000d48        0x4 LONG 0x0
+                0x04000d4c        0x4 LONG 0x0
+
+.ro_se_cert     0x04000d50        0x0
+                0x04000d50                _FlsZcCert = <code 342> (.)
+ *(.ro_se_cert)
+
+.ro_se_pvKey    0x04000d50        0x0
+                0x04000d50                _FlsPrivateKey = <code 342> (.)
+ *(.ro_se_pvKey)
+
+.rodata         0x04000d50      0x54e
+ *(.rodata*)
+ .rodata.str1.1
+                0x04000d50       0x8b obj_jenv/contiki-main.o
+ .rodata.str1.1
+                0x04000ddb       0x64 main.co
+ *fill*         0x04000e3f        0x1 00
+ .rodata.autostart_processes
+                0x04000e40        0x8 main.co
+                0x04000e40                _autostart_processes
+ .rodata.str1.1
+                0x04000e48        0xc contiki-jenv.a(etimer.o)
+ .rodata.str1.1
+                0x04000e54        0xd contiki-jenv.a(tcpip.o)
+ .rodata.unc_llconf
+                0x04000e61        0x4 contiki-jenv.a(sicslowpan.o)
+                0x04000e61                _unc_llconf
+ .rodata.unc_ctxconf
+                0x04000e65        0x4 contiki-jenv.a(sicslowpan.o)
+                0x04000e65                _unc_ctxconf
+ .rodata.unc_mxconf
+                0x04000e69        0x4 contiki-jenv.a(sicslowpan.o)
+                0x04000e69                _unc_mxconf
+ .rodata.llprefix
+                0x04000e6d        0x2 contiki-jenv.a(sicslowpan.o)
+                0x04000e6d                _llprefix
+ .rodata.str1.1
+                0x04000e6f        0xb contiki-jenv.a(sicslowpan.o)
+ .rodata.sicslowpan_driver
+                0x04000e7a        0xc contiki-jenv.a(sicslowpan.o)
+                0x04000e7a                _sicslowpan_driver
+ .rodata.ttl_values
+                0x04000e86        0x4 contiki-jenv.a(sicslowpan.o)
+ .rodata.nullradio_driver
+                0x04000e8a       0x28 contiki-jenv.a(nullradio.o)
+                0x04000e8a                _nullradio_driver
+ .rodata.str1.1
+                0x04000eb2       0x2b contiki-jenv.a(ieee802.o)
+ .rodata.ieee_driver
+                0x04000edd       0x1c contiki-jenv.a(ieee802.o)
+                0x04000edd                _ieee_driver
+ .rodata.str1.1
+                0x04000ef9        0x8 contiki-jenv.a(sensors.o)
+ .rodata.str1.1
+                0x04000f01       0x12 contiki-jenv.a(bootloader.o)
+ .rodata.str1.1
+                0x04000f13        0xa contiki-jenv.a(l3g4200d-sensor)
+ .rodata.l3g4200d_sensor
+                0x04000f1d       0x10 contiki-jenv.a(l3g4200d-sensor)
+                0x04000f1d                _l3g4200d_sensor
+ .rodata.str1.1
+                0x04000f2d       0x15 contiki-jenv.a(lsm303-sensor.o)
+ .rodata.acc_sensor
+                0x04000f42       0x10 contiki-jenv.a(lsm303-sensor.o)
+                0x04000f42                _acc_sensor
+ .rodata.mag_sensor
+                0x04000f52       0x10 contiki-jenv.a(lsm303-sensor.o)
+                0x04000f52                _mag_sensor
+ .rodata.str1.1
+                0x04000f62       0x11 contiki-jenv.a(vcnl4000-sensor)
+ .rodata.lightlevel_sensor
+                0x04000f73       0x10 contiki-jenv.a(vcnl4000-sensor)
+                0x04000f73                _lightlevel_sensor
+ .rodata.proximity_sensor
+                0x04000f83       0x10 contiki-jenv.a(vcnl4000-sensor)
+                0x04000f83                _proximity_sensor
+ .rodata.str1.1
+                0x04000f93       0x1a contiki-jenv.a(SHT21-sensor.o)
+                                 0x49 (size before relaxing)
+ .rodata.sht21_temperature_sensor
+                0x04000fad       0x10 contiki-jenv.a(SHT21-sensor.o)
+                0x04000fad                _sht21_temperature_sensor
+ .rodata.sht21_humidity_sensor
+                0x04000fbd       0x10 contiki-jenv.a(SHT21-sensor.o)
+                0x04000fbd                _sht21_humidity_sensor
+ .rodata.str1.1
+                0x04000fcd       0x17 contiki-jenv.a(button-sensor.o)
+ .rodata.button_sensor
+                0x04000fe4       0x10 contiki-jenv.a(button-sensor.o)
+                0x04000fe4                _button_sensor
+ .rodata.str1.1
+                0x04000ff4        0x9 contiki-jenv.a(mpl115a-sensor.)
+                                 0x15 (size before relaxing)
+ .rodata.temperature_sensor
+                0x04000ffd       0x10 contiki-jenv.a(mpl115a-sensor.)
+                0x04000ffd                _temperature_sensor
+ .rodata.pressure_sensor
+                0x0400100d       0x10 contiki-jenv.a(mpl115a-sensor.)
+                0x0400100d                _pressure_sensor
+ .rodata.str1.1
+                0x00000000       0x15 contiki-jenv.a(ext_temp_sensor)
+ .rodata.ext_temp_sensor
+                0x0400101d       0x10 contiki-jenv.a(ext_temp_sensor)
+                0x0400101d                _ext_temp_sensor
+ .rodata.str1.1
+                0x0400102d       0x10 contiki-jenv.a(i2c.o)
+ .rodata.str1.1
+                0x0400103d       0xda contiki-jenv.a(init.o)
+                                 0xdc (size before relaxing)
+ .rodata.rimeaddr_null
+                0x04001117        0x8 contiki-jenv.a(rimeaddr.o)
+                0x04001117                _rimeaddr_null
+ .rodata.str1.1
+                0x0400111f        0x8 contiki-jenv.a(nullrdc.o)
+ .rodata.nullrdc_driver
+                0x04001127       0x1c contiki-jenv.a(nullrdc.o)
+                0x04001127                _nullrdc_driver
+ .rodata.framer_nullmac
+                0x04001143        0x8 contiki-jenv.a(framer-nullmac.)
+                0x04001143                _framer_nullmac
+ .rodata.str1.1
+                0x0400114b        0xf contiki-jenv.a(ctimer.o)
+ *fill*         0x0400115a        0x2 00
+ .rodata.packetbuf
+                0x0400115c        0x4 contiki-jenv.a(packetbuf.o)
+ .rodata        0x04001160        0x6 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ *fill*         0x04001166        0x2 00
+ .rodata        0x04001168        0x8 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                0x04001168                _au32UartAddrOffset
+ .rodata        0x04001170       0x10 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+                0x04001170                ___thenan_sf
+ .rodata        0x04001180       0x18 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+                0x04001180                ___thenan_df
+ .rodata        0x04001198      0x100 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+                0x04001198                ___clz_tab
+ .rodata        0x04001298        0x4 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+                0x04001298                __global_impure_ptr
+ .rodata.str1.1
+                0x0400129c        0x2 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+
+.data           0x040012a0      0x598
+ *(.data*)
+ .data          0x040012a0        0x0 obj_jenv/contiki-main.o
+ .data.procinit
+                0x040012a0       0x14 obj_jenv/contiki-main.o
+                0x040012a0                _procinit
+ .data.sensors  0x040012b4       0x2c obj_jenv/contiki-main.o
+                0x040012b4                _sensors
+ .data          0x040012e0        0x0 main.co
+ .data.send_sensor
+                0x040012e0       0x10 main.co
+                0x040012e0                _send_sensor
+ .data          0x040012f0        0x0 contiki-jenv.a(process.o)
+ .data          0x040012f0        0x0 contiki-jenv.a(procinit.o)
+ .data          0x040012f0        0x0 contiki-jenv.a(autostart.o)
+ .data          0x040012f0        0x0 contiki-jenv.a(etimer.o)
+ .data.etimer_process
+                0x040012f0       0x10 contiki-jenv.a(etimer.o)
+                0x040012f0                _etimer_process
+ .data          0x04001300        0x0 contiki-jenv.a(netstack.o)
+ .data          0x04001300        0x0 contiki-jenv.a(uip6.o)
+ .data          0x04001300        0x0 contiki-jenv.a(tcpip.o)
+ .data.tcpip_process
+                0x04001300       0x10 contiki-jenv.a(tcpip.o)
+                0x04001300                _tcpip_process
+ .data          0x04001310        0x0 contiki-jenv.a(uip-udp-packet.)
+ .data          0x04001310        0x0 contiki-jenv.a(uip-split.o)
+ .data          0x04001310        0x0 contiki-jenv.a(uip-icmp6.o)
+ .data          0x04001310        0x0 contiki-jenv.a(uip-nd6.o)
+ .data          0x04001310        0x0 contiki-jenv.a(uip-packetqueue)
+ .data.packets_memb
+                0x04001310        0xc contiki-jenv.a(uip-packetqueue)
+ .data          0x0400131c        0x0 contiki-jenv.a(sicslowpan.o)
+ .data.sicslowpan_tcpip_input
+                0x0400131c        0x4 contiki-jenv.a(sicslowpan.o)
+                0x0400131c                _sicslowpan_tcpip_input
+ .data          0x04001320        0x0 contiki-jenv.a(uip-ds6.o)
+ .data          0x04001320        0x0 contiki-jenv.a(nullradio.o)
+ .data          0x04001320        0x0 contiki-jenv.a(ieee802.o)
+ .data.ieee_process
+                0x04001320       0x10 contiki-jenv.a(ieee802.o)
+                0x04001320                _ieee_process
+ .data          0x04001330        0x0 contiki-jenv.a(pff.o)
+ .data          0x04001330        0x0 contiki-jenv.a(sd.o)
+ .data          0x04001330        0x0 contiki-jenv.a(leds.o)
+ .data          0x04001330        0x0 contiki-jenv.a(sensors.o)
+ .data.sensors_process
+                0x04001330       0x10 contiki-jenv.a(sensors.o)
+                0x04001330                _sensors_process
+ .data          0x04001340        0x0 contiki-jenv.a(bootloader.o)
+ .data.jennic_bootloader_process
+                0x04001340       0x10 contiki-jenv.a(bootloader.o)
+                0x04001340                _jennic_bootloader_process
+ .data          0x04001350        0x0 contiki-jenv.a(l3g4200d-sensor)
+ .data.gyro_txn
+                0x04001350       0x12 contiki-jenv.a(l3g4200d-sensor)
+ .data          0x04001362        0x0 contiki-jenv.a(lsm303-sensor.o)
+ .data.mag_transaction
+                0x04001362       0x12 contiki-jenv.a(lsm303-sensor.o)
+ .data.acc_transaction
+                0x04001374       0x12 contiki-jenv.a(lsm303-sensor.o)
+ .data          0x04001386        0x0 contiki-jenv.a(vcnl4000-sensor)
+ .data.t.3217   0x04001386        0xe contiki-jenv.a(vcnl4000-sensor)
+ .data          0x04001394        0x0 contiki-jenv.a(SHT21-sensor.o)
+ .data.t.3305   0x04001394       0x10 contiki-jenv.a(SHT21-sensor.o)
+ .data.t.3205   0x040013a4       0x10 contiki-jenv.a(SHT21-sensor.o)
+ .data          0x040013b4        0x0 contiki-jenv.a(button-sensor.o)
+ .data.debounce_process
+                0x040013b4       0x10 contiki-jenv.a(button-sensor.o)
+                0x040013b4                _debounce_process
+ .data.handle.2998
+                0x040013c4        0xd contiki-jenv.a(button-sensor.o)
+ .data          0x040013d1        0x0 contiki-jenv.a(mpl115a-sensor.)
+ .data.t.3202   0x040013d1       0x10 contiki-jenv.a(mpl115a-sensor.)
+ .data          0x040013e1        0x0 contiki-jenv.a(ext_temp_sensor)
+ .data.handle.2901
+                0x040013e1        0xd contiki-jenv.a(ext_temp_sensor)
+ .data          0x040013ee        0x0 contiki-jenv.a(clock.o)
+ .data          0x040013ee        0x0 contiki-jenv.a(uart0.o)
+ .data          0x040013ee        0x0 contiki-jenv.a(jts.o)
+ .data          0x040013ee        0x0 contiki-jenv.a(i2c.o)
+ .data.i2c_process
+                0x040013ee       0x10 contiki-jenv.a(i2c.o)
+                0x040013ee                _i2c_process
+ .data          0x040013fe        0x0 contiki-jenv.a(irq.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(sprintf.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(watchdog.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(init.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(rimeaddr.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(nullrdc.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(mac.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(framer-nullmac.)
+ .data          0x040013fe        0x0 contiki-jenv.a(memb.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(timer.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(list.o)
+ .data          0x040013fe        0x0 contiki-jenv.a(ctimer.o)
+ .data.ctimer_process
+                0x040013fe       0x10 contiki-jenv.a(ctimer.o)
+                0x040013fe                _ctimer_process
+ .data          0x0400140e        0x0 contiki-jenv.a(stimer.o)
+ .data          0x0400140e        0x0 contiki-jenv.a(random.o)
+ .data          0x0400140e        0x0 contiki-jenv.a(ringbuf.o)
+ .data          0x0400140e        0x0 contiki-jenv.a(packetbuf.o)
+ .data          0x0400140e        0x0 contiki-jenv.a(queuebuf.o)
+ .data.bufmem   0x0400140e        0xc contiki-jenv.a(queuebuf.o)
+ .data.refbufmem
+                0x0400141a        0xc contiki-jenv.a(queuebuf.o)
+ .data          0x04001426        0x0 contiki-jenv.a(leds-arch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_InitPatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+ .data          0x04001426        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ *fill*         0x04001426        0x2 00
+ .data.psTimerList
+                0x04001428        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x04001428                _psTimerList
+ .data.aprCCMStarVector
+                0x0400142c        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400142c                _aprCCMStarVector
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__udivsi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__divsi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__umodsi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__modsi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__mulsi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_muldi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_lshrdi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_ashldi3.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(isblank.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcmp.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcpy.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memmove.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memset.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o)
+ .data          0x04001430        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(strlen.o)
+ .data          0x04001430      0x408 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+                0x04001430                __impure_ptr
+
+.gdb
+ libSWDebug.a(.text)
+ *(.dbgtxt*)
+
+.text           0x04001838    0x1075f
+                0x04001838                _text_start = <code 342> (.)
+ *(.text*)
+ .text          0x04001838        0x0 obj_jenv/contiki-main.o
+ .text.uip_log  0x04001838        0x4 obj_jenv/contiki-main.o
+                0x04001838                _uip_log
+ .text.init_net
+                0x0400183c       0xa9 obj_jenv/contiki-main.o
+                0x0400183c                _init_net
+ .text.AppColdStart
+                0x040018e5       0x69 obj_jenv/contiki-main.o
+                0x040018e5                _AppColdStart
+ .text.AppWarmStart
+                0x0400194e        0x2 obj_jenv/contiki-main.o
+                0x0400194e                _AppWarmStart
+ .text          0x04001950        0x0 main.co
+ .text.con_com  0x04001950       0x37 main.co
+                0x04001950                _con_com
+ .text.process_thread_send_sensor
+                0x04001987      0x217 main.co
+ .text          0x04001b9e        0x0 contiki-jenv.a(process.o)
+ .text.process_alloc_event
+                0x04001b9e       0x12 contiki-jenv.a(process.o)
+                0x04001b9e                _process_alloc_event
+ .text.call_process
+                0x04001bb0       0x60 contiki-jenv.a(process.o)
+ .text.exit_process
+                0x04001c10      0x14b contiki-jenv.a(process.o)
+ .text.process_exit
+                0x04001d5b        0x8 contiki-jenv.a(process.o)
+                0x04001d5b                _process_exit
+ .text.process_init
+                0x04001d63       0x24 contiki-jenv.a(process.o)
+                0x04001d63                _process_init
+ .text.do_poll  0x04001d87       0x4d contiki-jenv.a(process.o)
+ .text.process_run
+                0x04001dd4      0x128 contiki-jenv.a(process.o)
+                0x04001dd4                _process_run
+ .text.process_nevents
+                0x04001efc       0x14 contiki-jenv.a(process.o)
+                0x04001efc                _process_nevents
+ .text.process_post
+                0x04001f10       0x6a contiki-jenv.a(process.o)
+                0x04001f10                _process_post
+ .text.process_post_synch
+                0x04001f7a       0x15 contiki-jenv.a(process.o)
+                0x04001f7a                _process_post_synch
+ .text.process_start
+                0x04001f8f       0x5f contiki-jenv.a(process.o)
+                0x04001f8f                _process_start
+ .text.process_poll
+                0x04001fee       0x1d contiki-jenv.a(process.o)
+                0x04001fee                _process_poll
+ .text.process_is_running
+                0x0400200b        0xe contiki-jenv.a(process.o)
+                0x0400200b                _process_is_running
+ .text          0x04002019        0x0 contiki-jenv.a(procinit.o)
+ .text.procinit_init
+                0x04002019       0x1b contiki-jenv.a(procinit.o)
+                0x04002019                _procinit_init
+ .text          0x04002034        0x0 contiki-jenv.a(autostart.o)
+ .text.autostart_exit
+                0x04002034       0x15 contiki-jenv.a(autostart.o)
+                0x04002034                _autostart_exit
+ .text.autostart_start
+                0x04002049       0x17 contiki-jenv.a(autostart.o)
+                0x04002049                _autostart_start
+ .text          0x04002060        0x0 contiki-jenv.a(etimer.o)
+ .text.etimer_expired
+                0x04002060       0x29 contiki-jenv.a(etimer.o)
+                0x04002060                _etimer_expired
+ .text.etimer_expiration_time
+                0x04002089       0x41 contiki-jenv.a(etimer.o)
+                0x04002089                _etimer_expiration_time
+ .text.etimer_start_time
+                0x040020ca       0x23 contiki-jenv.a(etimer.o)
+                0x040020ca                _etimer_start_time
+ .text.etimer_pending
+                0x040020ed       0x11 contiki-jenv.a(etimer.o)
+                0x040020ed                _etimer_pending
+ .text.update_time
+                0x040020fe       0xf1 contiki-jenv.a(etimer.o)
+ .text.etimer_stop
+                0x040021ef       0xad contiki-jenv.a(etimer.o)
+                0x040021ef                _etimer_stop
+ .text.etimer_adjust
+                0x0400229c       0x37 contiki-jenv.a(etimer.o)
+                0x0400229c                _etimer_adjust
+ .text.etimer_request_poll
+                0x040022d3        0x9 contiki-jenv.a(etimer.o)
+                0x040022d3                _etimer_request_poll
+ .text.add_timer
+                0x040022dc       0xaa contiki-jenv.a(etimer.o)
+ .text.etimer_restart
+                0x04002386        0xf contiki-jenv.a(etimer.o)
+                0x04002386                _etimer_restart
+ .text.etimer_reset
+                0x04002395        0xf contiki-jenv.a(etimer.o)
+                0x04002395                _etimer_reset
+ .text.etimer_set
+                0x040023a4        0xf contiki-jenv.a(etimer.o)
+                0x040023a4                _etimer_set
+ .text.process_thread_etimer_process
+                0x040023b3      0x1ea contiki-jenv.a(etimer.o)
+ .text.etimer_next_expiration_time
+                0x0400259d       0x15 contiki-jenv.a(etimer.o)
+                0x0400259d                _etimer_next_expiration_time
+ .text          0x040025b2        0x0 contiki-jenv.a(netstack.o)
+ .text.netstack_init
+                0x040025b2       0xba contiki-jenv.a(netstack.o)
+                0x040025b2                _netstack_init
+ .text          0x0400266c        0x0 contiki-jenv.a(uip6.o)
+ .text.uip_add32
+                0x0400266c       0x9d contiki-jenv.a(uip6.o)
+                0x0400266c                _uip_add32
+ .text.chksum   0x04002709       0x47 contiki-jenv.a(uip6.o)
+ .text.upper_layer_chksum
+                0x04002750       0x64 contiki-jenv.a(uip6.o)
+ .text.uip_icmp6chksum
+                0x040027b4        0xc contiki-jenv.a(uip6.o)
+                0x040027b4                _uip_icmp6chksum
+ .text.uip_tcpchksum
+                0x040027c0        0xb contiki-jenv.a(uip6.o)
+                0x040027c0                _uip_tcpchksum
+ .text.uip_udpchksum
+                0x040027cb        0xc contiki-jenv.a(uip6.o)
+                0x040027cb                _uip_udpchksum
+ .text.uip_unlisten
+                0x040027d7       0x41 contiki-jenv.a(uip6.o)
+                0x040027d7                _uip_unlisten
+ .text.uip_listen
+                0x04002818       0x3f contiki-jenv.a(uip6.o)
+                0x04002818                _uip_listen
+ .text.uip_add_rcv_nxt
+                0x04002857       0x50 contiki-jenv.a(uip6.o)
+ .text.uip_htons
+                0x040028a7        0x3 contiki-jenv.a(uip6.o)
+                0x040028a7                _uip_htons
+ .text.uip_htonl
+                0x040028aa        0x3 contiki-jenv.a(uip6.o)
+                0x040028aa                _uip_htonl
+ .text.uip_send
+                0x040028ad       0x32 contiki-jenv.a(uip6.o)
+                0x040028ad                _uip_send
+ .text.ext_hdr_options_process
+                0x040028df       0x96 contiki-jenv.a(uip6.o)
+ *fill*         0x04002975        0x3 00
+ .text.uip_process
+                0x04002978     0x12c8 contiki-jenv.a(uip6.o)
+                0x04002978                _uip_process
+ .text.uip_init
+                0x04003c40       0x54 contiki-jenv.a(uip6.o)
+                0x04003c40                _uip_init
+ .text.uip_chksum
+                0x04003c94       0x14 contiki-jenv.a(uip6.o)
+                0x04003c94                _uip_chksum
+ .text.uip_udp_new
+                0x04003ca8       0xdf contiki-jenv.a(uip6.o)
+                0x04003ca8                _uip_udp_new
+ .text.uip_connect
+                0x04003d87      0x159 contiki-jenv.a(uip6.o)
+                0x04003d87                _uip_connect
+ .text.uip_ipchksum
+                0x04003ee0       0x23 contiki-jenv.a(uip6.o)
+                0x04003ee0                _uip_ipchksum
+ .text          0x04003f03        0x0 contiki-jenv.a(tcpip.o)
+ .text.tcpip_output
+                0x04003f03       0x19 contiki-jenv.a(tcpip.o)
+                0x04003f03                _tcpip_output
+ .text.tcpip_set_outputfunc
+                0x04003f1c        0x9 contiki-jenv.a(tcpip.o)
+                0x04003f1c                _tcpip_set_outputfunc
+ .text.tcp_attach
+                0x04003f25       0x3f contiki-jenv.a(tcpip.o)
+                0x04003f25                _tcp_attach
+ .text.udp_attach
+                0x04003f64       0x3f contiki-jenv.a(tcpip.o)
+                0x04003f64                _udp_attach
+ .text.tcp_unlisten
+                0x04003fa3       0xbe contiki-jenv.a(tcpip.o)
+                0x04003fa3                _tcp_unlisten
+ .text.start_periodic_tcp_timer
+                0x04004061       0x1e contiki-jenv.a(tcpip.o)
+ .text.tcpip_uipcall
+                0x0400407f      0x143 contiki-jenv.a(tcpip.o)
+                0x0400407f                _tcpip_uipcall
+ .text.tcpip_input
+                0x040041c2       0x1f contiki-jenv.a(tcpip.o)
+                0x040041c2                _tcpip_input
+ .text.tcpip_poll_tcp
+                0x040041e1        0xd contiki-jenv.a(tcpip.o)
+                0x040041e1                _tcpip_poll_tcp
+ .text.tcpip_poll_udp
+                0x040041ee        0xd contiki-jenv.a(tcpip.o)
+                0x040041ee                _tcpip_poll_udp
+ .text.tcpip_ipv6_output
+                0x040041fb      0x28b contiki-jenv.a(tcpip.o)
+                0x040041fb                _tcpip_ipv6_output
+ .text.process_thread_tcpip_process
+                0x04004486      0x2a2 contiki-jenv.a(tcpip.o)
+ .text.udp_new  0x04004728       0x4a contiki-jenv.a(tcpip.o)
+                0x04004728                _udp_new
+ .text.udp_broadcast_new
+                0x04004772       0x3b contiki-jenv.a(tcpip.o)
+                0x04004772                _udp_broadcast_new
+ .text.tcp_listen
+                0x040047ad       0x78 contiki-jenv.a(tcpip.o)
+                0x040047ad                _tcp_listen
+ .text.tcp_connect
+                0x04004825       0x4e contiki-jenv.a(tcpip.o)
+                0x04004825                _tcp_connect
+ .text          0x04004873        0x0 contiki-jenv.a(uip-udp-packet.)
+ .text.uip_udp_packet_send
+                0x04004873       0x3b contiki-jenv.a(uip-udp-packet.)
+                0x04004873                _uip_udp_packet_send
+ .text.uip_udp_packet_sendto
+                0x040048ae       0x5e contiki-jenv.a(uip-udp-packet.)
+                0x040048ae                _uip_udp_packet_sendto
+ .text          0x0400490c        0x0 contiki-jenv.a(uip-split.o)
+ .text.uip_split_output
+                0x0400490c       0xea contiki-jenv.a(uip-split.o)
+                0x0400490c                _uip_split_output
+ .text          0x040049f6        0x0 contiki-jenv.a(uip-icmp6.o)
+ .text.uip_icmp6_send
+                0x040049f6       0xa5 contiki-jenv.a(uip-icmp6.o)
+                0x040049f6                _uip_icmp6_send
+ .text.uip_icmp6_echo_request_input
+                0x04004a9b       0xfe contiki-jenv.a(uip-icmp6.o)
+                0x04004a9b                _uip_icmp6_echo_request_input
+ .text.uip_icmp6_error_output
+                0x04004b99      0x20c contiki-jenv.a(uip-icmp6.o)
+                0x04004b99                _uip_icmp6_error_output
+ .text          0x04004da5        0x0 contiki-jenv.a(uip-nd6.o)
+ .text.uip_nd6_ra_input
+                0x04004da5      0x640 contiki-jenv.a(uip-nd6.o)
+                0x04004da5                _uip_nd6_ra_input
+ .text.create_llao
+                0x040053e5       0x2e contiki-jenv.a(uip-nd6.o)
+ .text.uip_nd6_rs_output
+                0x04005413      0x1c9 contiki-jenv.a(uip-nd6.o)
+                0x04005413                _uip_nd6_rs_output
+ .text.uip_nd6_ns_output
+                0x040055dc      0x1e3 contiki-jenv.a(uip-nd6.o)
+                0x040055dc                _uip_nd6_ns_output
+ .text.uip_nd6_na_input
+                0x040057bf      0x288 contiki-jenv.a(uip-nd6.o)
+                0x040057bf                _uip_nd6_na_input
+ .text.uip_nd6_ns_input
+                0x04005a47      0x4f8 contiki-jenv.a(uip-nd6.o)
+                0x04005a47                _uip_nd6_ns_input
+ .text          0x04005f3f        0x0 contiki-jenv.a(uip-packetqueue)
+ .text.uip_packetqueue_new
+                0x04005f3f        0xf contiki-jenv.a(uip-packetqueue)
+                0x04005f3f                _uip_packetqueue_new
+ .text.uip_packetqueue_buf
+                0x04005f4e       0x2a contiki-jenv.a(uip-packetqueue)
+                0x04005f4e                _uip_packetqueue_buf
+ .text.uip_packetqueue_buflen
+                0x04005f78       0x34 contiki-jenv.a(uip-packetqueue)
+                0x04005f78                _uip_packetqueue_buflen
+ .text.uip_packetqueue_set_buflen
+                0x04005fac       0x2f contiki-jenv.a(uip-packetqueue)
+                0x04005fac                _uip_packetqueue_set_buflen
+ .text.uip_packetqueue_free
+                0x04005fdb       0x63 contiki-jenv.a(uip-packetqueue)
+                0x04005fdb                _uip_packetqueue_free
+ .text.packet_timedout
+                0x0400603e       0x3b contiki-jenv.a(uip-packetqueue)
+ .text.uip_packetqueue_alloc
+                0x04006079       0x7d contiki-jenv.a(uip-packetqueue)
+                0x04006079                _uip_packetqueue_alloc
+ .text          0x040060f6        0x0 contiki-jenv.a(sicslowpan.o)
+ .text.addr_context_lookup_by_number
+                0x040060f6       0x20 contiki-jenv.a(sicslowpan.o)
+ .text.packet_sent
+                0x04006116        0x3 contiki-jenv.a(sicslowpan.o)
+ .text.compress_addr_64
+                0x04006119       0xdd contiki-jenv.a(sicslowpan.o)
+ .text.uncompress_addr
+                0x040061f6       0x8a contiki-jenv.a(sicslowpan.o)
+ .text.input    0x04006280      0x6e3 contiki-jenv.a(sicslowpan.o)
+ .text.sicslowpan_init
+                0x04006963       0x38 contiki-jenv.a(sicslowpan.o)
+                0x04006963                _sicslowpan_init
+ .text.addr_context_lookup_by_prefix
+                0x0400699b       0x2d contiki-jenv.a(sicslowpan.o)
+ .text.send_packet
+                0x040069c8       0x46 contiki-jenv.a(sicslowpan.o)
+ .text.sicslowpan_output
+                0x04006a0e      0x941 contiki-jenv.a(sicslowpan.o)
+                0x04006a0e                _sicslowpan_output
+ .text          0x0400734f        0x0 contiki-jenv.a(uip-ds6.o)
+ .text.uip_ds6_defrt_rm
+                0x0400734f        0x9 contiki-jenv.a(uip-ds6.o)
+                0x0400734f                _uip_ds6_defrt_rm
+ .text.uip_ds6_prefix_rm
+                0x04007358        0x9 contiki-jenv.a(uip-ds6.o)
+                0x04007358                _uip_ds6_prefix_rm
+ .text.uip_ds6_get_link_local
+                0x04007361       0x4d contiki-jenv.a(uip-ds6.o)
+                0x04007361                _uip_ds6_get_link_local
+ .text.uip_ds6_get_global
+                0x040073ae       0x4d contiki-jenv.a(uip-ds6.o)
+                0x040073ae                _uip_ds6_get_global
+ .text.uip_ds6_maddr_rm
+                0x040073fb        0x9 contiki-jenv.a(uip-ds6.o)
+                0x040073fb                _uip_ds6_maddr_rm
+ .text.uip_ds6_aaddr_rm
+                0x04007404        0x9 contiki-jenv.a(uip-ds6.o)
+                0x04007404                _uip_ds6_aaddr_rm
+ .text.uip_ds6_route_rm
+                0x0400740d        0x6 contiki-jenv.a(uip-ds6.o)
+                0x0400740d                _uip_ds6_route_rm
+ .text.get_match_length
+                0x04007413       0x50 contiki-jenv.a(uip-ds6.o)
+                0x04007413                _get_match_length
+ .text.uip_ds6_select_src
+                0x04007463       0xd3 contiki-jenv.a(uip-ds6.o)
+                0x04007463                _uip_ds6_select_src
+ .text.uip_ds6_compute_reachable_time
+                0x04007536       0x4b contiki-jenv.a(uip-ds6.o)
+                0x04007536                _uip_ds6_compute_reachable_time
+ .text.uip_ds6_dad
+                0x04007581       0x72 contiki-jenv.a(uip-ds6.o)
+                0x04007581                _uip_ds6_dad
+ .text.uip_ds6_set_addr_iid
+                0x040075f3       0x1f contiki-jenv.a(uip-ds6.o)
+                0x040075f3                _uip_ds6_set_addr_iid
+ .text.uip_ds6_route_rm_by_nexthop
+                0x04007612       0x49 contiki-jenv.a(uip-ds6.o)
+                0x04007612                _uip_ds6_route_rm_by_nexthop
+ .text.uip_ds6_route_lookup
+                0x0400765b       0x57 contiki-jenv.a(uip-ds6.o)
+                0x0400765b                _uip_ds6_route_lookup
+ .text.uip_ds6_is_addr_onlink
+                0x040076b2       0x49 contiki-jenv.a(uip-ds6.o)
+                0x040076b2                _uip_ds6_is_addr_onlink
+ .text.uip_ds6_list_loop
+                0x040076fb       0x4d contiki-jenv.a(uip-ds6.o)
+                0x040076fb                _uip_ds6_list_loop
+ .text.uip_ds6_route_add
+                0x04007748       0x71 contiki-jenv.a(uip-ds6.o)
+                0x04007748                _uip_ds6_route_add
+ .text.uip_ds6_aaddr_lookup
+                0x040077b9       0x2b contiki-jenv.a(uip-ds6.o)
+                0x040077b9                _uip_ds6_aaddr_lookup
+ .text.uip_ds6_aaddr_add
+                0x040077e4       0x4a contiki-jenv.a(uip-ds6.o)
+                0x040077e4                _uip_ds6_aaddr_add
+ .text.uip_ds6_maddr_lookup
+                0x0400782e       0x2b contiki-jenv.a(uip-ds6.o)
+                0x0400782e                _uip_ds6_maddr_lookup
+ .text.uip_ds6_addr_rm
+                0x04007859       0x9c contiki-jenv.a(uip-ds6.o)
+                0x04007859                _uip_ds6_addr_rm
+ .text.uip_ds6_dad_failed
+                0x040078f5       0x23 contiki-jenv.a(uip-ds6.o)
+                0x040078f5                _uip_ds6_dad_failed
+ .text.uip_ds6_maddr_add
+                0x04007918       0x4a contiki-jenv.a(uip-ds6.o)
+                0x04007918                _uip_ds6_maddr_add
+ .text.uip_ds6_addr_lookup
+                0x04007962       0x2b contiki-jenv.a(uip-ds6.o)
+                0x04007962                _uip_ds6_addr_lookup
+ .text.uip_ds6_prefix_lookup
+                0x0400798d       0x2a contiki-jenv.a(uip-ds6.o)
+                0x0400798d                _uip_ds6_prefix_lookup
+ .text.uip_ds6_defrt_lookup
+                0x040079b7       0x2b contiki-jenv.a(uip-ds6.o)
+                0x040079b7                _uip_ds6_defrt_lookup
+ .text.uip_ds6_nbr_lookup
+                0x040079e2       0x2b contiki-jenv.a(uip-ds6.o)
+                0x040079e2                _uip_ds6_nbr_lookup
+ .text.uip_ds6_defrt_choose
+                0x04007a0d       0x66 contiki-jenv.a(uip-ds6.o)
+                0x04007a0d                _uip_ds6_defrt_choose
+ .text.uip_ds6_send_rs
+                0x04007a73       0x40 contiki-jenv.a(uip-ds6.o)
+                0x04007a73                _uip_ds6_send_rs
+ .text.uip_ds6_addr_add
+                0x04007ab3      0x12a contiki-jenv.a(uip-ds6.o)
+                0x04007ab3                _uip_ds6_addr_add
+ .text.uip_ds6_prefix_add
+                0x04007bdd       0x6f contiki-jenv.a(uip-ds6.o)
+                0x04007bdd                _uip_ds6_prefix_add
+ .text.uip_ds6_defrt_add
+                0x04007c4c       0x6d contiki-jenv.a(uip-ds6.o)
+                0x04007c4c                _uip_ds6_defrt_add
+ .text.uip_ds6_nbr_rm
+                0x04007cb9        0xf contiki-jenv.a(uip-ds6.o)
+                0x04007cb9                _uip_ds6_nbr_rm
+ .text.uip_ds6_init
+                0x04007cc8      0x1ce contiki-jenv.a(uip-ds6.o)
+                0x04007cc8                _uip_ds6_init
+ .text.uip_ds6_nbr_add
+                0x04007e96      0x12c contiki-jenv.a(uip-ds6.o)
+                0x04007e96                _uip_ds6_nbr_add
+ .text.uip_ds6_periodic
+                0x04007fc2      0x245 contiki-jenv.a(uip-ds6.o)
+                0x04007fc2                _uip_ds6_periodic
+ .text          0x04008207        0x0 contiki-jenv.a(nullradio.o)
+ .text.init     0x04008207        0x5 contiki-jenv.a(nullradio.o)
+ .text.prepare  0x0400820c        0x5 contiki-jenv.a(nullradio.o)
+ .text.transmit
+                0x04008211        0x5 contiki-jenv.a(nullradio.o)
+ .text.read     0x04008216        0x5 contiki-jenv.a(nullradio.o)
+ .text.channel_clear
+                0x0400821b        0x5 contiki-jenv.a(nullradio.o)
+ .text.receiving_packet
+                0x04008220        0x5 contiki-jenv.a(nullradio.o)
+ .text.pending_packet
+                0x04008225        0x5 contiki-jenv.a(nullradio.o)
+ .text.on       0x0400822a        0x5 contiki-jenv.a(nullradio.o)
+ .text.off      0x0400822f        0x5 contiki-jenv.a(nullradio.o)
+ .text.send     0x04008234        0x5 contiki-jenv.a(nullradio.o)
+ .text          0x04008239        0x0 contiki-jenv.a(ieee802.o)
+ .text.ieee_register_lqi_callback
+                0x04008239        0x9 contiki-jenv.a(ieee802.o)
+                0x04008239                _ieee_register_lqi_callback
+ .text.ieee_recv
+                0x04008242        0x3 contiki-jenv.a(ieee802.o)
+                0x04008242                _ieee_recv
+ .text.ieee_on  0x04008245        0x5 contiki-jenv.a(ieee802.o)
+                0x04008245                _ieee_on
+ .text.ieee_off
+                0x0400824a        0x5 contiki-jenv.a(ieee802.o)
+                0x0400824a                _ieee_off
+ .text.ieee_channel_check
+                0x0400824f        0x5 contiki-jenv.a(ieee802.o)
+                0x0400824f                _ieee_channel_check
+ .text.ieee_register_beacon_callback
+                0x04008254        0x9 contiki-jenv.a(ieee802.o)
+                0x04008254                _ieee_register_beacon_callback
+ .text.ieee_get_mac
+                0x0400825d        0x9 contiki-jenv.a(ieee802.o)
+                0x0400825d                _ieee_get_mac
+ .text.ieee_get_last_timestamp
+                0x04008266        0xf contiki-jenv.a(ieee802.o)
+                0x04008266                _ieee_get_last_timestamp
+ .text.req_scan
+                0x04008275       0x35 contiki-jenv.a(ieee802.o)
+ .text.ieee_init
+                0x040082aa       0xa6 contiki-jenv.a(ieee802.o)
+                0x040082aa                _ieee_init
+ .text.ieee_process_poll
+                0x04008350       0x40 contiki-jenv.a(ieee802.o)
+ .text.rxq_enqueue
+                0x04008390       0x98 contiki-jenv.a(ieee802.o)
+ .text.rxq_mcps_alloc
+                0x04008428        0x4 contiki-jenv.a(ieee802.o)
+                0x04008428                _rxq_mcps_alloc
+ .text.rxq_mlme_alloc
+                0x0400842c        0x4 contiki-jenv.a(ieee802.o)
+                0x0400842c                _rxq_mlme_alloc
+ .text.ieee_mlmept
+                0x04008430      0x239 contiki-jenv.a(ieee802.o)
+                0x04008430                _ieee_mlmept
+ .text.ieee_mcpspt
+                0x04008669      0x28a contiki-jenv.a(ieee802.o)
+ .text.ieee_serial_input
+                0x040088f3      0x249 contiki-jenv.a(ieee802.o)
+                0x040088f3                _ieee_serial_input
+ .text.ieee_send
+                0x04008b3c      0x1a2 contiki-jenv.a(ieee802.o)
+                0x04008b3c                _ieee_send
+ .text.process_thread_ieee_process
+                0x04008cde      0x184 contiki-jenv.a(ieee802.o)
+ .text          0x04008e62        0x0 contiki-jenv.a(pff.o)
+ .text.clust2sect
+                0x04008e62       0x59 contiki-jenv.a(pff.o)
+ .text.dir_rewind
+                0x04008ebb       0xfd contiki-jenv.a(pff.o)
+ .text.check_fs
+                0x04008fb8       0x8a contiki-jenv.a(pff.o)
+ .text.get_fat  0x04009042      0x195 contiki-jenv.a(pff.o)
+ .text.pf_write
+                0x040091d7      0x261 contiki-jenv.a(pff.o)
+                0x040091d7                _pf_write
+ .text.pf_read  0x04009438      0x1e7 contiki-jenv.a(pff.o)
+                0x04009438                _pf_read
+ .text.pf_open  0x0400961f      0x2f6 contiki-jenv.a(pff.o)
+                0x0400961f                _pf_open
+ .text.pf_mount
+                0x04009915      0x24e contiki-jenv.a(pff.o)
+                0x04009915                _pf_mount
+ .text          0x04009b63        0x0 contiki-jenv.a(sd.o)
+ .text.send_command
+                0x04009b63       0x62 contiki-jenv.a(sd.o)
+ .text.get_response
+                0x04009bc5       0x69 contiki-jenv.a(sd.o)
+ .text.disk_writep
+                0x04009c2e      0x173 contiki-jenv.a(sd.o)
+                0x04009c2e                _disk_writep
+ .text.disk_readp2
+                0x04009da1      0x196 contiki-jenv.a(sd.o)
+                0x04009da1                _disk_readp2
+ .text.disk_readp
+                0x04009f37       0x19 contiki-jenv.a(sd.o)
+                0x04009f37                _disk_readp
+ .text.disk_initialize
+                0x04009f50      0x19d contiki-jenv.a(sd.o)
+                0x04009f50                _disk_initialize
+ .text          0x0400a0ed        0x0 contiki-jenv.a(leds.o)
+ .text.show_leds
+                0x0400a0ed       0x12 contiki-jenv.a(leds.o)
+ .text.leds_invert
+                0x0400a0ff       0x11 contiki-jenv.a(leds.o)
+                0x0400a0ff                _leds_invert
+ .text.leds_toggle
+                0x0400a110        0x2 contiki-jenv.a(leds.o)
+                0x0400a110                _leds_toggle
+ .text.leds_off
+                0x0400a112       0x25 contiki-jenv.a(leds.o)
+                0x0400a112                _leds_off
+ .text.leds_on  0x0400a137       0x23 contiki-jenv.a(leds.o)
+                0x0400a137                _leds_on
+ .text.leds_get
+                0x0400a15a        0x9 contiki-jenv.a(leds.o)
+                0x0400a15a                _leds_get
+ .text.leds_blink
+                0x0400a163       0x2b contiki-jenv.a(leds.o)
+                0x0400a163                _leds_blink
+ .text.leds_init
+                0x0400a18e       0x15 contiki-jenv.a(leds.o)
+                0x0400a18e                _leds_init
+ .text          0x0400a1a3        0x0 contiki-jenv.a(sensors.o)
+ .text.get_sensor_index
+                0x0400a1a3       0x26 contiki-jenv.a(sensors.o)
+ .text.sensors_first
+                0x0400a1c9        0x9 contiki-jenv.a(sensors.o)
+                0x0400a1c9                _sensors_first
+ .text.sensors_next
+                0x0400a1d2       0x15 contiki-jenv.a(sensors.o)
+                0x0400a1d2                _sensors_next
+ .text.process_thread_sensors_process
+                0x0400a1e7      0x13c contiki-jenv.a(sensors.o)
+ .text.sensors_find
+                0x0400a323       0x83 contiki-jenv.a(sensors.o)
+                0x0400a323                _sensors_find
+ .text.sensors_changed
+                0x0400a3a6       0x25 contiki-jenv.a(sensors.o)
+                0x0400a3a6                _sensors_changed
+ .text          0x0400a3cb        0x0 contiki-jenv.a(bootloader.o)
+ .text.process_thread_jennic_bootloader_process
+                0x0400a3cb      0x684 contiki-jenv.a(bootloader.o)
+ .text          0x0400aa4f        0x0 contiki-jenv.a(l3g4200d-sensor)
+ .text.rreg     0x0400aa4f       0x1c contiki-jenv.a(l3g4200d-sensor)
+ .text.status   0x0400aa6b       0x2c contiki-jenv.a(l3g4200d-sensor)
+ .text.value    0x0400aa97       0x5e contiki-jenv.a(l3g4200d-sensor)
+ .text.gyro_cb  0x0400aaf5       0x18 contiki-jenv.a(l3g4200d-sensor)
+ .text.configure
+                0x0400ab0d      0x206 contiki-jenv.a(l3g4200d-sensor)
+ .text          0x0400ad13        0x0 contiki-jenv.a(lsm303-sensor.o)
+ .text.avalue   0x0400ad13       0x4a contiki-jenv.a(lsm303-sensor.o)
+ .text.astatus  0x0400ad5d        0xf contiki-jenv.a(lsm303-sensor.o)
+ .text.mvalue   0x0400ad6c       0x41 contiki-jenv.a(lsm303-sensor.o)
+ .text.mstatus  0x0400adad        0xf contiki-jenv.a(lsm303-sensor.o)
+ .text.mag_startsample
+                0x0400adbc       0x21 contiki-jenv.a(lsm303-sensor.o)
+ .text.mconfigure
+                0x0400addd       0x85 contiki-jenv.a(lsm303-sensor.o)
+ .text.acc_startsample
+                0x0400ae62       0x21 contiki-jenv.a(lsm303-sensor.o)
+ .text.aconfigure
+                0x0400ae83      0x162 contiki-jenv.a(lsm303-sensor.o)
+ .text          0x0400afe5        0x0 contiki-jenv.a(vcnl4000-sensor)
+ .text.lvalue   0x0400afe5       0x16 contiki-jenv.a(vcnl4000-sensor)
+ .text.pvalue   0x0400affb        0xf contiki-jenv.a(vcnl4000-sensor)
+ .text.wreg     0x0400b00a       0x19 contiki-jenv.a(vcnl4000-sensor)
+ .text.rreg     0x0400b023       0x1c contiki-jenv.a(vcnl4000-sensor)
+ .text.pstatus  0x0400b03f       0x2d contiki-jenv.a(vcnl4000-sensor)
+ .text.lstatus  0x0400b06c       0x31 contiki-jenv.a(vcnl4000-sensor)
+ .text.vcnlptcb
+                0x0400b09d      0x175 contiki-jenv.a(vcnl4000-sensor)
+ .text.pconfigure
+                0x0400b212       0x75 contiki-jenv.a(vcnl4000-sensor)
+ .text.lconfigure
+                0x0400b287       0x52 contiki-jenv.a(vcnl4000-sensor)
+ .text          0x0400b2d9        0x0 contiki-jenv.a(SHT21-sensor.o)
+ .text.tstatus  0x0400b2d9       0x18 contiki-jenv.a(SHT21-sensor.o)
+ .text.tvalue   0x0400b2f1       0x67 contiki-jenv.a(SHT21-sensor.o)
+ .text.pstatus  0x0400b358       0x18 contiki-jenv.a(SHT21-sensor.o)
+ .text.pvalue   0x0400b370       0x1b contiki-jenv.a(SHT21-sensor.o)
+ .text.mplptcb  0x0400b38b      0x215 contiki-jenv.a(SHT21-sensor.o)
+ .text.pconfigure
+                0x0400b5a0       0x68 contiki-jenv.a(SHT21-sensor.o)
+ .text.tconfigure
+                0x0400b608       0x39 contiki-jenv.a(SHT21-sensor.o)
+ .text          0x0400b641        0x0 contiki-jenv.a(button-sensor.o)
+ .text.status   0x0400b641        0x5 contiki-jenv.a(button-sensor.o)
+ *fill*         0x0400b646        0x2 00
+ .text.value    0x0400b648      0x108 contiki-jenv.a(button-sensor.o)
+ .text.process_thread_debounce_process
+                0x0400b750       0x88 contiki-jenv.a(button-sensor.o)
+ .text.irq      0x0400b7d8       0x34 contiki-jenv.a(button-sensor.o)
+                0x0400b7d8                _irq
+ .text.configure
+                0x0400b80c       0x79 contiki-jenv.a(button-sensor.o)
+ .text          0x0400b885        0x0 contiki-jenv.a(mpl115a-sensor.)
+ .text.tstatus  0x0400b885       0x18 contiki-jenv.a(mpl115a-sensor.)
+ .text.tvalue   0x0400b89d       0x33 contiki-jenv.a(mpl115a-sensor.)
+ .text.pstatus  0x0400b8d0       0x18 contiki-jenv.a(mpl115a-sensor.)
+ .text.pvalue   0x0400b8e8      0x103 contiki-jenv.a(mpl115a-sensor.)
+ .text.mplptcb  0x0400b9eb      0x1ae contiki-jenv.a(mpl115a-sensor.)
+ .text.pconfigure
+                0x0400bb99       0x79 contiki-jenv.a(mpl115a-sensor.)
+ .text.tconfigure
+                0x0400bc12       0x79 contiki-jenv.a(mpl115a-sensor.)
+ .text          0x0400bc8b        0x0 contiki-jenv.a(ext_temp_sensor)
+ .text.status   0x0400bc8b        0x5 contiki-jenv.a(ext_temp_sensor)
+ .text.value    0x0400bc90       0x10 contiki-jenv.a(ext_temp_sensor)
+ .text.configure
+                0x0400bca0       0x77 contiki-jenv.a(ext_temp_sensor)
+ .text.irq      0x0400bd17       0x18 contiki-jenv.a(ext_temp_sensor)
+ .text          0x0400bd2f        0x0 contiki-jenv.a(clock.o)
+ .text.clock_init
+                0x0400bd2f       0x2a contiki-jenv.a(clock.o)
+                0x0400bd2f                _clock_init
+ .text.clock_hrtime
+                0x0400bd59       0x51 contiki-jenv.a(clock.o)
+                0x0400bd59                _clock_hrtime
+ .text.clock_seconds
+                0x0400bdaa       0x25 contiki-jenv.a(clock.o)
+                0x0400bdaa                _clock_seconds
+ .text.clock_time
+                0x0400bdcf       0x23 contiki-jenv.a(clock.o)
+                0x0400bdcf                _clock_time
+ .text.clock_delay
+                0x0400bdf2       0x23 contiki-jenv.a(clock.o)
+                0x0400bdf2                _clock_delay
+ .text          0x0400be15        0x0 contiki-jenv.a(uart0.o)
+ .text.uart0_set_br
+                0x0400be15       0x62 contiki-jenv.a(uart0.o)
+                0x0400be15                _uart0_set_br
+ .text.uart0_set_input
+                0x0400be77        0x9 contiki-jenv.a(uart0.o)
+                0x0400be77                _uart0_set_input
+ .text.uart0_init
+                0x0400be80       0x78 contiki-jenv.a(uart0.o)
+                0x0400be80                _uart0_init
+ .text.irq      0x0400bef8       0x58 contiki-jenv.a(uart0.o)
+ .text.uart0_writeb
+                0x0400bf50       0x3e contiki-jenv.a(uart0.o)
+                0x0400bf50                _uart0_writeb
+ .text          0x0400bf8e        0x0 contiki-jenv.a(jts.o)
+ .text.jts_init
+                0x0400bf8e       0x69 contiki-jenv.a(jts.o)
+                0x0400bf8e                _jts_init
+ .text.jts_synced
+                0x0400bff7        0xc contiki-jenv.a(jts.o)
+                0x0400bff7                _jts_synced
+ .text.jts_hrtime
+                0x0400c003       0x84 contiki-jenv.a(jts.o)
+                0x0400c003                _jts_hrtime
+ .text.jts_time
+                0x0400c087       0x19 contiki-jenv.a(jts.o)
+                0x0400c087                _jts_time
+ .text          0x0400c0a0        0x0 contiki-jenv.a(i2c.o)
+ .text.internal_cb
+                0x0400c0a0        0x9 contiki-jenv.a(i2c.o)
+ .text.process_thread_i2c_process
+                0x0400c0a9      0x30d contiki-jenv.a(i2c.o)
+ .text.i2c_irq  0x0400c3b6       0x24 contiki-jenv.a(i2c.o)
+ .text.i2c      0x0400c3da       0x43 contiki-jenv.a(i2c.o)
+                0x0400c3da                _i2c
+ .text.i2cb     0x0400c41d       0xa6 contiki-jenv.a(i2c.o)
+                0x0400c41d                _i2cb
+ .text.i2cs     0x0400c4c3       0x1b contiki-jenv.a(i2c.o)
+                0x0400c4c3                _i2cs
+ .text          0x0400c4de        0x0 contiki-jenv.a(irq.o)
+ .text.irq_remove
+                0x0400c4de        0xb contiki-jenv.a(irq.o)
+                0x0400c4de                _irq_remove
+ .text.adc_prepare_next
+                0x0400c4e9       0xfa contiki-jenv.a(irq.o)
+ .text.irq_add  0x0400c5e3       0x3e contiki-jenv.a(irq.o)
+                0x0400c5e3                _irq_add
+ .text.irq_init
+                0x0400c621       0x24 contiki-jenv.a(irq.o)
+                0x0400c621                _irq_init
+ .text.common_handle
+                0x0400c645       0x98 contiki-jenv.a(irq.o)
+ .text          0x0400c6dd        0x0 contiki-jenv.a(sprintf.o)
+ .text.outDgt   0x0400c6dd       0x3a contiki-jenv.a(sprintf.o)
+ .text.divOut   0x0400c717       0x35 contiki-jenv.a(sprintf.o)
+ .text.vsnprintf
+                0x0400c74c      0x289 contiki-jenv.a(sprintf.o)
+                0x0400c74c                _vsnprintf
+ .text.putchar  0x0400c9d5        0xe contiki-jenv.a(sprintf.o)
+                0x0400c9d5                _putchar
+ .text.puts     0x0400c9e3       0x26 contiki-jenv.a(sprintf.o)
+                0x0400c9e3                _puts
+ .text.printf   0x0400ca09       0x4f contiki-jenv.a(sprintf.o)
+                0x0400ca09                _printf
+ .text.snprintf
+                0x0400ca58       0x1d contiki-jenv.a(sprintf.o)
+                0x0400ca58                _snprintf
+ .text.sprintf  0x0400ca75       0x21 contiki-jenv.a(sprintf.o)
+                0x0400ca75                _sprintf
+ .text          0x0400ca96        0x0 contiki-jenv.a(watchdog.o)
+ .text.watchdog_init
+                0x0400ca96        0x3 contiki-jenv.a(watchdog.o)
+                0x0400ca96                _watchdog_init
+ .text.watchdog_reboot
+                0x0400ca99        0x3 contiki-jenv.a(watchdog.o)
+                0x0400ca99                _watchdog_reboot
+ .text.watchdog_stop
+                0x0400ca9c        0x6 contiki-jenv.a(watchdog.o)
+                0x0400ca9c                _watchdog_stop
+ .text.watchdog_periodic
+                0x0400caa2        0x6 contiki-jenv.a(watchdog.o)
+                0x0400caa2                _watchdog_periodic
+ .text.watchdog_start
+                0x0400caa8        0x9 contiki-jenv.a(watchdog.o)
+                0x0400caa8                _watchdog_start
+ .text          0x0400cab1        0x0 contiki-jenv.a(init.o)
+ .text.init_hardware
+                0x0400cab1        0x3 contiki-jenv.a(init.o)
+                0x0400cab1                _init_hardware
+ .text.init_hardware_baud
+                0x0400cab4       0x61 contiki-jenv.a(init.o)
+                0x0400cab4                _init_hardware_baud
+ .text.misalign_test
+                0x0400cb15      0x130 contiki-jenv.a(init.o)
+                0x0400cb15                _misalign_test
+ .text.panic    0x0400cc45       0xb8 contiki-jenv.a(init.o)
+                0x0400cc45                _panic
+ .text.bus_error
+                0x0400ccfd        0x8 contiki-jenv.a(init.o)
+                0x0400ccfd                _bus_error
+ .text.illegal_instr
+                0x0400cd05        0x8 contiki-jenv.a(init.o)
+                0x0400cd05                _illegal_instr
+ .text.unaligned_access
+                0x0400cd0d      0x1b7 contiki-jenv.a(init.o)
+                0x0400cd0d                _unaligned_access
+ .text          0x0400cec4        0x0 contiki-jenv.a(rimeaddr.o)
+ .text.rimeaddr_copy
+                0x0400cec4       0x1a contiki-jenv.a(rimeaddr.o)
+                0x0400cec4                _rimeaddr_copy
+ .text.rimeaddr_cmp
+                0x0400cede       0x24 contiki-jenv.a(rimeaddr.o)
+                0x0400cede                _rimeaddr_cmp
+ .text.rimeaddr_set_node_addr
+                0x0400cf02       0x1f contiki-jenv.a(rimeaddr.o)
+                0x0400cf02                _rimeaddr_set_node_addr
+ .text          0x0400cf21        0x0 contiki-jenv.a(nullrdc.o)
+ .text.on       0x0400cf21       0x33 contiki-jenv.a(nullrdc.o)
+ .text.off      0x0400cf54       0x5f contiki-jenv.a(nullrdc.o)
+ .text.channel_check_interval
+                0x0400cfb3        0x5 contiki-jenv.a(nullrdc.o)
+ .text.init     0x0400cfb8        0x2 contiki-jenv.a(nullrdc.o)
+ .text.packet_input
+                0x0400cfba       0x87 contiki-jenv.a(nullrdc.o)
+ .text.send_packet
+                0x0400d041       0x9a contiki-jenv.a(nullrdc.o)
+ .text          0x0400d0db        0x0 contiki-jenv.a(mac.o)
+ .text.mac_call_sent_callback
+                0x0400d0db       0x14 contiki-jenv.a(mac.o)
+                0x0400d0db                _mac_call_sent_callback
+ .text          0x0400d0ef        0x0 contiki-jenv.a(framer-nullmac.)
+ .text.parse    0x0400d0ef       0x2c contiki-jenv.a(framer-nullmac.)
+ .text.create   0x0400d11b       0x34 contiki-jenv.a(framer-nullmac.)
+ .text          0x0400d14f        0x0 contiki-jenv.a(memb.o)
+ .text.memb_alloc
+                0x0400d14f       0x79 contiki-jenv.a(memb.o)
+                0x0400d14f                _memb_alloc
+ .text.memb_free
+                0x0400d1c8       0xa2 contiki-jenv.a(memb.o)
+                0x0400d1c8                _memb_free
+ .text.memb_inmemb
+                0x0400d26a       0x56 contiki-jenv.a(memb.o)
+                0x0400d26a                _memb_inmemb
+ .text.memb_init
+                0x0400d2c0       0x7b contiki-jenv.a(memb.o)
+                0x0400d2c0                _memb_init
+ .text          0x0400d33b        0x0 contiki-jenv.a(timer.o)
+ .text.timer_reset
+                0x0400d33b       0x56 contiki-jenv.a(timer.o)
+                0x0400d33b                _timer_reset
+ .text.timer_remaining
+                0x0400d391       0x4a contiki-jenv.a(timer.o)
+                0x0400d391                _timer_remaining
+ .text.timer_expired
+                0x0400d3db       0x54 contiki-jenv.a(timer.o)
+                0x0400d3db                _timer_expired
+ .text.timer_restart
+                0x0400d42f       0x20 contiki-jenv.a(timer.o)
+                0x0400d42f                _timer_restart
+ .text.timer_set
+                0x0400d44f       0x35 contiki-jenv.a(timer.o)
+                0x0400d44f                _timer_set
+ .text          0x0400d484        0x0 contiki-jenv.a(list.o)
+ .text.list_init
+                0x0400d484        0x6 contiki-jenv.a(list.o)
+                0x0400d484                _list_init
+ .text.list_head
+                0x0400d48a        0x6 contiki-jenv.a(list.o)
+                0x0400d48a                _list_head
+ .text.list_copy
+                0x0400d490        0x9 contiki-jenv.a(list.o)
+                0x0400d490                _list_copy
+ .text.list_tail
+                0x0400d499       0x34 contiki-jenv.a(list.o)
+                0x0400d499                _list_tail
+ .text.list_chop
+                0x0400d4cd       0x84 contiki-jenv.a(list.o)
+                0x0400d4cd                _list_chop
+ .text.list_pop
+                0x0400d551       0x2c contiki-jenv.a(list.o)
+                0x0400d551                _list_pop
+ .text.list_remove
+                0x0400d57d       0x94 contiki-jenv.a(list.o)
+                0x0400d57d                _list_remove
+ .text.list_push
+                0x0400d611       0x28 contiki-jenv.a(list.o)
+                0x0400d611                _list_push
+ .text.list_length
+                0x0400d639       0x2f contiki-jenv.a(list.o)
+                0x0400d639                _list_length
+ .text.list_insert
+                0x0400d668       0x52 contiki-jenv.a(list.o)
+                0x0400d668                _list_insert
+ .text.list_item_next
+                0x0400d6ba       0x28 contiki-jenv.a(list.o)
+                0x0400d6ba                _list_item_next
+ .text.list_add
+                0x0400d6e2       0x60 contiki-jenv.a(list.o)
+                0x0400d6e2                _list_add
+ .text          0x0400d742        0x0 contiki-jenv.a(ctimer.o)
+ .text.process_thread_ctimer_process
+                0x0400d742      0x151 contiki-jenv.a(ctimer.o)
+ .text.ctimer_expired
+                0x0400d893       0x50 contiki-jenv.a(ctimer.o)
+                0x0400d893                _ctimer_expired
+ .text.ctimer_stop
+                0x0400d8e3       0x3b contiki-jenv.a(ctimer.o)
+                0x0400d8e3                _ctimer_stop
+ .text.ctimer_restart
+                0x0400d91e       0x44 contiki-jenv.a(ctimer.o)
+                0x0400d91e                _ctimer_restart
+ .text.ctimer_set
+                0x0400d962       0xa9 contiki-jenv.a(ctimer.o)
+                0x0400d962                _ctimer_set
+ .text.ctimer_reset
+                0x0400da0b       0x44 contiki-jenv.a(ctimer.o)
+                0x0400da0b                _ctimer_reset
+ .text.ctimer_init
+                0x0400da4f       0x21 contiki-jenv.a(ctimer.o)
+                0x0400da4f                _ctimer_init
+ .text          0x0400da70        0x0 contiki-jenv.a(stimer.o)
+ .text.stimer_reset
+                0x0400da70       0x56 contiki-jenv.a(stimer.o)
+                0x0400da70                _stimer_reset
+ .text.stimer_elapsed
+                0x0400dac6       0x2c contiki-jenv.a(stimer.o)
+                0x0400dac6                _stimer_elapsed
+ .text.stimer_remaining
+                0x0400daf2       0x4a contiki-jenv.a(stimer.o)
+                0x0400daf2                _stimer_remaining
+ .text.stimer_expired
+                0x0400db3c       0x57 contiki-jenv.a(stimer.o)
+                0x0400db3c                _stimer_expired
+ .text.stimer_restart
+                0x0400db93       0x20 contiki-jenv.a(stimer.o)
+                0x0400db93                _stimer_restart
+ .text.stimer_set
+                0x0400dbb3       0x35 contiki-jenv.a(stimer.o)
+                0x0400dbb3                _stimer_set
+ .text          0x0400dbe8        0x0 contiki-jenv.a(random.o)
+ .text.random_rand
+                0x0400dbe8        0xc contiki-jenv.a(random.o)
+                0x0400dbe8                _random_rand
+ .text.random_init
+                0x0400dbf4        0x3 contiki-jenv.a(random.o)
+                0x0400dbf4                _random_init
+ .text          0x0400dbf7        0x0 contiki-jenv.a(ringbuf.o)
+ .text.ringbuf_init
+                0x0400dbf7       0x23 contiki-jenv.a(ringbuf.o)
+                0x0400dbf7                _ringbuf_init
+ .text.ringbuf_put
+                0x0400dc1a       0x4d contiki-jenv.a(ringbuf.o)
+                0x0400dc1a                _ringbuf_put
+ .text.ringbuf_get
+                0x0400dc67       0x45 contiki-jenv.a(ringbuf.o)
+                0x0400dc67                _ringbuf_get
+ .text.ringbuf_size
+                0x0400dcac        0x8 contiki-jenv.a(ringbuf.o)
+                0x0400dcac                _ringbuf_size
+ .text.ringbuf_elements
+                0x0400dcb4       0x12 contiki-jenv.a(ringbuf.o)
+                0x0400dcb4                _ringbuf_elements
+ .text          0x0400dcc6        0x0 contiki-jenv.a(packetbuf.o)
+ .text.packetbuf_clear_hdr
+                0x0400dcc6        0xc contiki-jenv.a(packetbuf.o)
+                0x0400dcc6                _packetbuf_clear_hdr
+ .text.packetbuf_hdr_remove
+                0x0400dcd2       0x11 contiki-jenv.a(packetbuf.o)
+                0x0400dcd2                _packetbuf_hdr_remove
+ .text.packetbuf_hdrreduce
+                0x0400dce3       0x2e contiki-jenv.a(packetbuf.o)
+                0x0400dce3                _packetbuf_hdrreduce
+ .text.packetbuf_set_datalen
+                0x0400dd11        0x9 contiki-jenv.a(packetbuf.o)
+                0x0400dd11                _packetbuf_set_datalen
+ .text.packetbuf_dataptr
+                0x0400dd1a       0x14 contiki-jenv.a(packetbuf.o)
+                0x0400dd1a                _packetbuf_dataptr
+ .text.packetbuf_hdrptr
+                0x0400dd2e       0x11 contiki-jenv.a(packetbuf.o)
+                0x0400dd2e                _packetbuf_hdrptr
+ .text.packetbuf_is_reference
+                0x0400dd3f       0x1a contiki-jenv.a(packetbuf.o)
+                0x0400dd3f                _packetbuf_is_reference
+ .text.packetbuf_reference_ptr
+                0x0400dd59        0x9 contiki-jenv.a(packetbuf.o)
+                0x0400dd59                _packetbuf_reference_ptr
+ .text.packetbuf_datalen
+                0x0400dd62        0x9 contiki-jenv.a(packetbuf.o)
+                0x0400dd62                _packetbuf_datalen
+ .text.packetbuf_hdrlen
+                0x0400dd6b       0x12 contiki-jenv.a(packetbuf.o)
+                0x0400dd6b                _packetbuf_hdrlen
+ .text.packetbuf_totlen
+                0x0400dd7d       0x1d contiki-jenv.a(packetbuf.o)
+                0x0400dd7d                _packetbuf_totlen
+ .text.packetbuf_set_attr
+                0x0400dd9a       0x17 contiki-jenv.a(packetbuf.o)
+                0x0400dd9a                _packetbuf_set_attr
+ .text.packetbuf_attr
+                0x0400ddb1       0x18 contiki-jenv.a(packetbuf.o)
+                0x0400ddb1                _packetbuf_attr
+ .text.packetbuf_addr
+                0x0400ddc9        0xc contiki-jenv.a(packetbuf.o)
+                0x0400ddc9                _packetbuf_addr
+ .text.packetbuf_set_addr
+                0x0400ddd5       0x14 contiki-jenv.a(packetbuf.o)
+                0x0400ddd5                _packetbuf_set_addr
+ .text.packetbuf_attr_clear
+                0x0400dde9       0x3a contiki-jenv.a(packetbuf.o)
+                0x0400dde9                _packetbuf_attr_clear
+ .text.packetbuf_clear
+                0x0400de23       0x26 contiki-jenv.a(packetbuf.o)
+                0x0400de23                _packetbuf_clear
+ .text.packetbuf_reference
+                0x0400de49       0x19 contiki-jenv.a(packetbuf.o)
+                0x0400de49                _packetbuf_reference
+ .text.packetbuf_attr_copyfrom
+                0x0400de62       0x2c contiki-jenv.a(packetbuf.o)
+                0x0400de62                _packetbuf_attr_copyfrom
+ .text.packetbuf_attr_copyto
+                0x0400de8e       0x28 contiki-jenv.a(packetbuf.o)
+                0x0400de8e                _packetbuf_attr_copyto
+ .text.packetbuf_copyto
+                0x0400deb6       0x6e contiki-jenv.a(packetbuf.o)
+                0x0400deb6                _packetbuf_copyto
+ .text.packetbuf_copyto_hdr
+                0x0400df24       0x29 contiki-jenv.a(packetbuf.o)
+                0x0400df24                _packetbuf_copyto_hdr
+ .text.packetbuf_copyfrom
+                0x0400df4d       0x34 contiki-jenv.a(packetbuf.o)
+                0x0400df4d                _packetbuf_copyfrom
+ .text.packetbuf_hdralloc
+                0x0400df81       0x39 contiki-jenv.a(packetbuf.o)
+                0x0400df81                _packetbuf_hdralloc
+ .text.packetbuf_compact
+                0x0400dfba       0x57 contiki-jenv.a(packetbuf.o)
+                0x0400dfba                _packetbuf_compact
+ .text          0x0400e011        0x0 contiki-jenv.a(queuebuf.o)
+ .text.queuebuf_datalen
+                0x0400e011        0xf contiki-jenv.a(queuebuf.o)
+                0x0400e011                _queuebuf_datalen
+ .text.queuebuf_addr
+                0x0400e020        0xb contiki-jenv.a(queuebuf.o)
+                0x0400e020                _queuebuf_addr
+ .text.queuebuf_attr
+                0x0400e02b       0x14 contiki-jenv.a(queuebuf.o)
+                0x0400e02b                _queuebuf_attr
+ .text.queuebuf_debug_print
+                0x0400e03f        0x3 contiki-jenv.a(queuebuf.o)
+                0x0400e03f                _queuebuf_debug_print
+ .text.queuebuf_dataptr
+                0x0400e042       0x49 contiki-jenv.a(queuebuf.o)
+                0x0400e042                _queuebuf_dataptr
+ .text.queuebuf_to_packetbuf
+                0x0400e08b       0x8c contiki-jenv.a(queuebuf.o)
+                0x0400e08b                _queuebuf_to_packetbuf
+ .text.queuebuf_free
+                0x0400e117       0x3a contiki-jenv.a(queuebuf.o)
+                0x0400e117                _queuebuf_free
+ .text.queuebuf_update_attr_from_packetbuf
+                0x0400e151        0xd contiki-jenv.a(queuebuf.o)
+                0x0400e151                _queuebuf_update_attr_from_packetbuf
+ .text.queuebuf_new_from_packetbuf
+                0x0400e15e       0x75 contiki-jenv.a(queuebuf.o)
+                0x0400e15e                _queuebuf_new_from_packetbuf
+ .text.queuebuf_init
+                0x0400e1d3       0x18 contiki-jenv.a(queuebuf.o)
+                0x0400e1d3                _queuebuf_init
+ .text          0x0400e1eb        0x0 contiki-jenv.a(leds-arch.o)
+ .text.leds_arch_get
+                0x0400e1eb        0x9 contiki-jenv.a(leds-arch.o)
+                0x0400e1eb                _leds_arch_get
+ .text.leds_arch_set
+                0x0400e1f4       0x28 contiki-jenv.a(leds-arch.o)
+                0x0400e1f4                _leds_arch_set
+ .text.leds_arch_init
+                0x0400e21c        0x4 contiki-jenv.a(leds-arch.o)
+                0x0400e21c                _leds_arch_init
+ .text          0x0400e220        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ .text.vAHI_ClearSystemEventStatus
+                0x0400e220        0x7 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e220                _vAHI_ClearSystemEventStatus
+ .text.bAHI_WatchdogResetEvent
+                0x0400e227       0x1b ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e227                _bAHI_WatchdogResetEvent
+ .text.u16AHI_WatchdogReadValue
+                0x0400e242       0x10 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e242                _u16AHI_WatchdogReadValue
+ .text.bAHI_GetClkSource
+                0x0400e252       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e252                _bAHI_GetClkSource
+ .text.vTimerCallback
+                0x0400e264        0xb ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ .text.vAHI_ETSIHighPowerModuleEnable
+                0x0400e26f       0x35 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e26f                _vAHI_ETSIHighPowerModuleEnable
+ .text.vAHI_HighPowerModuleEnable
+                0x0400e2a4       0x6a ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e2a4                _vAHI_HighPowerModuleEnable
+ .text.bAHI_RndNumPoll
+                0x0400e30e       0x2a ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e30e                _bAHI_RndNumPoll
+ .text.vSetBit  0x0400e338       0x15 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ .text.vAHI_SetStackOverflow
+                0x0400e34d       0x1c ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e34d                _vAHI_SetStackOverflow
+ .text.vAHI_EnableFastStartUp
+                0x0400e369       0x57 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e369                _vAHI_EnableFastStartUp
+ .text.vAHI_StartRandomNumberGenerator
+                0x0400e3c0       0x47 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e3c0                _vAHI_StartRandomNumberGenerator
+ .text.bPollClkSource
+                0x0400e407       0x25 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ .text.vAHI_SelectClockSource
+                0x0400e42c       0x4e ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e42c                _vAHI_SelectClockSource
+ .text.bAHI_SetClockRate
+                0x0400e47a       0x32 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e47a                _bAHI_SetClockRate
+ .text.Delay    0x0400e4ac       0x66 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ .text.bAHI_Set32KhzClockMode
+                0x0400e512      0x14f ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e512                _bAHI_Set32KhzClockMode
+ .text.vAHI_Sleep
+                0x0400e661       0xf3 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+                0x0400e661                _vAHI_Sleep
+ .text          0x0400e754        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+ .text.vAHI_IntHandlerTimer0
+                0x0400e754       0x26 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+                0x0400e754                _vAHI_IntHandlerTimer0
+ .text.vAHI_Timer0RegisterCallback
+                0x0400e77a       0x18 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+                0x0400e77a                _vAHI_Timer0RegisterCallback
+ .text.vAHI_IntHandlerTimer1
+                0x0400e792       0x26 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+                0x0400e792                _vAHI_IntHandlerTimer1
+ .text.vAHI_Timer1RegisterCallback
+                0x0400e7b8       0x18 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+                0x0400e7b8                _vAHI_Timer1RegisterCallback
+ .text.vAHI_IntHandlerTimer2
+                0x0400e7d0       0x26 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+                0x0400e7d0                _vAHI_IntHandlerTimer2
+ .text.vAHI_Timer2RegisterCallback
+                0x0400e7f6       0x18 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+                0x0400e7f6                _vAHI_Timer2RegisterCallback
+ .text          0x0400e80e        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+ .text.bAHI_BrownOutStatus
+                0x0400e80e       0x29 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+                0x0400e80e                _bAHI_BrownOutStatus
+ .text.bAHI_BrownOutEventResetStatus
+                0x0400e837       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+                0x0400e837                _bAHI_BrownOutEventResetStatus
+ .text.u32AHI_BrownOutPoll
+                0x0400e849       0x16 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+                0x0400e849                _u32AHI_BrownOutPoll
+ .text.vSetBit  0x0400e85f       0x15 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+ .text.vAHI_BrownOutConfigure
+                0x0400e874       0x68 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+                0x0400e874                _vAHI_BrownOutConfigure
+ .text          0x0400e8dc        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+ .text.vAHI_IntHandlerSi
+                0x0400e8dc       0x45 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+                0x0400e8dc                _vAHI_IntHandlerSi
+ .text.vAHI_SiRegisterCallback
+                0x0400e921       0x18 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+                0x0400e921                _vAHI_SiRegisterCallback
+ .text.vAHI_SiMasterDisable
+                0x0400e939       0x11 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+                0x0400e939                _vAHI_SiMasterDisable
+ .text.bAHI_SiMasterSetCmdReg
+                0x0400e94a       0x4f ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+                0x0400e94a                _bAHI_SiMasterSetCmdReg
+ .text.vAHI_SiMasterSetCmdReg
+                0x0400e999        0x2 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+                0x0400e999                _vAHI_SiMasterSetCmdReg
+ .text          0x0400e99b        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+ .text.vAHI_SpiReadConfiguration
+                0x0400e99b       0x34 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+                0x0400e99b                _vAHI_SpiReadConfiguration
+ .text.vAHI_SpiRestoreConfiguration
+                0x0400e9cf       0x3e ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+                0x0400e9cf                _vAHI_SpiRestoreConfiguration
+ .text.vAHI_SpiStartTransfer
+                0x0400ea0d       0x24 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+                0x0400ea0d                _vAHI_SpiStartTransfer
+ .text.vAHI_SpiStartTransfer32
+                0x0400ea31        0x7 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+ .text.vAHI_SpiStartTransfer16
+                0x0400ea38        0x7 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+ .text.vAHI_SpiStartTransfer8
+                0x0400ea3f        0x6 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+ .text.vAHI_SpiContinuous
+                0x0400ea45       0x36 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+                0x0400ea45                _vAHI_SpiContinuous
+ .text          0x0400ea7b        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+ .text.vAHI_AdcDisable
+                0x0400ea7b       0x17 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                0x0400ea7b                _vAHI_AdcDisable
+ .text.vAHI_AdcStartSample
+                0x0400ea92       0x5b ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                0x0400ea92                _vAHI_AdcStartSample
+ .text.vAHI_AdcStartAccumulateSamples
+                0x0400eaed       0x55 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                0x0400eaed                _vAHI_AdcStartAccumulateSamples
+ .text.u16AHI_AdcRead
+                0x0400eb42       0x25 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                0x0400eb42                _u16AHI_AdcRead
+ .text.vAHI_IntHandlerAnalogPeriph
+                0x0400eb67       0x24 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                0x0400eb67                _vAHI_IntHandlerAnalogPeriph
+ .text.vAHI_APRegisterCallback
+                0x0400eb8b        0x9 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                0x0400eb8b                _vAHI_APRegisterCallback
+ .text.vAHI_ApSetBandGap
+                0x0400eb94       0x1a ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+                0x0400eb94                _vAHI_ApSetBandGap
+ .text          0x0400ebae        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_InitPatch.o)
+ .text.u32AHI_Init
+                0x0400ebae       0xa5 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_InitPatch.o)
+                0x0400ebae                _u32AHI_Init
+ .text          0x0400ec53        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+ .text.u8AHI_FifoReadRxLevel
+                0x0400ec53       0x15 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+                0x0400ec53                _u8AHI_FifoReadRxLevel
+ .text.vAHI_IntHandlerAudioFifo
+                0x0400ec68       0x25 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+                0x0400ec68                _vAHI_IntHandlerAudioFifo
+ .text.vAHI_FifoRegisterCallback
+                0x0400ec8d       0x18 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+                0x0400ec8d                _vAHI_FifoRegisterCallback
+ .text.vSetBit  0x0400eca5       0x15 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+ .text.vAHI_FifoEnableInterrupts
+                0x0400ecba       0x3c ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+                0x0400ecba                _vAHI_FifoEnableInterrupts
+ .text.vAHI_FifoSetInterruptLevel
+                0x0400ecf6       0x2a ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+                0x0400ecf6                _vAHI_FifoSetInterruptLevel
+ .text          0x0400ed20        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+ .text.bAHI_FlashInit
+                0x0400ed20       0xd1 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+                0x0400ed20                _bAHI_FlashInit
+ .text          0x0400edf1        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+ .text.vAHI_UartSetRTSCTS
+                0x0400edf1       0x2b ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                0x0400edf1                _vAHI_UartSetRTSCTS
+ .text.vAHI_UartSetClocksPerBit
+                0x0400ee1c       0x32 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                0x0400ee1c                _vAHI_UartSetClocksPerBit
+ .text.u8AHI_UartReadRxFifoLevel
+                0x0400ee4e       0x27 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                0x0400ee4e                _u8AHI_UartReadRxFifoLevel
+ .text.u8AHI_UartReadTxFifoLevel
+                0x0400ee75       0x27 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                0x0400ee75                _u8AHI_UartReadTxFifoLevel
+ .text.vAHI_UartSetRTS
+                0x0400ee9c       0x35 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                0x0400ee9c                _vAHI_UartSetRTS
+ .text.vAHI_UartSetBreak
+                0x0400eed1       0x35 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+                0x0400eed1                _vAHI_UartSetBreak
+ .text          0x0400ef06        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+ .text.vAHI_DioWakeEnable
+                0x0400ef06       0x20 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+                0x0400ef06                _vAHI_DioWakeEnable
+ .text.vAHI_DioSetPullup
+                0x0400ef26       0x20 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+                0x0400ef26                _vAHI_DioSetPullup
+ .text.vAHI_DioWakeEdge
+                0x0400ef46       0x20 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+                0x0400ef46                _vAHI_DioWakeEdge
+ .text.u32AHI_DioWakeStatus
+                0x0400ef66       0x16 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+                0x0400ef66                _u32AHI_DioWakeStatus
+ .text          0x0400ef7c        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.eWBRTTxDonePatch
+                0x0400ef7c       0x24 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.eScanHandleEvtPatched
+                0x0400efa0       0x51 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400efa0                _eScanHandleEvtPatched
+ .text.bTACprocessUnexpectedBeaconPatched
+                0x0400eff1       0x11 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400eff1                _bTACprocessUnexpectedBeaconPatched
+ .text.pvAppApiGetMacHandle
+                0x0400f002       0x16 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f002                _pvAppApiGetMacHandle
+ .text.u32AppApiInit
+                0x0400f018      0x120 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f018                _u32AppApiInit
+ .text.MAC_vHandleTOFMlmeReqRsp
+                0x0400f138       0x59 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f138                _MAC_vHandleTOFMlmeReqRsp
+ .text.vAppApiMlmeRequest
+                0x0400f191       0x44 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f191                _vAppApiMlmeRequest
+ .text.bTACprocessFrameRXcompletePatch
+                0x0400f1d5       0x71 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.vAppApiMcpsRequest
+                0x0400f246       0x20 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f246                _vAppApiMcpsRequest
+ .text.eAppApiPlmeSet
+                0x0400f266       0x20 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f266                _eAppApiPlmeSet
+ .text.eAppApiPlmeGet
+                0x0400f286       0x20 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f286                _eAppApiPlmeGet
+ .text.pvAppApiGetMacAddrLocation
+                0x0400f2a6       0x16 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f2a6                _pvAppApiGetMacAddrLocation
+ .text.vAppApiSaveMacSettings
+                0x0400f2bc       0x19 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f2bc                _vAppApiSaveMacSettings
+ .text.vTAMDEint1FiredTrackingBeaconPatch
+                0x0400f2d5       0xcf ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.MAC_vPibSetMinBe
+                0x0400f3a4       0x48 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f3a4                _MAC_vPibSetMinBe
+ .text.vTSCsetOutgoingInfo_Patched
+                0x0400f3ec       0xca ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f3ec                _vTSCsetOutgoingInfo_Patched
+ .text.vAppApiRegisterTxStartCallback
+                0x0400f4b6        0x9 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f4b6                _vAppApiRegisterTxStartCallback
+ .text.vXCV_IntHandlerPhyPatch
+                0x0400f4bf       0xca ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f4bf                _vXCV_IntHandlerPhyPatch
+ .text.vMlmeCallbackPatch
+                0x0400f589       0x45 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.vBbcIdleBugWorkaround
+                0x0400f5ce       0x22 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.vTAMDEint1FiredTrackingPatch
+                0x0400f5f0       0x95 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f5f0                _vTAMDEint1FiredTrackingPatch
+ .text.vPhySetChannelPatch
+                0x0400f685       0x34 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f685                _vPhySetChannelPatch
+ .text.psTSV_GetHead
+                0x0400f6b9        0xc ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f6b9                _psTSV_GetHead
+ .text.vExpireHead
+                0x0400f6c5       0x37 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.TSV_eExpireProcPatch
+                0x0400f6fc       0x2c ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f6fc                _TSV_eExpireProcPatch
+ .text.vMAC_RestoreSettings
+                0x0400f728       0xd8 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f728                _vMAC_RestoreSettings
+ .text.vAppApiRestoreMacSettings
+                0x0400f800       0x2a ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f800                _vAppApiRestoreMacSettings
+ .text.XCV_vCtorPatch
+                0x0400f82a      0x14b ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x0400f82a                _XCV_vCtorPatch
+ .text.eWBcnRxDonePatch
+                0x0400f975       0x7c ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.vScan2006PostDcfm
+                0x0400f9f1       0x9e ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.eGenTmrExpiryPatch
+                0x0400fa8f       0x68 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .text.vXCV_IntHandlerBbcPatch
+                0x0400faf7      0x173 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ *fill*         0x0400fc6a        0x2 00
+ .text          0x0400fc6c      0x204 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__udivsi3.o)
+ .text          0x0400fe70       0x34 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__divsi3.o)
+ .text          0x0400fea4      0x1b0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__umodsi3.o)
+ .text          0x04010054       0x28 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__modsi3.o)
+ .text          0x0401007c      0x4f1 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+ .text          0x0401056d      0x974 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+                0x04010cf3                ___fixsfsi
+                0x04010843                ___subsf3
+                0x04010d5e                ___unordsf2
+                0x04010b25                ___cmpsf2
+                0x04010c7d                ___extendsfdf2
+                0x04010aaf                ___fpcmp_parts_f
+                0x0401080f                ___addsf3
+                0x04010e9f                ___nesf2
+                0x04010884                ___mulsf3
+                0x04010e5d                ___gtsf2
+                0x04010d97                ___lesf2
+                0x04010bd0                ___floatunsisf
+                0x04010cb1                ___eqsf2
+                0x040109c6                ___divsf3
+                0x04010e1b                ___gesf2
+                0x04010647                ___unpack_f
+                0x04010c31                ___negsf2
+                0x04010c5e                ___make_fp
+                0x04010dd9                ___ltsf2
+                0x0401056d                ___pack_f
+                0x04010b53                ___floatsisf
+ .text          0x04010ee1      0xd99 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+                0x0401137e                ___muldf3
+                0x040119bf                ___truncdfsf2
+                0x04011b08                ___ledf2
+                0x04011a57                ___fixdfsi
+                0x04011335                ___subdf3
+                0x04011c30                ___nedf2
+                0x04011837                ___floatsidf
+                0x040118cf                ___floatunsidf
+                0x04011b9c                ___gedf2
+                0x04011be6                ___gtdf2
+                0x0401105d                ___unpack_d
+                0x0401177b                ___fpcmp_parts_d
+                0x04010ee1                ___pack_d
+                0x04011ac7                ___unorddf2
+                0x0401196e                ___negdf2
+                0x04011a0d                ___eqdf2
+                0x04011801                ___cmpdf2
+                0x0401161d                ___divdf3
+                0x0401199c                ___make_dp
+                0x04011b52                ___ltdf2
+                0x040112f9                ___adddf3
+ *fill*         0x04011c7a        0x2 00
+ .text          0x04011c7c       0xc8 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__mulsi3.o)
+ .text          0x04011d44       0xd3 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_muldi3.o)
+ .text          0x04011e17       0x2f /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_lshrdi3.o)
+                0x04011e17                ___lshrdi3
+ .text          0x04011e46       0x2f /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_ashldi3.o)
+                0x04011e46                ___ashldi3
+ .text          0x04011e75        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+ .text          0x04011e75       0x25 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(isblank.o)
+                0x04011e75                _isblank
+ .text          0x04011e9a       0x28 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcmp.o)
+ .text          0x04011ec2       0x1d /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcpy.o)
+ .text          0x04011edf       0x3d /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memmove.o)
+                0x04011edf                _memmove
+ .text          0x04011f1c       0x18 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memset.o)
+ .text          0x04011f34       0x4b /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o)
+                0x04011f49                _rand
+                0x04011f34                _srand
+ .text          0x04011f7f       0x18 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(strlen.o)
+                0x04011f7f                _strlen
+ .text          0x04011f97        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+                0x04011f97                _text_end = <code 342> (.)
+                0x04011f97                _data_end = <code 342> (.)
+                0x00011298                _data_len = (((_data_end - _data_beg) + 0x3) & 0xfffffffc)
+                0x04011f98                _overlay_start = <code 342> (ALIGN (0x4))
+                0x04011f98                _overlay_end = <code 342> (ALIGN (0x4))
+                0x00000000                _overlays = 0x0
+
+.overlay_location
+                0x04011fa0        0x0
+                0x00000000                _overlay_len = 0x0
+                0x04011fa0                _overlay_lma = ((((ADDR (.overlay_location) + SIZEOF (.overlay_location)) - _enc_offset) ALIGN 0x10) + _enc_offset)
+
+.bss            0x04011fa0     0x3dcc
+                0x04011fa0                _bss_beg = <code 342> (.)
+                0x04011fa0                _bss_start = <code 342> (.)
+ *(.bss*)
+ .bss           0x04011fa0        0x0 obj_jenv/contiki-main.o
+ .bss.fs.5175   0x04011fa0       0x2a obj_jenv/contiki-main.o
+ .bss           0x04011fca        0x0 main.co
+ *fill*         0x04011fca        0x2 00
+ .bss.ext_temp.4501
+                0x04011fcc        0x4 main.co
+ .bss.sht21_temp.4500
+                0x04011fd0        0x4 main.co
+ .bss.sht21_humid.4499
+                0x04011fd4        0x4 main.co
+ .bss.udpc.4498
+                0x04011fd8        0x4 main.co
+ .bss.send_et.4497
+                0x04011fdc       0x10 main.co
+ .bss           0x04011fec        0x0 contiki-jenv.a(process.o)
+ .bss.process_list
+                0x04011fec        0x4 contiki-jenv.a(process.o)
+                0x04011fec                _process_list
+ .bss.process_current
+                0x04011ff0        0x4 contiki-jenv.a(process.o)
+                0x04011ff0                _process_current
+ .bss.snum.2116
+                0x04011ff4        0x1 contiki-jenv.a(process.o)
+ *fill*         0x04011ff5        0x3 00
+ .bss.p.2073    0x04011ff8        0x4 contiki-jenv.a(process.o)
+ .bss.receiver.2072
+                0x04011ffc        0x4 contiki-jenv.a(process.o)
+ .bss.data.2071
+                0x04012000        0x4 contiki-jenv.a(process.o)
+ .bss.ev.2070   0x04012004        0x1 contiki-jenv.a(process.o)
+ .bss.lastevent
+                0x04012005        0x1 contiki-jenv.a(process.o)
+ .bss.nevents   0x04012006        0x1 contiki-jenv.a(process.o)
+ .bss.fevent    0x04012007        0x1 contiki-jenv.a(process.o)
+ .bss.events    0x04012008      0x120 contiki-jenv.a(process.o)
+ .bss.poll_requested
+                0x04012128        0x1 contiki-jenv.a(process.o)
+ .bss           0x04012129        0x0 contiki-jenv.a(procinit.o)
+ .bss           0x04012129        0x0 contiki-jenv.a(autostart.o)
+ .bss           0x04012129        0x0 contiki-jenv.a(etimer.o)
+ *fill*         0x04012129        0x3 00
+ .bss.timerlist
+                0x0401212c        0x4 contiki-jenv.a(etimer.o)
+ .bss.next_expiration
+                0x04012130        0x4 contiki-jenv.a(etimer.o)
+ .bss           0x04012134        0x0 contiki-jenv.a(netstack.o)
+ .bss           0x04012134        0x0 contiki-jenv.a(uip6.o)
+ .bss.uip_ext_bitmap
+                0x04012134        0x1 contiki-jenv.a(uip6.o)
+                0x04012134                _uip_ext_bitmap
+ .bss.uip_ext_len
+                0x04012135        0x1 contiki-jenv.a(uip6.o)
+                0x04012135                _uip_ext_len
+ .bss.uip_ext_opt_offset
+                0x04012136        0x1 contiki-jenv.a(uip6.o)
+                0x04012136                _uip_ext_opt_offset
+ .bss.c         0x04012137        0x1 contiki-jenv.a(uip6.o)
+ .bss.lastport  0x04012138        0x2 contiki-jenv.a(uip6.o)
+ .bss.iss       0x0401213a        0x4 contiki-jenv.a(uip6.o)
+ .bss.opt       0x0401213e        0x1 contiki-jenv.a(uip6.o)
+ *fill*         0x0401213f        0x1 00
+ .bss.tmp16     0x04012140        0x2 contiki-jenv.a(uip6.o)
+ .bss           0x04012142        0x0 contiki-jenv.a(tcpip.o)
+ .bss.i.3713    0x04012142        0x1 contiki-jenv.a(tcpip.o)
+ .bss.i.3587    0x04012143        0x1 contiki-jenv.a(tcpip.o)
+ .bss.i.3688    0x04012144        0x1 contiki-jenv.a(tcpip.o)
+ .bss.i.3544    0x04012145        0x1 contiki-jenv.a(tcpip.o)
+ .bss.i.3531    0x04012146        0x1 contiki-jenv.a(tcpip.o)
+ .bss.periodic  0x04012147       0x10 contiki-jenv.a(tcpip.o)
+ .bss.s         0x04012157       0x10 contiki-jenv.a(tcpip.o)
+ *fill*         0x04012167        0x1 00
+ .bss.outputfunc
+                0x04012168        0x4 contiki-jenv.a(tcpip.o)
+ .bss           0x0401216c        0x0 contiki-jenv.a(uip-udp-packet.)
+ .bss           0x0401216c        0x0 contiki-jenv.a(uip-split.o)
+ .bss           0x0401216c        0x0 contiki-jenv.a(uip-icmp6.o)
+ .bss.tmp_ipaddr
+                0x0401216c       0x10 contiki-jenv.a(uip-icmp6.o)
+ .bss           0x0401217c        0x0 contiki-jenv.a(uip-nd6.o)
+ .bss.nd6_opt_offset
+                0x0401217c        0x1 contiki-jenv.a(uip-nd6.o)
+ *fill*         0x0401217d        0x3 00
+ .bss.nd6_opt_llao
+                0x04012180        0x4 contiki-jenv.a(uip-nd6.o)
+ .bss.nd6_opt_prefix_info
+                0x04012184        0x4 contiki-jenv.a(uip-nd6.o)
+ .bss.ipaddr    0x04012188       0x10 contiki-jenv.a(uip-nd6.o)
+ .bss.prefix    0x04012198        0x4 contiki-jenv.a(uip-nd6.o)
+ .bss.nbr       0x0401219c        0x4 contiki-jenv.a(uip-nd6.o)
+ .bss.defrt     0x040121a0        0x4 contiki-jenv.a(uip-nd6.o)
+ .bss.addr      0x040121a4        0x4 contiki-jenv.a(uip-nd6.o)
+ .bss           0x040121a8        0x0 contiki-jenv.a(uip-packetqueue)
+ .bss.packets_memb_memb_count
+                0x040121a8        0x2 contiki-jenv.a(uip-packetqueue)
+ .bss.packets_memb_memb_mem
+                0x040121aa      0xa38 contiki-jenv.a(uip-packetqueue)
+ .bss           0x04012be2        0x0 contiki-jenv.a(sicslowpan.o)
+ *fill*         0x04012be2        0x2 00
+ .bss.rime_ptr  0x04012be4        0x4 contiki-jenv.a(sicslowpan.o)
+ .bss.rime_hdr_len
+                0x04012be8        0x1 contiki-jenv.a(sicslowpan.o)
+ .bss.rime_payload_len
+                0x04012be9        0x1 contiki-jenv.a(sicslowpan.o)
+ .bss.uncomp_hdr_len
+                0x04012bea        0x1 contiki-jenv.a(sicslowpan.o)
+ *fill*         0x04012beb        0x1 00
+ .bss.sicslowpan_len
+                0x04012bec        0x2 contiki-jenv.a(sicslowpan.o)
+ .bss.sicslowpan_aligned_buf
+                0x04012bee      0x500 contiki-jenv.a(sicslowpan.o)
+ .bss.processed_ip_len
+                0x040130ee        0x2 contiki-jenv.a(sicslowpan.o)
+ .bss.my_tag    0x040130f0        0x2 contiki-jenv.a(sicslowpan.o)
+ .bss.reass_tag
+                0x040130f2        0x2 contiki-jenv.a(sicslowpan.o)
+ .bss.reass_timer
+                0x040130f4        0x8 contiki-jenv.a(sicslowpan.o)
+ .bss.addr_contexts
+                0x040130fc        0xa contiki-jenv.a(sicslowpan.o)
+ *fill*         0x04013106        0x2 00
+ .bss.context   0x04013108        0x4 contiki-jenv.a(sicslowpan.o)
+ .bss.hc06_ptr  0x0401310c        0x4 contiki-jenv.a(sicslowpan.o)
+ .bss           0x04013110        0x0 contiki-jenv.a(uip-ds6.o)
+ .bss.rscount   0x04013110        0x1 contiki-jenv.a(uip-ds6.o)
+ .bss.loc_fipaddr
+                0x04013111       0x10 contiki-jenv.a(uip-ds6.o)
+ *fill*         0x04013121        0x3 00
+ .bss.locipaddr
+                0x04013124        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss.locaddr   0x04013128        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss.locmaddr  0x0401312c        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss.locaaddr  0x04013130        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss.locprefix
+                0x04013134        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss.locnbr    0x04013138        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss.locdefrt  0x0401313c        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss.locroute  0x04013140        0x4 contiki-jenv.a(uip-ds6.o)
+ .bss           0x04013144        0x0 contiki-jenv.a(nullradio.o)
+ .bss           0x04013144        0x0 contiki-jenv.a(ieee802.o)
+ *fill*         0x04013144        0x4 00
+ .bss.current_timestamp
+                0x04013148        0x8 contiki-jenv.a(ieee802.o)
+                0x04013148                _current_timestamp
+ .bss.ieee_started
+                0x04013150        0x1 contiki-jenv.a(ieee802.o)
+ *fill*         0x04013151        0x3 00
+ .bss.ieee_mcpshandler.5445
+                0x04013154        0x4 contiki-jenv.a(ieee802.o)
+ .bss.ieee_mlmehandler.5443
+                0x04013158        0x4 contiki-jenv.a(ieee802.o)
+ .bss.lqicb     0x0401315c        0x4 contiki-jenv.a(ieee802.o)
+ .bss.mac_cb    0x04013160        0x4 contiki-jenv.a(ieee802.o)
+ .bss.mac_cb_ptr
+                0x04013164        0x4 contiki-jenv.a(ieee802.o)
+ .bss.ieee_serial_open
+                0x04013168        0x1 contiki-jenv.a(ieee802.o)
+ *fill*         0x04013169        0x3 00
+ .bss.beaconrxcb
+                0x0401316c        0x4 contiki-jenv.a(ieee802.o)
+ .bss.associated.5283
+                0x04013170        0x1 contiki-jenv.a(ieee802.o)
+ *fill*         0x04013171        0x3 00
+ .bss.data.5282
+                0x04013174        0x4 contiki-jenv.a(ieee802.o)
+ .bss.rxbuf     0x04013178      0xc30 contiki-jenv.a(ieee802.o)
+ .bss.rxq       0x04013da8       0x11 contiki-jenv.a(ieee802.o)
+ .bss.ieee_mlme
+                0x04013db9        0x2 contiki-jenv.a(ieee802.o)
+ .bss.ieee_mcps
+                0x04013dbb        0x2 contiki-jenv.a(ieee802.o)
+ .bss.ieee_serial_pt
+                0x04013dbd        0x2 contiki-jenv.a(ieee802.o)
+ .bss           0x04013dbf        0x0 contiki-jenv.a(pff.o)
+ *fill*         0x04013dbf        0x1 00
+ .bss.FatFs     0x04013dc0        0x4 contiki-jenv.a(pff.o)
+ .bss           0x04013dc4        0x0 contiki-jenv.a(sd.o)
+ .bss.r.2912    0x04013dc4        0x5 contiki-jenv.a(sd.o)
+ *fill*         0x04013dc9        0x3 00
+ .bss.write_state
+                0x04013dcc        0x4 contiki-jenv.a(sd.o)
+ .bss.d.3028    0x04013dd0        0x2 contiki-jenv.a(sd.o)
+ .bss.rw_block_size
+                0x04013dd2        0x2 contiki-jenv.a(sd.o)
+ .bss.block_size
+                0x04013dd4        0x2 contiki-jenv.a(sd.o)
+ .bss           0x04013dd6        0x0 contiki-jenv.a(leds.o)
+ .bss.leds      0x04013dd6        0x1 contiki-jenv.a(leds.o)
+ .bss.invert    0x04013dd7        0x1 contiki-jenv.a(leds.o)
+ .bss           0x04013dd8        0x0 contiki-jenv.a(sensors.o)
+ .bss.events.1818
+                0x04013dd8        0x4 contiki-jenv.a(sensors.o)
+ .bss.i.1817    0x04013ddc        0x4 contiki-jenv.a(sensors.o)
+ .bss.num_sensors
+                0x04013de0        0x1 contiki-jenv.a(sensors.o)
+ .bss           0x04013de1        0x0 contiki-jenv.a(bootloader.o)
+ .bss.s.4680    0x04013de1       0x11 contiki-jenv.a(bootloader.o)
+ .bss           0x04013df2        0x0 contiki-jenv.a(l3g4200d-sensor)
+ .bss           0x04013df2        0x0 contiki-jenv.a(lsm303-sensor.o)
+ .bss.mag_active
+                0x04013df2        0x1 contiki-jenv.a(lsm303-sensor.o)
+ .bss.acc_active
+                0x04013df3        0x1 contiki-jenv.a(lsm303-sensor.o)
+ .bss           0x04013df4        0x0 contiki-jenv.a(vcnl4000-sensor)
+ .bss.active    0x04013df4        0x1 contiki-jenv.a(vcnl4000-sensor)
+ *fill*         0x04013df5        0x1 00
+ .bss.ambient_light
+                0x04013df6        0x2 contiki-jenv.a(vcnl4000-sensor)
+ .bss.proximity
+                0x04013df8        0x2 contiki-jenv.a(vcnl4000-sensor)
+ .bss.vcnlpt    0x04013dfa        0x2 contiki-jenv.a(vcnl4000-sensor)
+ .bss           0x04013dfc        0x0 contiki-jenv.a(SHT21-sensor.o)
+ .bss.active    0x04013dfc        0x1 contiki-jenv.a(SHT21-sensor.o)
+ .bss.timer_period.3204
+                0x04013dfd       0x20 contiki-jenv.a(SHT21-sensor.o)
+ .bss.timer.3203
+                0x04013e1d       0x20 contiki-jenv.a(SHT21-sensor.o)
+ *fill*         0x04013e3d        0x1 00
+ .bss.humidity_value
+                0x04013e3e        0x2 contiki-jenv.a(SHT21-sensor.o)
+ .bss.temperature_value
+                0x04013e40        0x2 contiki-jenv.a(SHT21-sensor.o)
+ .bss.mplpt     0x04013e42        0x2 contiki-jenv.a(SHT21-sensor.o)
+ .bss           0x04013e44        0x0 contiki-jenv.a(button-sensor.o)
+ .bss.val       0x04013e44        0x4 contiki-jenv.a(button-sensor.o)
+ .bss.irq_val   0x04013e48        0x4 contiki-jenv.a(button-sensor.o)
+ .bss.et.3018   0x04013e4c       0x10 contiki-jenv.a(button-sensor.o)
+ .bss           0x04013e5c        0x0 contiki-jenv.a(mpl115a-sensor.)
+ .bss.active    0x04013e5c        0x1 contiki-jenv.a(mpl115a-sensor.)
+ .bss.timer.3201
+                0x04013e5d       0x20 contiki-jenv.a(mpl115a-sensor.)
+ .bss.coeff     0x04013e7d        0xc contiki-jenv.a(mpl115a-sensor.)
+ .bss.p         0x04013e89        0x4 contiki-jenv.a(mpl115a-sensor.)
+ *fill*         0x04013e8d        0x1 00
+ .bss.temperature
+                0x04013e8e        0x2 contiki-jenv.a(mpl115a-sensor.)
+ .bss.mplpt     0x04013e90        0x2 contiki-jenv.a(mpl115a-sensor.)
+ .bss           0x04013e92        0x0 contiki-jenv.a(ext_temp_sensor)
+ *fill*         0x04013e92        0x2 00
+ .bss._value    0x04013e94        0x4 contiki-jenv.a(ext_temp_sensor)
+ .bss           0x04013e98        0x0 contiki-jenv.a(clock.o)
+ .bss.ticking   0x04013e98        0x1 contiki-jenv.a(clock.o)
+ *fill*         0x04013e99        0x7 00
+ .bss.time.2669
+                0x04013ea0        0x8 contiki-jenv.a(clock.o)
+ .bss           0x04013ea8        0x0 contiki-jenv.a(uart0.o)
+ .bss.txbuf     0x04013ea8        0x7 contiki-jenv.a(uart0.o)
+ .bss.txbuf_data
+                0x04013eaf       0x40 contiki-jenv.a(uart0.o)
+ .bss.transmitting
+                0x04013eef        0x1 contiki-jenv.a(uart0.o)
+ .bss.uart0_input
+                0x04013ef0        0x4 contiki-jenv.a(uart0.o)
+ .bss           0x04013ef4        0x0 contiki-jenv.a(jts.o)
+ .bss.global_offset
+                0x04013ef4        0x9 contiki-jenv.a(jts.o)
+ .bss           0x04013efd        0x0 contiki-jenv.a(i2c.o)
+ .bss.i2c_status
+                0x04013efd        0x1 contiki-jenv.a(i2c.o)
+ *fill*         0x04013efe        0x2 00
+ .bss.i.3361    0x04013f00        0x4 contiki-jenv.a(i2c.o)
+ .bss.transactions_list
+                0x04013f04        0x4 contiki-jenv.a(i2c.o)
+ .bss.pending   0x04013f08        0x1 contiki-jenv.a(i2c.o)
+ .bss.t.3442    0x04013f09       0x1b contiki-jenv.a(i2c.o)
+ .bss.transaction
+                0x04013f24        0x4 contiki-jenv.a(i2c.o)
+ .bss           0x04013f28        0x0 contiki-jenv.a(irq.o)
+ .bss.irqs_list
+                0x04013f28        0x4 contiki-jenv.a(irq.o)
+ .bss.adc_enabled
+                0x04013f2c        0x1 contiki-jenv.a(irq.o)
+ *fill*         0x04013f2d        0x3 00
+ .bss.current_channel
+                0x04013f30        0x4 contiki-jenv.a(irq.o)
+ .bss.item.2975
+                0x04013f34        0x4 contiki-jenv.a(irq.o)
+ .bss           0x04013f38        0x0 contiki-jenv.a(sprintf.o)
+ .bss.bf        0x04013f38        0x4 contiki-jenv.a(sprintf.o)
+ .bss.buf       0x04013f3c        0xe contiki-jenv.a(sprintf.o)
+ .bss.uc        0x04013f4a        0x1 contiki-jenv.a(sprintf.o)
+ .bss.zs        0x04013f4b        0x1 contiki-jenv.a(sprintf.o)
+ .bss.num       0x04013f4c        0x4 contiki-jenv.a(sprintf.o)
+ .bss           0x04013f50        0x0 contiki-jenv.a(watchdog.o)
+ .bss           0x04013f50        0x0 contiki-jenv.a(init.o)
+ .bss.buf.5039  0x04013f50      0x200 contiki-jenv.a(init.o)
+ .bss.j.5034    0x04014150        0x4 contiki-jenv.a(init.o)
+ .bss.i.5033    0x04014154        0x4 contiki-jenv.a(init.o)
+ .bss.buf.5032  0x04014158      0x400 contiki-jenv.a(init.o)
+ .bss.j.5027    0x04014558        0x4 contiki-jenv.a(init.o)
+ .bss.i.5026    0x0401455c        0x4 contiki-jenv.a(init.o)
+ .bss.buf.5025  0x04014560      0x400 contiki-jenv.a(init.o)
+ .bss.arr.5021  0x04014960       0x10 contiki-jenv.a(init.o)
+ .bss           0x04014970        0x0 contiki-jenv.a(rimeaddr.o)
+ .bss           0x04014970        0x0 contiki-jenv.a(nullrdc.o)
+ .bss           0x04014970        0x0 contiki-jenv.a(mac.o)
+ .bss           0x04014970        0x0 contiki-jenv.a(framer-nullmac.)
+ .bss           0x04014970        0x0 contiki-jenv.a(memb.o)
+ .bss           0x04014970        0x0 contiki-jenv.a(timer.o)
+ .bss           0x04014970        0x0 contiki-jenv.a(list.o)
+ .bss           0x04014970        0x0 contiki-jenv.a(ctimer.o)
+ .bss.ctimer_list_list
+                0x04014970        0x4 contiki-jenv.a(ctimer.o)
+ .bss.initialized
+                0x04014974        0x1 contiki-jenv.a(ctimer.o)
+ .bss           0x04014975        0x0 contiki-jenv.a(stimer.o)
+ .bss           0x04014975        0x0 contiki-jenv.a(random.o)
+ .bss           0x04014975        0x0 contiki-jenv.a(ringbuf.o)
+ .bss           0x04014975        0x0 contiki-jenv.a(packetbuf.o)
+ *fill*         0x04014975        0x1 00
+ .bss.buflen    0x04014976        0x2 contiki-jenv.a(packetbuf.o)
+ .bss.bufptr    0x04014978        0x2 contiki-jenv.a(packetbuf.o)
+ .bss.hdrptr    0x0401497a        0x1 contiki-jenv.a(packetbuf.o)
+ *fill*         0x0401497b        0x1 00
+ .bss.packetbufptr
+                0x0401497c        0x4 contiki-jenv.a(packetbuf.o)
+ .bss.packetbuf_aligned
+                0x04014980       0xb2 contiki-jenv.a(packetbuf.o)
+ .bss           0x04014a32        0x0 contiki-jenv.a(queuebuf.o)
+ .bss.bufmem_memb_count
+                0x04014a32        0xa contiki-jenv.a(queuebuf.o)
+ .bss.bufmem_memb_mem
+                0x04014a3c      0x834 contiki-jenv.a(queuebuf.o)
+ .bss.refbufmem_memb_count
+                0x04015270        0x2 contiki-jenv.a(queuebuf.o)
+ .bss.refbufmem_memb_mem
+                0x04015272       0x6e contiki-jenv.a(queuebuf.o)
+ .bss           0x040152e0        0x0 contiki-jenv.a(leds-arch.o)
+ .bss.leds      0x040152e0        0x1 contiki-jenv.a(leds-arch.o)
+ .bss           0x040152e1        0x1 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ *fill*         0x040152e2        0x2 00
+ .bss           0x040152e4        0xc ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+ .bss           0x040152f0        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+ .bss           0x040152f0        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+ .bss           0x040152f4        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+ .bss           0x040152f4        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+ .bss           0x040152f8        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_InitPatch.o)
+ .bss           0x040152f8        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+                0x040152f8                _prFifoAppCallback
+ .bss           0x040152fc        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+ .bss           0x040152fc        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+ .bss           0x040152fc        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+ .bss           0x040152fc        0x0 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .bss.aprTofVectorRamTable
+                0x040152fc       0x24 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x040152fc                _aprTofVectorRamTable
+ .bss.b2003SecurityCompatibility
+                0x04015320        0x1 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x04015320                _b2003SecurityCompatibility
+ *fill*         0x04015321        0x3 00
+ .bss.prvUserTxStartedCallback
+                0x04015324        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x04015324                _prvUserTxStartedCallback
+ .bss.u32StoreBbcPttt
+                0x04015328        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__udivsi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__divsi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__umodsi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__modsi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(__mulsi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_muldi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_lshrdi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_ashldi3.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(isblank.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcmp.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcpy.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memmove.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memset.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(strlen.o)
+ .bss           0x0401532c        0x0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+ *(.scommon*)
+ COMMON         0x0401532c        0xc obj_jenv/contiki-main.o
+                0x0401532c                _sensors_flags
+                0x04015337                _ieee_event
+ COMMON         0x04015338      0x6b0 contiki-jenv.a(uip6.o)
+                0x04015338                _uip_aligned_buf
+                0x04015838                _uip_udp_conns
+                0x0401595c                _uip_udp_conn
+                0x04015960                _uip_conn
+                0x04015964                _uip_len
+                0x04015966                _uip_lladdr
+                0x0401596e                _uip_slen
+                0x04015970                _uip_next_hdr
+                0x04015974                _uip_listenports
+                0x04015978                _uip_flags
+                0x0401597c                _uip_sappdata
+                0x04015980                _uip_conns
+                0x040159e0                _uip_appdata
+                0x040159e4                _uip_acc32
+ COMMON         0x040159e8        0x1 contiki-jenv.a(tcpip.o)
+                0x040159e8                _tcpip_event
+ *fill*         0x040159e9        0x3 00
+ COMMON         0x040159ec        0xc contiki-jenv.a(sicslowpan.o)
+                0x040159ec                _sicslowpan_mac
+                0x040159f0                _frag_sender
+ COMMON         0x040159f8      0x2fa contiki-jenv.a(uip-ds6.o)
+                0x040159f8                _uip_ds6_routing_table
+                0x04015ab8                _uip_ds6_prefix_list
+                0x04015b09                _uip_ds6_timer_rs
+                0x04015b19                _uip_ds6_nbr_cache
+                0x04015be9                _uip_ds6_if
+                0x04015cae                _uip_ds6_timer_periodic
+                0x04015cbe                _uip_ds6_defrt_list
+ COMMON         0x04015cf2        0x1 contiki-jenv.a(sensors.o)
+                0x04015cf2                _sensors_event
+ COMMON         0x04015cf3        0x8 contiki-jenv.a(rimeaddr.o)
+                0x04015cf3                _rimeaddr_node_addr
+ COMMON         0x04015cfb       0x50 contiki-jenv.a(packetbuf.o)
+                0x04015cfb                _packetbuf_attrs
+                0x04015d2b                _packetbuf_addrs
+ *fill*         0x04015d4b        0x1 00
+ COMMON         0x04015d4c        0x4 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+ COMMON         0x04015d50       0x14 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+                0x04015d50                _sBbcIdleBugTimer
+                0x04015d60                _prHigherMlmeCallback
+ COMMON         0x04015d64        0x8 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+                0x04015d64                _ba_redzone_size
+                0x04015d68                _ba_abi_level
+                0x04015d6c                _bss_end = <code 342> (.)
+
+.heap           0x04015d6c      0x800
+                0x04015d6c                _heap_start = <code 342> (.)
+                0x0401656c                . = (. + _minimum_heap_size)
+ *fill*         0x04015d6c      0x800 00
+
+.stack          0x0401e000     0x2000
+                0x0401e000                _heap_end = <code 342> (.)
+                0x0401e000                _stack_low_water_mark = <code 342> (.)
+                0x04020000                . = (. + _stack_size)
+ *fill*         0x0401e000     0x2000 00
+
+.stab           0x00000000     0x5e08
+ *(.stab)
+ .stab          0x00000000      0x858 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+ .stab          0x00000858     0x1e24 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+                               0x1e84 (size before relaxing)
+ .stab          0x0000267c     0x1f20 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+                               0x1fa4 (size before relaxing)
+ .stab          0x0000459c      0x264 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_muldi3.o)
+                                0x3e4 (size before relaxing)
+ .stab          0x00004800      0x234 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_lshrdi3.o)
+                                0x3b4 (size before relaxing)
+ .stab          0x00004a34      0x234 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_ashldi3.o)
+                                0x3b4 (size before relaxing)
+ .stab          0x00004c68      0x150 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+                                0x2d0 (size before relaxing)
+ .stab          0x00004db8      0x144 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(isblank.o)
+                                0x150 (size before relaxing)
+ .stab          0x00004efc      0x360 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcmp.o)
+                                0x36c (size before relaxing)
+ .stab          0x0000525c      0x1b0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcpy.o)
+                                0x1ec (size before relaxing)
+ .stab          0x0000540c      0x258 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memmove.o)
+                                0x3b4 (size before relaxing)
+ .stab          0x00005664      0x1e0 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memset.o)
+                                0x33c (size before relaxing)
+ .stab          0x00005844      0x2ac /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o)
+                                0x3e4 (size before relaxing)
+ .stab          0x00005af0      0x198 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(strlen.o)
+                                0x2f4 (size before relaxing)
+ .stab          0x00005c88      0x180 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+                                0x2f4 (size before relaxing)
+ *(.stab.*)
+
+.comment        0x00000000      0x58e
+ *(.comment*)
+ .comment       0x00000000       0x12 obj_jenv/contiki-main.o
+ .comment       0x00000012       0x12 main.co
+ .comment       0x00000024       0x12 contiki-jenv.a(process.o)
+ .comment       0x00000036       0x12 contiki-jenv.a(procinit.o)
+ .comment       0x00000048       0x12 contiki-jenv.a(autostart.o)
+ .comment       0x0000005a       0x12 contiki-jenv.a(etimer.o)
+ .comment       0x0000006c       0x12 contiki-jenv.a(netstack.o)
+ .comment       0x0000007e       0x12 contiki-jenv.a(uip6.o)
+ .comment       0x00000090       0x12 contiki-jenv.a(tcpip.o)
+ .comment       0x000000a2       0x12 contiki-jenv.a(uip-udp-packet.)
+ .comment       0x000000b4       0x12 contiki-jenv.a(uip-split.o)
+ .comment       0x000000c6       0x12 contiki-jenv.a(uip-icmp6.o)
+ .comment       0x000000d8       0x12 contiki-jenv.a(uip-nd6.o)
+ .comment       0x000000ea       0x12 contiki-jenv.a(uip-packetqueue)
+ .comment       0x000000fc       0x12 contiki-jenv.a(sicslowpan.o)
+ .comment       0x0000010e       0x12 contiki-jenv.a(uip-ds6.o)
+ .comment       0x00000120       0x12 contiki-jenv.a(nullradio.o)
+ .comment       0x00000132       0x12 contiki-jenv.a(ieee802.o)
+ .comment       0x00000144       0x12 contiki-jenv.a(pff.o)
+ .comment       0x00000156       0x12 contiki-jenv.a(sd.o)
+ .comment       0x00000168       0x12 contiki-jenv.a(leds.o)
+ .comment       0x0000017a       0x12 contiki-jenv.a(sensors.o)
+ .comment       0x0000018c       0x12 contiki-jenv.a(bootloader.o)
+ .comment       0x0000019e       0x12 contiki-jenv.a(l3g4200d-sensor)
+ .comment       0x000001b0       0x12 contiki-jenv.a(lsm303-sensor.o)
+ .comment       0x000001c2       0x12 contiki-jenv.a(vcnl4000-sensor)
+ .comment       0x000001d4       0x12 contiki-jenv.a(SHT21-sensor.o)
+ .comment       0x000001e6       0x12 contiki-jenv.a(button-sensor.o)
+ .comment       0x000001f8       0x12 contiki-jenv.a(mpl115a-sensor.)
+ .comment       0x0000020a       0x12 contiki-jenv.a(ext_temp_sensor)
+ .comment       0x0000021c       0x12 contiki-jenv.a(clock.o)
+ .comment       0x0000022e       0x12 contiki-jenv.a(uart0.o)
+ .comment       0x00000240       0x12 contiki-jenv.a(jts.o)
+ .comment       0x00000252       0x12 contiki-jenv.a(i2c.o)
+ .comment       0x00000264       0x12 contiki-jenv.a(irq.o)
+ .comment       0x00000276       0x12 contiki-jenv.a(sprintf.o)
+ .comment       0x00000288       0x12 contiki-jenv.a(watchdog.o)
+ .comment       0x0000029a       0x12 contiki-jenv.a(init.o)
+ .comment       0x000002ac       0x12 contiki-jenv.a(rimeaddr.o)
+ .comment       0x000002be       0x12 contiki-jenv.a(nullrdc.o)
+ .comment       0x000002d0       0x12 contiki-jenv.a(mac.o)
+ .comment       0x000002e2       0x12 contiki-jenv.a(framer-nullmac.)
+ .comment       0x000002f4       0x12 contiki-jenv.a(memb.o)
+ .comment       0x00000306       0x12 contiki-jenv.a(timer.o)
+ .comment       0x00000318       0x12 contiki-jenv.a(list.o)
+ .comment       0x0000032a       0x12 contiki-jenv.a(ctimer.o)
+ .comment       0x0000033c       0x12 contiki-jenv.a(stimer.o)
+ .comment       0x0000034e       0x12 contiki-jenv.a(random.o)
+ .comment       0x00000360       0x12 contiki-jenv.a(ringbuf.o)
+ .comment       0x00000372       0x12 contiki-jenv.a(packetbuf.o)
+ .comment       0x00000384       0x12 contiki-jenv.a(queuebuf.o)
+ .comment       0x00000396       0x12 contiki-jenv.a(leds-arch.o)
+ .comment       0x000003a8       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SystemPatch_JN5148.o)
+ .comment       0x000003ba       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_TimerIntPatch.o)
+ .comment       0x000003cc       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_BrownOutPatch.o)
+ .comment       0x000003de       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SiPatch48.o)
+ .comment       0x000003f0       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_SpiPatch.o)
+ .comment       0x00000402       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_AnaloguePatch.o)
+ .comment       0x00000414       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_InitPatch.o)
+ .comment       0x00000426       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FifoPatch.o)
+ .comment       0x00000438       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_FlashPatch_JN514x.o)
+ .comment       0x0000044a       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_UartPatch.o)
+ .comment       0x0000045c       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libHwPatch.a(AHI_DioPatch.o)
+ .comment       0x0000046e       0x12 ../../contiki-jn51xx/cpu/jennic/jn5148/libMacPatch.a(JN514x_MacPatch.o)
+ .comment       0x00000480       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)
+ .comment       0x00000492       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(fp-bit.o)
+ .comment       0x000004a4       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(dp-bit.o)
+ .comment       0x000004b6       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_muldi3.o)
+ .comment       0x000004c8       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_lshrdi3.o)
+ .comment       0x000004da       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_ashldi3.o)
+ .comment       0x000004ec       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_clz.o)
+ .comment       0x000004fe       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(isblank.o)
+ .comment       0x00000510       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcmp.o)
+ .comment       0x00000522       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memcpy.o)
+ .comment       0x00000534       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memmove.o)
+ .comment       0x00000546       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(memset.o)
+ .comment       0x00000558       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(rand.o)
+ .comment       0x0000056a       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(strlen.o)
+ .comment       0x0000057c       0x12 /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/../../../../ba-elf/lib/ba2/libc.a(impure.o)
+                0x00003dcc                _bss_len = (((_bss_end - _bss_beg) + 0x3) & 0xfffffffc)
+                0x02001000                _apvReg = 0x2001000
+                0x02001000                _apvSysReg = 0x2001000
+                0x02001c00                _apvAesReg = 0x2001c00
+                0x02001f00                _apvAnaReg = 0x2001f00
+                0x02002000                _apvGpioReg = 0x2002000
+                0x02003000                _apvUart0Reg = 0x2003000
+                0x02004000                _apvUart1Reg = 0x2004000
+                0x02005000                _apvTimer0Reg = 0x2005000
+                0x02006000                _apvTimer1Reg = 0x2006000
+                0x0200a000                _apvTimer2Reg = 0x200a000
+                0x02007000                _apvSiReg = 0x2007000
+                0x02008000                _apvSpiReg = 0x2008000
+                0x02009000                _apvSpiIpReg = 0x2009000
+                0x02009800                _apvSpiIpMem = 0x2009800
+                0x0200b000                _apvDaiReg = 0x200b000
+                0x0200c000                _apvSfifoReg = 0x200c000
+OUTPUT(main.jenv elf32-ba)
+
+.stabstr        0x00000000     0x7bdb
+ .stabstr       0x00000000     0x7bdb /usr/ba2-elf/bin/../lib/gcc/ba-elf/4.1.2/ba2/libgcc.a(_udivdi3.o)

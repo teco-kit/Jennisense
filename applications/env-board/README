@@ -1,0 +1,16 @@
+Usage
+-----
+
+Samples all IMU sensors with the given period and broadcasts them over IPv6 as a concom packet.
+Use in conjunction with recv-sensors application.
+
+Building
+--------
+
+Assuming the jn5148 toolchain is installed at /usr/ba2-elf/bin:
+
+ $ export PATH=$PATH:/usr/ba2-elf/bin
+ $ make TARGET=jnode savetarget       # needs to be done only once
+ $ make main.jnode.hex
+ $ jenprog -t /dev/ttyACM0 main.jnode.hex
+

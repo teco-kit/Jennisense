@@ -46,6 +46,9 @@
 #include "dev/pressure-sensor.h"
 #include "dev/lightlevel-sensor.h"
 #include "dev/proximity-sensor.h"
+#include "dev/ext_temp_sensor.h"
+#include "dev/SHT21-sensor.h"
+#include "dev/inttemp-sensor.h"
 #include <stdio.h>
 
 /*---------------------------------------------------------------------------*/
@@ -53,22 +56,26 @@ PROCESS(imu_serial, "imu-serial process");
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(imu_serial, ev, data)
 {
-  static struct sensors_sensor *s;
+  static struct ctimer timer;
+  static struct sensors_sensor *sht21_humid, *sht21_temp, *s;
   PROCESS_BEGIN();
 
   /* make sure that the sensor process is running! */
   process_start(&sensors_process, NULL);
   PROCESS_PAUSE();
 
-  /* activate all sensors */
   for (s=sensors_first(); s; s=sensors_next(s)) {
+    //s = &ext_temp_sensor;
+    //s = &sht21_temperature_sensor;
     if (s->configure(SENSORS_ACTIVE,1))
       printf("%s activated.\n", s->type);
-    else
-      while (1) {
-        PROCESS_YIELD();
-        printf("%s not activated.\n", s->type);
-      }
+    
+     else{
+         int i=0;
+         for(i=0;i<10;i++)
+            printf("%s not activated.\n", s->type);
+            //PROCESS_YIELD();
+     }
   }
 
   /* sample at maximum frequency */
@@ -76,9 +83,13 @@ PROCESS_THREAD(imu_serial, ev, data)
   {
     int a,b,c;
 
+    //ctimer_set(&timer, CLOCK_SECOND, imu_serial, NULL);
+    //ctimer_restart(&timer); //wait for device to finish measureing
+    //PT_YIELD(&imu_serial); //wait till timer expires
+
     PROCESS_YIELD_UNTIL(ev==sensors_event);
     s = (struct sensors_sensor*) data;
-
+    //printf("event!");
     if (s==&acc_sensor) {
       a = s->value(ACC_VALUE_X);
       b = s->value(ACC_VALUE_Y);
@@ -96,17 +107,33 @@ PROCESS_THREAD(imu_serial, ev, data)
       printf("gyr:%d %d %d\n",a,b,c);
     } else if (s==&temperature_sensor) {
       a = s->value(TEMPERATURE_VALUE_MILLICELSIUS);
-      printf("tem:%d\n",a);
+      printf("mcp_temp:%d\n",a);
     } else if (s==&pressure_sensor) {
       a = s->value(PRESSURE_VALUE_PASCAL);
-      printf("pre:%d\n",a);
+      printf("mcp_pres:%d\n",a);
     } else if (s==&lightlevel_sensor) {
       a = s->value(LIGHT_VALUE_VISIBLE_CENTILUX);
-      printf("lig:%d\n",a);
+      printf("light::%d\n",a);
     } else if (s==&proximity_sensor) {
       a = s->value(PROXIMITY_VALUE);
-      printf("pro:%d\n",a);
+      printf("prox:%d\n",a);
     }
+     else if (s==&sht21_humidity_sensor) {
+      a = s->value(SHT21_HUMIDITY_VALUE_PERCENT);
+      printf("sht_hum: %d\n",a);
+    }else if (s==&sht21_temperature_sensor) {
+      a = s->value(SHT21_TEMPERATURE_VALUE_MILLICELSIUS);
+      printf("sht_temp: %d\n",a);
+    }
+     // analogue sensors //
+    else if (s==&ext_temp_sensor) {
+      a = s->value(EXT_TEMPERATURE_VALUE_MILLICELSIUS);
+      printf("ext_temp: %d\n",a);
+    } 
+    else if (s==&inttemp_sensor) {
+      a = s->value(1);
+      printf("int_temp: %d\n",a);
+    } 
   }
 
   PROCESS_END();

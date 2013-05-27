@@ -1,0 +1,19 @@
+obj_jenv/timetable-aggregate.o:  \
+ ../../contiki-jn51xx/core/sys/timetable-aggregate.c \
+  ../../contiki-jn51xx/core/./sys/timetable-aggregate.h \
+  ../../contiki-jn51xx/core/./sys/timetable.h \
+  ../../contiki-jn51xx/core/./sys/cc.h \
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h \
+  ../../contiki-jn51xx/core/./sys/rtimer.h \
+  ../../contiki-jn51xx/cpu/jennic/./rtimer-arch.h \
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h \
+  ../../contiki-jn51xx/core/./sys/timetable-aggregate.h
+ ../../contiki-jn51xx/core/sys/timetable-aggregate.c :
+  ../../contiki-jn51xx/core/./sys/timetable-aggregate.h :
+  ../../contiki-jn51xx/core/./sys/timetable.h :
+  ../../contiki-jn51xx/core/./sys/cc.h :
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h :
+  ../../contiki-jn51xx/core/./sys/rtimer.h :
+  ../../contiki-jn51xx/cpu/jennic/./rtimer-arch.h :
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h :
+  ../../contiki-jn51xx/core/./sys/timetable-aggregate.h :

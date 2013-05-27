@@ -2,6 +2,7 @@
 #include "contiki-net.h"
 #include "leds.h"
 #include "dev/SHT21-sensor.h"
+#include "dev/ext_temp_sensor.h"
 #include "clock.h"
 
 #include <AppHardwareApi.h>
@@ -25,7 +26,7 @@ PROCESS_THREAD(send_sensor, ev, data)
 {
   static struct etimer send_et;
   static struct uip_udp_conn *udpc;
-  static struct sensors_sensor *sht21_humid, *sht21_temp;
+  static struct sensors_sensor *sht21_humid, *sht21_temp, *ext_temp;
   PROCESS_BEGIN();
 
   udpc = udp_broadcast_new(UIP_HTONS(10000), NULL);
@@ -41,6 +42,8 @@ PROCESS_THREAD(send_sensor, ev, data)
   sht21_humid->configure(SENSORS_ACTIVE,1);
   sht21_temp = sensors_find(SHT21_TEMPERATURE_SENSOR);
   sht21_temp->configure(SENSORS_ACTIVE,1);
+ext_temp = sensors_find(EXT_TEMP_SENSOR);
+  ext_temp->configure(SENSORS_ACTIVE,1);
 
   while(1) {
     etimer_set(&send_et, SEND_INTERVAL);
@@ -62,9 +65,10 @@ PROCESS_THREAD(send_sensor, ev, data)
 
     int16_t shu = sht21_humid->value(SHT21_HUMIDITY_VALUE_PERCENT);
     int16_t ste = sht21_temp->value(SHT21_TEMPERATURE_VALUE_MILLICELSIUS);
+    int16_t ext = ext_temp->value(EXT_TEMPERATURE_VALUE_MILLICELSIUS);
 
     /* create conCom Package */
-    uint8_t buffer[60];
+    uint8_t buffer[30];
     con_com(buffer, "AJN", 1, &ajn); //4 Byte
     con_com(&buffer[4], "CTS", 8, &cts); //11 Byte
 /*    con_com(&buffer[15], "SAX", 2, &sax); //5 Byte
@@ -76,8 +80,9 @@ PROCESS_THREAD(send_sensor, ev, data)
     con_com(&buffer[45], "SCX", 2, &scx); //5 Byte
     con_com(&buffer[50], "SCY", 2, &scy); //5 Byte
     con_com(&buffer[55], "SCZ", 2, &scz); //5 Byte*/
-    con_com(&buffer[20], "SHU", 2, &shu); //5 Byte
-    con_com(&buffer[25], "STE", 2, &ste); //5 Byte
+    con_com(&buffer[15], "SHU", 2, &shu); //5 Byte
+    con_com(&buffer[20], "STE", 2, &ste); //5 Byte
+    con_com(&buffer[25], "SXT", 2, &ext); //5 Byte
 
     /* send and wait on timer */
     uip_udp_packet_send(udpc, buffer, sizeof(buffer));
