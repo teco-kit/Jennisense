@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "python-gw.py", line 323, in <module>
+    main_json_to_ubox_data_hdlc()
+  File "python-gw.py", line 294, in main_json_to_ubox_data_hdlc
+    decoded_packet=decode(packet)
+  File "python-gw.py", line 55, in decode
+    if data[0]==RF_END and data[len(data)-1]==RF_END:
+TypeError: 'NoneType' object has no attribute '__getitem__'
