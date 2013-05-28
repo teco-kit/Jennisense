@@ -1,0 +1,21 @@
+Usage
+-----
+
+Prints all available sensor data on the serial port. Serial port settings are
+8N1 1M baud. For linux you can use:
+
+ $ stty -F /dev/ttyACM0 speed 1000000 raw
+ $ cat /dev/ttyACM0
+
+to read data.
+
+Building
+--------
+
+Assuming the jn5148 toolchain is installed at /usr/ba2-elf/bin:
+
+ $ export PATH=$PATH:/usr/ba2-elf/bin
+ $ make TARGET=jnode savetarget       # needs to be done only once
+ $ make imu-serial.jnode.hex
+ $ jenprog -t /dev/ttyACM0 imu-serial.jnode.hex
+

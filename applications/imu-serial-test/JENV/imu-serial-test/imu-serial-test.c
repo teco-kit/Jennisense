@@ -60,6 +60,10 @@ PROCESS_THREAD(imu_serial, ev, data)
   static struct sensors_sensor *sht21_humid, *sht21_temp, *s;
   PROCESS_BEGIN();
 
+  // the test python script will look for this string
+  // which means that the communication is working correctly
+  printf("JENV Started\n");
+
   /* make sure that the sensor process is running! */
   process_start(&sensors_process, NULL);
   PROCESS_PAUSE();
@@ -113,7 +117,7 @@ PROCESS_THREAD(imu_serial, ev, data)
       printf("mcp_pres:%d\n",a);
     } else if (s==&lightlevel_sensor) {
       a = s->value(LIGHT_VALUE_VISIBLE_CENTILUX);
-      printf("light::%d\n",a);
+      printf("light:%d\n",a);
     } else if (s==&proximity_sensor) {
       a = s->value(PROXIMITY_VALUE);
       printf("prox:%d\n",a);
@@ -125,6 +129,7 @@ PROCESS_THREAD(imu_serial, ev, data)
       a = s->value(SHT21_TEMPERATURE_VALUE_MILLICELSIUS);
       printf("sht_temp: %d\n",a);
     }
+    /* ALL DONE IN THE IRQ HANDLER
      // analogue sensors //
     else if (s==&ext_temp_sensor) {
       a = s->value(EXT_TEMPERATURE_VALUE_MILLICELSIUS);
@@ -133,7 +138,8 @@ PROCESS_THREAD(imu_serial, ev, data)
     else if (s==&inttemp_sensor) {
       a = s->value(1);
       printf("int_temp: %d\n",a);
-    } 
+    }
+   */ 
   }
 
   PROCESS_END();

@@ -1,0 +1,36 @@
+obj_jenv/route.o: ../../contiki-jn51xx/core/net/rime/route.c \
+  ../../contiki-jn51xx/core/./lib/list.h \
+  ../../contiki-jn51xx/core/./lib/memb.h \
+  ../../contiki-jn51xx/core/./sys/cc.h \
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h \
+  ../../contiki-jn51xx/core/./sys/ctimer.h \
+  ../../contiki-jn51xx/core/./sys/etimer.h \
+  ../../contiki-jn51xx/core/./sys/timer.h \
+  ../../contiki-jn51xx/core/./sys/clock.h \
+  ../../contiki-jn51xx/core/./sys/process.h \
+  ../../contiki-jn51xx/core/./sys/pt.h \
+  ../../contiki-jn51xx/core/./sys/lc.h \
+  ../../contiki-jn51xx/core/./sys/lc-switch.h \
+  ../../contiki-jn51xx/core/./sys/cc.h \
+  ../../contiki-jn51xx/core/./net/rime/route.h \
+  ../../contiki-jn51xx/core/./net/rime/rimeaddr.h \
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h \
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h
+../../contiki-jn51xx/core/net/rime/route.c :
+  ../../contiki-jn51xx/core/./lib/list.h :
+  ../../contiki-jn51xx/core/./lib/memb.h :
+  ../../contiki-jn51xx/core/./sys/cc.h :
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h :
+  ../../contiki-jn51xx/core/./sys/ctimer.h :
+  ../../contiki-jn51xx/core/./sys/etimer.h :
+  ../../contiki-jn51xx/core/./sys/timer.h :
+  ../../contiki-jn51xx/core/./sys/clock.h :
+  ../../contiki-jn51xx/core/./sys/process.h :
+  ../../contiki-jn51xx/core/./sys/pt.h :
+  ../../contiki-jn51xx/core/./sys/lc.h :
+  ../../contiki-jn51xx/core/./sys/lc-switch.h :
+  ../../contiki-jn51xx/core/./sys/cc.h :
+  ../../contiki-jn51xx/core/./net/rime/route.h :
+  ../../contiki-jn51xx/core/./net/rime/rimeaddr.h :
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h :
+  ../../contiki-jn51xx/platform/jenv/./contiki-conf.h :
