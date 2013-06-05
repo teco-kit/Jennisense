@@ -285,8 +285,8 @@ def main_json_to_ubox_data_hdlc():
     ser = serial.Serial('/dev/ttyACM0', 1000000, parity=serial.PARITY_NONE, stopbits=1, bytesize=8, rtscts=0, dsrdtr=0)
     adr="66.1.1.1.1.1.1.66"
     # flush everything buffer
-    ser.flushInput()
-    ser.flushOutput()
+##    ser.flushInput()
+#    ser.flushOutput()
 
     while 1:
         
@@ -308,7 +308,7 @@ def main_json_to_ubox_data_hdlc():
 
             packet_json=map_data_dict_to_ubox_json_string(data_dict)
             print packet_json
-            post_to_ubox(adr, packet_json)
+  #          post_to_ubox(adr, packet_json)
 
         # ignore packet if crc failed
         else:

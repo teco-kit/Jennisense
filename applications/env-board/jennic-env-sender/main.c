@@ -28,7 +28,7 @@
 PROCESS(send_sensor, "send_sensor");
 AUTOSTART_PROCESSES(&send_sensor);
 
-#define SEND_INTERVAL 1000
+#define SEND_INTERVAL 30000
 
 void con_com(uint8_t* dest, uint8_t* id, uint8_t data_len, void* data)
 {

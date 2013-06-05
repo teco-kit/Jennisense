@@ -94,8 +94,6 @@ PROCESS_THREAD(sync_master, ev, data)
     uint8_t ch='E';
     uart0_writeb(ch);
 #else  
-    uint8_t ch='E';
-    uart0_writeb(ch);
 
     PROCESS_YIELD_UNTIL(ev == tcpip_event);
     uint16_t i; 
