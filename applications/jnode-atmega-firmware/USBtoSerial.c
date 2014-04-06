@@ -38,6 +38,10 @@
 #include <avr/sleep.h>
 #include "clock.h"
 
+#define UCSR1D _SFR_MEM8(0xCB)
+#define RTSEN 0
+#define CTSEN 1
+
 #define JEN_RESETN  _BV(7) /* PC7 */
 #define JEN_SPIMISO _BV(3) /* PB3 */
 #define JEN_SPIMOSI _BV(2) /* PB2 */
@@ -239,7 +243,7 @@ void SetupHardware(void)
   set_default_uart();
 }
 
-void set_default_uart() 
+void set_default_uart()
 {
   /* Must turn off USART before reconfiguring it, otherwise incorrect operation may occur */
   UCSR1B = 0;
@@ -251,6 +255,7 @@ void set_default_uart()
   UCSR1A = (1 << U2X1);
   UCSR1C = (1 << UCSZ11) | (1 << UCSZ10);
   UCSR1B = (1 << RXCIE1) | (1 << TXEN1) | (1 << RXEN1);
+  //UCSR1D = (1 << RTSEN) | (1 << CTSEN);
 }
 
 /** Event handler for the library USB Connection event. */
@@ -341,6 +346,9 @@ void EVENT_CDC_Device_LineEncodingChanged(USB_ClassInfo_CDC_Device_t* const CDCI
 
   UCSR1C = ConfigMask;
   UCSR1B = ((1 << RXCIE1) | (1 << TXEN1) | (1 << RXEN1));
+
+  /* enable RTS/CTS flow control */
+  //UCSR1D = (1<<RTSEN)|(1<<CTSEN);
 }
 
 /** Event handler for the CDC Class driver Host-to-Device Line Encoding Changed event.

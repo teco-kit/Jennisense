@@ -37,6 +37,14 @@ PROCESS(hello_world_process, "Hello world process");
 AUTOSTART_PROCESSES(&hello_world_process);
 /*---------------------------------------------------------------------------*/
 
+static uint32_t rxd=0, last=0;
+
+int echo(char *c)
+{
+  uart0_writeb(c);
+  rxd++;
+}
+
 #define INTERVAL (CLOCK_SECOND/2)
 
 PROCESS_THREAD(hello_world_process, ev, data)
@@ -50,8 +58,8 @@ PROCESS_THREAD(hello_world_process, ev, data)
   etimer_set(&period_timer, INTERVAL);
 
   while(1){
-    PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_TIMER);
-
+    static unsigned int i=0;
+    PROCESS_YIELD();
     leds_toggle(LEDS_ALL);
     etimer_restart(&period_timer);
   }

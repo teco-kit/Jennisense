@@ -11,11 +11,12 @@
 #include "dev/l3g4200d-sensor.h"
 #include "dev/mag-sensor.h"
 
-PROCESS(tcp_process, "TCP AHRS process");
-PROCESS(udp_process, "UDP AHRS process");
-PROCESS(ahrs_process,"AHRS Estimator");
+PROCESS(tcp_process,   "TCP AHRS process");
+PROCESS(udp_process,   "UDP AHRS process");
+//PROCESS(serial_process "SERIAL AHRS process");
+PROCESS(ahrs_process,  "AHRS Estimator");
 
-AUTOSTART_PROCESSES(&tcp_process, &udp_process);
+AUTOSTART_PROCESSES(&tcp_process); //, &udp_process);
 
 static char msg[200];
 
@@ -45,6 +46,10 @@ PROCESS_THREAD(tcp_process, ev, data)
   tcp_listen(UIP_HTONS(2020));
 
   while(1) {
+    PROCESS_YIELD();
+  }
+
+  {
     /* wait for tcp connection */
     PROCESS_WAIT_EVENT_UNTIL(ev==tcpip_event && uip_connected());
 
