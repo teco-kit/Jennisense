@@ -4839,6 +4839,7 @@ by exp-lbrs.ulp</description>
 <part name="FRAME1" library="SparkFun" deviceset="FRAME-LETTER" device=""/>
 <part name="U1" library="jncc3000.lbrjncc3000" deviceset="CC3000" device="">
 <attribute name="DIGIKEY" value="www.digikey.de/product-detail/en/CC3000MODR/296-35512-1-ND/3768439"/>
+<attribute name="MOUSER" value="http://de.mouser.com/ProductDetail/Texas-Instruments/CC3000MOD/?qs=sGAEpiMZZMul4LbMdexInYO9dzLxESeK"/>
 </part>
 <part name="GND5" library="SparkFun" deviceset="GND" device=""/>
 <part name="GND6" library="SparkFun" deviceset="GND" device=""/>
@@ -4848,6 +4849,7 @@ by exp-lbrs.ulp</description>
 <part name="GND11" library="supply1" deviceset="GND" device=""/>
 <part name="C3" library="rcl" deviceset="C-EU" device="C0603" value="100nF">
 <attribute name="DIGIKEY" value="www.digikey.de/product-detail/en/CC0603KRX7R8BB104/311-1341-1-ND/2103125"/>
+<attribute name="MOUSER" value="http://de.mouser.com/ProductDetail/Vishay-Vitramon/VJ0603Y104JXJCW1BC/?qs=sGAEpiMZZMs0AnBnWHyRQAR7at33PD0%252bJG6E%252bZ2ATD0%3d"/>
 </part>
 <part name="P+1" library="SparkFun" deviceset="3.3V" device="" value="+3V3"/>
 <part name="X2" library="Spark" deviceset="IPEX-20279-001E" device="" value="">
@@ -4856,20 +4858,24 @@ by exp-lbrs.ulp</description>
 <part name="GND20" library="SparkFun" deviceset="GND" device=""/>
 <part name="ANT1" library="Spark" deviceset="AT8010" device="">
 <attribute name="DIGIKEY" value="www.digikey.de/product-detail/en/2500AT44M0400E/712-1403-1-ND/1840081"/>
+<attribute name="MOUSER" value="http://de.mouser.com/ProductDetail/Johanson/2500AT44M0400E/?qs=%2fha2pyFadugpD5gBUDGQSiDxg6DUc4t7HJxRbOdSf%2fyD3Zvh3vVhxQ%3d%3d"/>
 </part>
 <part name="GND21" library="SparkFun" deviceset="GND" device=""/>
 <part name="U4" library="jncc3000.lbrjncc3000" deviceset="NL17SZ125" device="SOT553" value="">
 <attribute name="DIGIKEY" value="www.digikey.de/product-detail/en/NL17SZ125XV5T2G/NL17SZ125XV5T2GOSCT-ND/3462428"/>
+<attribute name="MOUSER" value="http://de.mouser.com/ProductDetail/ON-Semiconductor/NL17SZ125XV5T2G/?qs=%2fha2pyFadugaeFY%2fWCqy5e2mGAS%252bZ6GlBMnp3M0qQT2RP75tHTbjNQ%3d%3d"/>
 </part>
 <part name="GND2" library="SparkFun" deviceset="GND" device=""/>
 <part name="P+2" library="SparkFun" deviceset="3.3V" device="" value="+3V3"/>
 <part name="L1" library="SparkFun-Passives" deviceset="INDUCTOR" device="0603" value="3.3nH">
 <attribute name="COMMENT" value="RF Inductor"/>
 <attribute name="DIGIKEY" value="www.digikey.de/product-detail/en/L-14C3N3SV4T/712-1428-1-ND/1914878"/>
+<attribute name="MOUSER" value="http://de.mouser.com/ProductDetail/Johanson/L-14C3N3SV4T/?qs=%2fha2pyFaduhrzBAYMc2Wa%252b3wfGy6CaphxWSEKt2XW6iFpd4j0hTO4g%3d%3d"/>
 </part>
 <part name="C4" library="rcl" deviceset="C-EU" device="C0603" value="0.8pF">
 <attribute name="COMMENT" value="RF Capacitor"/>
 <attribute name="DIGIKEY" value="www.digikey.de/product-detail/en/251R14S0R8BV4T/712-1305-1-ND/1786767"/>
+<attribute name="MOUSER" value="http://de.mouser.com/ProductDetail/Johanson/251R14S0R8BV4T/?qs=%2fha2pyFaduiSPVteKT%2fHqbo88L%252bTOfWWrsdG4xq6eKjM4bWhxYlobA%3d%3d"/>
 </part>
 <part name="U$2" library="jncc3000.lbrjncc3000" deviceset="JENNIC_JN51XX" device="TH" value="">
 <attribute name="PLACE" value="no"/>
@@ -4901,6 +4907,7 @@ by exp-lbrs.ulp</description>
 <instance part="FRAME1" gate="G$2" x="147.32" y="0"/>
 <instance part="U1" gate="G$1" x="180.34" y="119.38">
 <attribute name="DIGIKEY" x="180.34" y="119.38" size="1.778" layer="96" display="off"/>
+<attribute name="MOUSER" x="180.34" y="119.38" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="GND5" gate="1" x="203.2" y="152.4"/>
 <instance part="GND6" gate="1" x="127" y="91.44"/>
@@ -4914,6 +4921,7 @@ by exp-lbrs.ulp</description>
 <attribute name="NAME" x="146.304" y="63.881" size="1.778" layer="95"/>
 <attribute name="VALUE" x="146.304" y="58.801" size="1.778" layer="96"/>
 <attribute name="DIGIKEY" x="144.78" y="63.5" size="1.778" layer="96" display="off"/>
+<attribute name="MOUSER" x="144.78" y="63.5" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="P+1" gate="G$1" x="233.68" y="78.74" rot="R180"/>
 <instance part="X2" gate="G$1" x="207.01" y="175.26" rot="MR270">
@@ -4922,10 +4930,12 @@ by exp-lbrs.ulp</description>
 <instance part="GND20" gate="1" x="226.06" y="152.4"/>
 <instance part="ANT1" gate="G$1" x="133.35" y="172.72" rot="R90">
 <attribute name="DIGIKEY" x="133.35" y="172.72" size="1.778" layer="96" rot="R90" display="off"/>
+<attribute name="MOUSER" x="133.35" y="172.72" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
 <instance part="GND21" gate="1" x="152.4" y="153.67"/>
 <instance part="U4" gate="G$1" x="203.2" y="53.34">
 <attribute name="DIGIKEY" x="203.2" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="MOUSER" x="203.2" y="53.34" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="GND2" gate="1" x="198.12" y="43.18"/>
 <instance part="P+2" gate="G$1" x="220.98" y="60.96"/>
@@ -4934,12 +4944,14 @@ by exp-lbrs.ulp</description>
 <attribute name="VALUE" x="162.814" y="169.291" size="1.778" layer="96"/>
 <attribute name="DIGIKEY" x="165.1" y="172.72" size="1.778" layer="96" rot="R90" display="off"/>
 <attribute name="COMMENT" x="165.1" y="172.72" size="1.778" layer="96" rot="R90" display="off"/>
+<attribute name="MOUSER" x="165.1" y="172.72" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
 <instance part="C4" gate="G$1" x="152.4" y="165.1" smashed="yes">
 <attribute name="NAME" x="154.178" y="165.989" size="1.778" layer="95"/>
 <attribute name="VALUE" x="153.416" y="159.766" size="1.778" layer="96"/>
 <attribute name="DIGIKEY" x="152.4" y="165.1" size="1.778" layer="96" display="off"/>
 <attribute name="COMMENT" x="152.4" y="165.1" size="1.778" layer="96" display="off"/>
+<attribute name="MOUSER" x="152.4" y="165.1" size="1.778" layer="96" display="off"/>
 </instance>
 <instance part="U$2" gate="G$1" x="40.64" y="137.16">
 <attribute name="PLACE" x="40.64" y="137.16" size="1.778" layer="96" display="off"/>
@@ -5095,12 +5107,8 @@ by exp-lbrs.ulp</description>
 <segment>
 <pinref part="U1" gate="G$1" pin="VIO_HOST"/>
 <wire x1="213.36" y1="116.84" x2="233.68" y2="116.84" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="VBAT_IN"/>
-<wire x1="213.36" y1="106.68" x2="233.68" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="233.68" y1="116.84" x2="233.68" y2="106.68" width="0.1524" layer="91"/>
 <pinref part="P+1" gate="G$1" pin="3.3V"/>
-<wire x1="233.68" y1="106.68" x2="233.68" y2="78.74" width="0.1524" layer="91"/>
-<junction x="233.68" y="106.68"/>
+<wire x1="233.68" y1="116.84" x2="233.68" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="P+2" gate="G$1" pin="3.3V"/>
@@ -5252,10 +5260,6 @@ by exp-lbrs.ulp</description>
 </net>
 <net name="WL_RS232_TX" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="WL_RS232_TX"/>
-<wire x1="144.78" y1="116.84" x2="139.7" y2="116.84" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U$2" gate="G$1" pin="DIO7/RXD0"/>
 <wire x1="27.94" y1="99.06" x2="17.78" y2="99.06" width="0.1524" layer="91"/>
 <label x="7.62" y="99.06" size="1.778" layer="95"/>
@@ -5263,13 +5267,19 @@ by exp-lbrs.ulp</description>
 </net>
 <net name="WL_RS232_RX" class="0">
 <segment>
-<pinref part="U1" gate="G$1" pin="WL_RS232_RX"/>
-<wire x1="144.78" y1="111.76" x2="137.16" y2="111.76" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U$2" gate="G$1" pin="DIO6/TXD0"/>
 <wire x1="27.94" y1="101.6" x2="17.78" y2="101.6" width="0.1524" layer="91"/>
 <label x="7.62" y="101.6" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="VBAT" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="VBAT_IN"/>
+<wire x1="213.36" y1="106.68" x2="223.52" y2="106.68" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="DIO12/TIM1_CAP"/>
+<wire x1="86.36" y1="93.98" x2="99.06" y2="93.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
