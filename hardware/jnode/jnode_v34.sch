@@ -5433,21 +5433,13 @@ Basic 0.1" spaced jumper. Use with breakaway headers.</description>
 G_Address: 1101010x</text>
 <text x="337.82" y="190.5" size="1.778" layer="98">VCNL_Address: 0010011x</text>
 <text x="340.36" y="238.76" size="1.778" layer="98">MPL_Address: 1100000x</text>
-<text x="134.62" y="152.4" size="1.778" layer="91">changes from 3.2:
- - connect BAT line
- - add Q-counter (plus res,cap)
- - reconnect  hydro to VSENS
- - remove micro-vib
- - C1 replaced
- - remove superfluos R14
- - change SFV5R order nr</text>
 <text x="243.84" y="233.68" size="1.778" layer="91">digikey cart:
 http://www.digikey.de/short/5h5mj
 
 misses U1</text>
-<text x="187.96" y="165.1" size="1.778" layer="91">changes to v3.3:
+<text x="187.96" y="165.1" size="1.778" layer="91">changes from v3.3:
  - fix GREEN LED connection
- - fix stepper?</text>
+ - fix stepper</text>
 </plain>
 <instances>
 <instance part="VCNL4010" gate="G$1" x="345.44" y="182.88">
